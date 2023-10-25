@@ -397,11 +397,11 @@ h1, h2{
   line-height: 32px;
 }
 .ovh{
-  overflow: hidden;
+/*   overflow: hidden; */
 }
-/* main{
+main{
   padding-top: 60px;
-} */
+}
 .wrapper{
   display: block;
   width: 100%;
@@ -460,6 +460,10 @@ header{
   left: -25px;
   width: 18px;
   height: 18px;
+  background: url('../img/wh2.svg') no-repeat center;
+  background-size: contain;
+}
+.block1__btns .btn2 span::after{
   background: url('../img/wh.svg') no-repeat center;
   background-size: contain;
 }
@@ -506,6 +510,9 @@ header{
   font-size: 12px;
   line-height: 12px;
   margin-right: 21px;
+}
+.block1__btns .header__btn{
+  width: 288px;
 }
 .header__whatsapp{
   display: block;
@@ -780,7 +787,6 @@ header{
   color: #313233;
   font-weight: bold;
   font-size: 16px;
-  margin-bottom: 2px;
 }
 .block1__phone a:last-child{
   margin-bottom: 0;
@@ -852,17 +858,7 @@ header{
   padding-left: 20px;
   padding-right: 20px;
 }
-.block2__menu::before{
-  position: absolute;
-  content: "";
-  top: 136px;
-  left: -142px;
-  width: 212px;
-  height: 254px;
-  background: url('../img/ball.png') no-repeat center bottom;
-  border-radius: 0 0 16px 16px;
-  overflow: hidden;
-}
+
 .block2__txt h2{
   text-align: center;
   margin-bottom: 12px;
@@ -988,8 +984,15 @@ header{
 .block3__btn2{
   margin-top: 12px;
   text-align: left;
-  padding-left: 75px;
+  padding-left: 60px;
   padding-right: 55px;
+  background: #3F826D;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 18px;
+  text-transform: uppercase;
+  border-radius: 16px;
+  color: #fff;
 }
 .block3__checkbox{
   display: block;
@@ -1006,6 +1009,7 @@ header{
   z-index: -1;
 }
 .block3__checkbox label{
+  display: block;
   position: relative;
   z-index: 1;  
 }
@@ -1154,7 +1158,7 @@ footer{
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.5);
   z-index: 11;
 }
 .modal{
@@ -1369,9 +1373,9 @@ footer{
   .btn2{
     padding-left: 44px;    
   }
-/*   main{
+  main{
     padding-top: 70px;
-  } */
+  }
   .wrapper{
     padding-left: 0;
     padding-right: 0;
@@ -1408,6 +1412,9 @@ footer{
     font-size: 16px;
     width: auto;
     padding: 18px 32px;
+  }
+  .block1__btns .header__btn{
+    padding: 26px 32px;
   }
   .header__burger{
     width: 32px;
@@ -1446,6 +1453,8 @@ footer{
     margin: auto;
     border-radius: 16px;
     padding: 60px 47px 60px 52px;
+    background: url('../img/mod-bg.png') no-repeat center;
+    background-size: cover;
     overflow: visible;
   }
   .modal__close{
@@ -1479,28 +1488,6 @@ footer{
   }
   .block3__checkbox{
     margin-top: 16px;
-  }
-  .modal::after {
-    position: absolute;
-    content: "";
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 20px;
-    background: url('../img/line.svg') no-repeat center top;
-    border-radius: 16px 16px 0 0;
-    overflow: hidden;
-  }
-  .modal::before {
-    position: absolute;
-    content: "";
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 20px;
-    background: url('../img/line.svg') no-repeat center bottom;
-    border-radius: 0 0 16px 16px;
-    overflow: hidden;
   }
   .block1{
     padding-top: 40px;
@@ -1689,14 +1676,7 @@ footer{
     position: relative;
   }
   .block4 .wrapper{
-    position: absolute;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    left: 32px;
-    z-index: 1;
-    width: 340px;
+    position: relative;
   }
   .block4__phone{
     margin-top: 32px;
@@ -1739,6 +1719,16 @@ footer{
   }
 }
 @media (min-width: 992px){
+  .block2__menu::before{
+    position: absolute;
+    content: "";
+    top: 136px;
+    left: -142px;
+    width: 212px;
+    height: 254px;
+    background: url('../img/ball.png') no-repeat center bottom;
+    border-radius: 0 0 16px 16px;
+  }
   .sent__title{
     font-size: 32px;
     line-height: 40px;
@@ -1847,23 +1837,19 @@ footer{
     left: -35px;
   }
   .block4 .wrapper{
-    position: relative;
-    left: auto;
-    width: 100%;
   }
   .block4{
     width: 100%;
     height: 600px;
   }
   .block4__map{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
   }
   .block4__window{
     width: 383px;
+    position: absolute;
+    top: 117px;
+    left: 0;
+    z-index: 1;
   }
   .block2__txt::after{
     left: -95px;
@@ -1960,6 +1946,14 @@ footer{
   .btn2:hover{
     background: #E5E7EE;
   }
+  .block3__btn2:hover{
+    background: #fff;
+    color: #3F826D;
+  }
+  .block3__btn2:hover span::after{
+    background: url('../img/wh3.svg') no-repeat center;
+    background-size: contain;
+  }
   .footer__social a{
     -webkit-transition: 0.3s linear;
 	  -moz-transition: 0.3s linear;
@@ -1992,6 +1986,10 @@ footer{
   .header__btn{
     margin-right: 40px;
   }
+  .block1__btns .header__btn{
+    width: 241px;
+    padding: 30px 32px;
+  }
   .header__top{
     padding-top: 26px;
     padding-bottom: 25px;
@@ -2002,7 +2000,7 @@ footer{
   .modal {
     max-width: 560px;
     max-height: 652px;
-    padding: 60px;
+    padding: 74px 58px;
   }
   .modal__title, h1, h2{
     font-size: 40px;
@@ -2047,6 +2045,8 @@ footer{
     margin-right: 30px;
     padding-top: 26px;
     padding-bottom: 26px;
+    font-size: 20px;
+    line-height: 24px;
   }
   .block1__btn2{
     padding-top: 12px;
@@ -2172,5 +2172,15 @@ footer{
 @media (min-width: 992px){
   .jcb{
     justify-content: space-between;
+  }
+}
+@media (min-width: 1921px){
+  .block1{
+    background: url('../img/bg2560.png') no-repeat center top;
+    background-size: cover;
+    padding-bottom: 586px;
+  }
+  .block1__btns {
+    margin-top: 645px;
   }
 }

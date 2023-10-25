@@ -1,6 +1,6 @@
 (function() {
 
-/*     $(".header__burger").on("click", function () {
+    $(".header__burger").on("click", function () {
       $(this).toggleClass("menu-opened");
       $("body").toggleClass("ovh");
       $(".header__menu").fadeToggle("300");
@@ -18,7 +18,7 @@
 
     $(".sent__close").on("click", function () {
       $(".sent").fadeOut("300");
-    }); */
+    });
     
     // masked input for phones in form
 	  $(".mask").mask("+7(999) 999-99-99", { autoclear: true });
@@ -26,7 +26,7 @@
 })(jQuery);
 
 /* modify header on scroll */
-/* window.addEventListener("scroll", function () {
+window.addEventListener("scroll", function () {
     var windowOffset = window.pageYOffset;
     var header = document.querySelector("header");
     if(windowOffset > 300){
@@ -35,4 +35,4 @@
     else{
         header.classList.remove("slide");
     }      
-}); */
+});
