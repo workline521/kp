@@ -405,7 +405,7 @@ main{
 .wrapper{
   display: block;
   width: 100%;
-  max-width: 320px;
+  max-width: 425px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 16px;
@@ -435,7 +435,9 @@ header{
   padding-bottom: 14px;
 }
 .btn2{
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #fff;
   font-weight: bold;
   font-size: 16px;
@@ -446,20 +448,19 @@ header{
   border: 2px solid #3F826D;
   padding-top: 13px;
   padding-bottom: 13px;
-  text-align: center;
-  padding-left: 25px;  
 }
 .btn2 span{
   position: relative;
+  padding-left: 29px;
 }
 .btn2 span::after{
   position: absolute;
   content: "";
   top: 50%;
-  margin-top: -10px;
-  left: -25px;
-  width: 18px;
-  height: 18px;
+  margin-top: -14px;
+  left: 0;
+  width: 27px;
+  height: 27px;
   background: url('../img/wh2.svg') no-repeat center;
   background-size: contain;
 }
@@ -484,9 +485,9 @@ header{
 	-webkit-justify-content: flex-end;
   width: 100%;
   padding-left: 16px;
-  padding-right: 14px;
-  padding-top: 15px;
-  padding-bottom: 15px;   
+  padding-right: 16px;
+  padding-top: 14px;
+  padding-bottom: 14px;   
   position: relative;
 }
 .header__logo{
@@ -509,10 +510,16 @@ header{
   padding-bottom: 10px;
   font-size: 12px;
   line-height: 12px;
-  margin-right: 21px;
+  margin-right: 22px;
+  border-radius: 10px;
 }
 .block1__btns .header__btn{
-  width: 288px;
+  width: 100%;
+  margin-right: 0;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-size: 16px;
+  line-height: 20px;
 }
 .header__whatsapp{
   display: block;
@@ -534,7 +541,7 @@ header{
 	width: 20px;
 	height: 2px;
 	border-radius: 2px;
-	background: #3F826D;
+	background: #838C96;
 	left: 2px;
 	-webkit-transition: 0.3s ease;
 	-moz-transition: 0.3s ease;
@@ -737,7 +744,7 @@ header{
   padding-bottom: 40px;
   width: 100%;
   min-height: 498px;
-  background: Url('../img/bg.png') no-repeat center top;
+  background: url('../img/bg360.png') no-repeat center top;
 }
 .block1__phone{
   display: block;
@@ -787,6 +794,7 @@ header{
   color: #313233;
   font-weight: bold;
   font-size: 16px;
+  line-height: 21px;
 }
 .block1__phone a:last-child{
   margin-bottom: 0;
@@ -810,13 +818,40 @@ header{
   text-align: center;
 }
 .block1__btns{
-  margin-top: 24px;
+  margin-top: 228px;
 }
 .block1__btn{
   width: 100%;
 }
 .block1__btn2{
   margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  background: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 18px;
+  text-transform: uppercase;
+  border-radius: 16px;
+  color: #3F826D;
+  border: 2px solid #3F826D;
+  padding-top: 13px;
+  padding-bottom: 13px;
+}
+.block1__btn2 span{
+  position: relative;
+  padding-left: 32px;
+}
+.block1__btn2 span::after {
+  position: absolute;
+  content: "";
+  top: 50%;
+  margin-top: -14px;
+  left: 0;
+  width: 26px;
+  height: 26px;
+  background: url('../img/wh.svg') no-repeat center;
+  background-size: contain;
 }
 .block2{
   padding-bottom: 40px;
@@ -825,17 +860,18 @@ header{
   text-align: center;
 }
 .block2 .row{
-  margin-top: 14px;
+  margin-top: 25px;
 }
 .block2 .row .col-6{
-  margin-bottom: 28px;
+  margin-bottom: 40px;
 }
 .block2 .row img{
   display: block;
   width: auto;
-  max-width: 130px;
+  max-width: 108px;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 10px;
 }
 .block2 .row p{
   display: block;
@@ -847,26 +883,25 @@ header{
 .block2__menu{
   display: block;
   position: relative;
-  background-image: url('../img/pl-bg2.png');
+  background-image: url('../img/pl2-320.png');
   background-repeat: no-repeat;
   background-position: center bottom;
   background-size: cover;
   border-radius: 16px;
-  box-shadow: 0px 14px 24px rgba(0, 0, 0, 0.35);
   padding-top: 32px;
-  padding-bottom: 152px;
+  padding-bottom: 150px;
   padding-left: 20px;
   padding-right: 20px;
+  margin-top: 11px; 
 }
 
 .block2__txt h2{
-  text-align: center;
   margin-bottom: 12px;
+  text-align: left;
 }
 .block2__txt p{
-  text-align: center;
   font-size: 18px;
-  line-height: 21px;
+  line-height: 22px;
 }
 .block2__link{
   display: block;
@@ -891,14 +926,14 @@ header{
   padding-bottom: 40px;
 }
 .block3__row{
-  margin-top: 24px;
+  margin-top: 19px;
   margin-left: -5px;
   margin-right: -5px;
 }
 .block3__item{
   display: block;
   width: 100%;
-  height: 184px;  
+  height: 194px;  
   padding: 5px;
 }
 .block3__item img{
@@ -913,7 +948,7 @@ header{
 .block3__form{
   display: block;
   position: relative;
-  margin-top: 40px;
+  margin-top: 35px;
   background: #FFFFFF;
   border-radius: 16px;
   box-shadow: 0 14px 24px rgba(0, 0, 0, 0.35);
@@ -924,17 +959,6 @@ header{
   background-position: center bottom;
   background-size: cover;
 }
-.block3__form::before{
-  position: absolute;
-  content: "";
-  bottom: -40px;
-  left: -184px;
-  width: 306px;
-  height: 308px;
-  background: url('../img/bush.png') no-repeat center bottom;
-  border-radius: 0 0 16px 16px;
-  z-index: -1;
-}
 .block3__form-info{
   display: block;
   width: 100%;
@@ -942,6 +966,7 @@ header{
   font-size: 18px;
   line-height: 21px;
   margin-bottom: 16px;
+  font-weight: 700;
 }
 .block3__form-heading{
   display: block;
@@ -949,6 +974,7 @@ header{
   margin-bottom: 8px;
   font-size: 16px;
   line-height: 24px;
+  font-weight: 700;
 }
 .block3__form-wrap input{
   appearance: none;
@@ -982,21 +1008,20 @@ header{
   margin-top: 16px;
 }
 .block3__btn2{
-  margin-top: 12px;
-  text-align: left;
-  padding-left: 60px;
-  padding-right: 55px;
+  margin-top: 18px;
   background: #3F826D;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 18px;
-  text-transform: uppercase;
-  border-radius: 16px;
   color: #fff;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  min-height: 48px;
+}
+.block3__btn2 span{
+  display: block;
+  max-width: 150px;
 }
 .block3__checkbox{
   display: block;
-  margin-top: 12px;
+  margin-top: 16px;
   position: relative;
   color: #838C96;
   font-size: 14px;
@@ -1020,7 +1045,7 @@ header{
 .block3__checkbox label::after{
   position: absolute;
   content: "";
-  top: 0;
+  top: 9px;
   left: -32px;
   width: 20px;
   height: 20px;
@@ -1033,7 +1058,7 @@ header{
 .block3__checkbox label::before{
   position: absolute;
   content: "";
-  top: 0;
+  top: 9px;
   left: -32px;
   width: 20px;
   height: 20px;
@@ -1158,8 +1183,13 @@ footer{
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.7);
   z-index: 11;
+}
+@media (min-width: 1200px){
+  .modal-overlay{
+    background: rgba(0,0,0,0.5);
+  }
 }
 .modal{
   display: none;
@@ -1167,14 +1197,24 @@ footer{
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: #fff;
   z-index: 12;
-  padding-top: 46px;
-  padding-bottom: 46px;
-  padding-left: 16px;
-  padding-right: 16px;
-  overflow-y: auto;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background: url('../img/mod-bg-320.png') no-repeat center;
+  background-size: cover;
+  overflow: visible;
+}
+@media (min-width: 768px){
+  .modal{
+    border-radius: 16px;
+  }
 }
 .modal__close{
   display: block;
@@ -1190,9 +1230,15 @@ footer{
 }
 .modal__title{
   font-weight: bold;
-  font-size: 24px;
-  line-height: 32px;
-  margin-bottom: 12px;
+  font-size: 27px;
+  line-height: 36px;
+  margin-bottom: 16px;
+}
+@media (min-width: 768px){
+  .modal__title{
+    font-size: 32px;
+    line-height: 40px;
+  }
 }
 .modal__txt{
   font-size: 18px;
@@ -1202,9 +1248,9 @@ footer{
 .modal__heading {
   display: block;
   width: 100%;
-  margin-bottom: 8px;
-  font-size: 16px;
-  line-height: 24px;
+  margin-bottom: 12px;
+  font-size: 20px;
+  line-height: 26px;
 }
 .modal__input {
   appearance: none;
@@ -1219,7 +1265,7 @@ footer{
   color: #313233;
   font-size: 16px;
   line-height: 24px;
-  margin-bottom: 12px;
+  margin-bottom: 18px;
 }
 .modal__input::-webkit-input-placeholder { 
 	color: #838C96;
@@ -1244,32 +1290,10 @@ footer{
   left: 0;
   width: 100%;
   height: 100%;
-  background: #fff;
+  background: url('../img/sent-bg.png');
   padding: 60px 20px;
   z-index: 2;
   border-radius: 16px;
-}
-.sent::before {
-  position: absolute;
-  content: "";
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 20px;
-  background: url('../img/line.svg') no-repeat center bottom;
-  border-radius: 0 0 16px 16px;
-  overflow: hidden;
-}
-.sent::after {
-  position: absolute;
-  content: "";
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 20px;
-  background: url('../img/line.svg') no-repeat center top;
-  border-radius: 16px 16px 0 0;
-  overflow: hidden;
 }
 .sent__close{
   display: block;
@@ -1332,14 +1356,33 @@ footer{
     padding-bottom: 13px;
     padding-right: 0;
   }
-}
-@media (min-width: 420px){
-  .modal .block3__btn2{
-    padding-left: 0;
-    text-align: center;
+  .block3__btn2 span{
+    max-width: none;
   }
 }
 @media (min-width: 768px){
+  .block3__form::before{
+    position: absolute;
+    content: "";
+    bottom: -40px;
+    left: -184px;
+    width: 306px;
+    height: 308px;
+    background: url('../img/bush.png') no-repeat center bottom;
+    border-radius: 0 0 16px 16px;
+    z-index: -1;
+  }
+  .block3__form::after{
+    position: absolute;
+    content: "";
+    top: -35px;
+    right: -20px;
+    width: 174px;
+    height: 184px;
+    background: url('../img/ball2.png') no-repeat center bottom;
+    background-size: contain;
+    z-index: 1;
+  }
   .sent__wrap{
     padding-left: 52px;
     padding-right: 52px;
@@ -1357,21 +1400,6 @@ footer{
   }
   .sent--form .sent__title{
     margin-top: 16px;
-  }
-  .block3__btn2{
-    text-align: center;
-  }
-  .modal .block3__btn2{
-    padding-left: 44px;
-  }
-  .btn2 span::after{
-    width: 27px;
-    height: 27px;
-    left: -44px;
-    margin-top: -14px;
-  }
-  .btn2{
-    padding-left: 44px;    
   }
   main{
     padding-top: 70px;
@@ -1414,7 +1442,9 @@ footer{
     padding: 18px 32px;
   }
   .block1__btns .header__btn{
-    padding: 26px 32px;
+    padding: 22px 32px;
+    width: 282px;
+    margin-right: 20px;
   }
   .header__burger{
     width: 32px;
@@ -1445,18 +1475,19 @@ footer{
     height: -webkit-calc(100% - 70px);
     padding: 44px 16px;
   }
+
   .modal{
-    max-width: 460px;
-    max-height: 628px;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    border-radius: 16px;
-    padding: 60px 47px 60px 52px;
+    width: 460px;
+    max-width: none;
+    height: 628px;
     background: url('../img/mod-bg.png') no-repeat center;
     background-size: cover;
-    overflow: visible;
-  }
+    z-index: 12;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    padding-left: 49px;
+    padding-right: 49px;
+   }
   .modal__close{
     width: 48px;
     height: 48px;
@@ -1470,8 +1501,8 @@ footer{
     margin-bottom: 16px;
   }
   .modal__txt{
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 23px;
+    line-height: 32px;
     margin-bottom: 24px;
   }
   .modal__heading{
@@ -1487,12 +1518,13 @@ footer{
     padding-bottom: 13px;
   }
   .block3__checkbox{
-    margin-top: 16px;
+    margin-top: 18px;
   }
   .block1{
     padding-top: 40px;
     padding-bottom: 60px;
-    background: Url('../img/bg.png') no-repeat center top;
+    background: Url('../img/bg768.png') no-repeat center top;
+    background-size: cover;
   }
   .block1__info{
     display: -webkit-flex;
@@ -1540,7 +1572,7 @@ footer{
     flex-wrap: wrap;
     align-items: center;	
     -webkit-align-items: center;	
-    margin-top: 40px;
+    margin-top: 335px;
   }
   .block1__btn{
     width: 282px;
@@ -1553,9 +1585,11 @@ footer{
     width: 282px;
     padding-top: 12px;
     padding-bottom: 12px;
-    padding-left: 100px;
-    padding-right: 51px;
-    text-align: left;
+    min-height: 64px;
+  }
+  .block1__btn2 span{
+    display: block;
+    max-width: 159px;
   }
   h1, h2{
     font-size: 32px;
@@ -1565,18 +1599,20 @@ footer{
     padding-bottom: 60px;
   }
   .block2 .row img{
-    max-height: 200px;
+    max-width: 180px;
   }
   .block2 .row p{
     font-size: 18px;
     line-height: 24px;
   }
   .block2 .row .col-6{
-    margin-bottom: 20px;
+    margin-bottom: 40px;
   }
   .block2__menu{
     margin-top: 40px;
     padding: 75px 40px;
+    background: url('../img/pl2-768.png') no-repeat center;
+    background-size: cover;
   }
   .block2__txt{
     display: block;
@@ -1646,7 +1682,6 @@ footer{
     width: 48.5%;
   }
   .block3__form-row .block3__btn2{
-    padding-right: 0;
     margin-top: 0;
     width: 48.5%;
   }
@@ -1658,8 +1693,8 @@ footer{
   .block3__form-wrap input{
     margin-bottom: 20px;
   }
-  .block3__checkbox{
-    margin-top: 10px;
+  .block3__checkbox label::before, .block3__checkbox label::after{
+    top: 0;
   }
   .block4__map{
     height: 600px;
@@ -1668,9 +1703,10 @@ footer{
     margin-left: 0;
     margin-right: 0;
     background: #FFFFFF;
-    border-radius: 16px;
-    box-shadow: 0 14px 24px rgba(0, 0, 0, 0.35);
+    box-shadow: 0px 14px 24px 0px rgba(0, 0, 0, 0.35);
     padding: 40px 32px;
+    position: relative;
+    z-index: 1;
   }
   .block4{
     position: relative;
@@ -1717,8 +1753,25 @@ footer{
   .block1__phone a, .block1__address{
     font-size: 18px;
   }
+  .block2__menu::before{
+    position: absolute;
+    content: "";
+    top: -114px;
+    left: 0;
+    width: 124px;
+    height: 149px;
+    background: url('../img/ball.png') no-repeat center bottom;
+    background-size: contain;
+  }  
 }
 @media (min-width: 992px){
+  .modal{
+    width: 560px;
+  }
+  .modal__title{
+    font-size: 40px;
+    line-height: 48px;
+  }
   .block2__menu::before{
     position: absolute;
     content: "";
@@ -1727,7 +1780,7 @@ footer{
     width: 212px;
     height: 254px;
     background: url('../img/ball.png') no-repeat center bottom;
-    border-radius: 0 0 16px 16px;
+    background-size: contain;
   }
   .sent__title{
     font-size: 32px;
@@ -1760,6 +1813,7 @@ footer{
   }
   .block1{
     background: Url('../img/bg.png') no-repeat center top;
+    background-size: cover;
   }
   .block1__phone{
     margin-right: 0;
@@ -1786,16 +1840,8 @@ footer{
     width: 241px;
     margin-right: 30px;
   }
-  .block1__btn2{
-    width: 241px;
-    padding-left: 70px;
-    padding-right: 40px;
-  }
   .block2 .row{
     margin-top: 40px;
-  }
-  .block2 .row img{
-    max-height: 192px;
   }
   .block2 .row p{
     margin-top: 20px;
@@ -1830,19 +1876,11 @@ footer{
     width: 47.4%;
   } 
   .block3__form-row .block3__btn2{
-    padding-left: 35px;
     width: 47.4%;
-  }
-  .block3__form-row .block3__btn2 span::after{
-    left: -35px;
-  }
-  .block4 .wrapper{
   }
   .block4{
     width: 100%;
     height: 600px;
-  }
-  .block4__map{
   }
   .block4__window{
     width: 383px;
@@ -1988,7 +2026,14 @@ footer{
   }
   .block1__btns .header__btn{
     width: 241px;
-    padding: 30px 32px;
+    padding: 26px 32px;
+    margin-right: 30px;
+  }
+  .block1__btn2{
+    width: 241px;
+  }
+  .block1__btn2 span {
+    max-width: 183px;
   }
   .header__top{
     padding-top: 26px;
@@ -1997,18 +2042,9 @@ footer{
   .header__logo{
     top: 27px;
   }
-  .modal {
-    max-width: 560px;
-    max-height: 652px;
-    padding: 74px 58px;
-  }
   .modal__title, h1, h2{
     font-size: 40px;
     line-height: 48px;
-  }
-  .modal__txt{
-    font-size: 24px;
-    line-height: 32px;
   }
   .block1 {
     padding-top: 21px;
@@ -2053,14 +2089,13 @@ footer{
     padding-bottom: 12px;
     font-size: 20px;
     line-height: 22px;
-    padding-right: 15px;
   }
   .block2{
     margin-top: -178px;
     padding-bottom: 86px;
   }
   .block2 .row img{
-    max-height: 232px;
+    max-width: 158px;
   }
   .block2 .row p{
     font-size: 20px;
@@ -2148,6 +2183,7 @@ footer{
   }
   .block3{
     padding-bottom: 80px;
+    overflow: hidden;
   }
   .block4__window{
     width: 360px;
@@ -2159,10 +2195,16 @@ footer{
   .block4__address{
     margin-bottom: 32px;
   }
+  .block3__form::after {
+    top: -455px;
+    right: -270px;
+    width: 262px;
+    height: 277px;
+}
   
 }
 .jcb{
-  justify-content: space-between;
+  justify-content: center;
 }
 @media (min-width: 768px){
   .jcb{
