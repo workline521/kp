@@ -2,7 +2,7 @@
 
     $(".header__burger").on("click", function () {
       $(this).toggleClass("menu-opened");
-      $("body").toggleClass("ovh");
+      $("body, html").toggleClass("ovh");
       $(".header__menu").fadeToggle("300");
     });
 
@@ -25,14 +25,3 @@
 
 })(jQuery);
 
-/* modify header on scroll */
-window.addEventListener("scroll", function () {
-    var windowOffset = window.pageYOffset;
-    var header = document.querySelector("header");
-    if(windowOffset > 300){
-        header.classList.add("slide");
-    }
-    else{
-        header.classList.remove("slide");
-    }      
-});

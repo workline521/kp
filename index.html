@@ -47,6 +47,30 @@
 						<div class="header__address">2-Тульский	<br> переулок, 1</div>
 						<a class="header__email" href="mailto:banket@kalugaplaza.ru"><span>banket@kalugaplaza.ru</span></a>
 					</div>
+					<div class="header__links">
+						<div class="header__phones">
+							<a href="tel:+79208794949"><span>+7 920 879 49 49</span></a>
+							<a href="tel:+74842777110"><span>+7 4842 777 110</span></a>
+						</div>
+						<div class="header__address">2-Тульский	<br> переулок, 1</div>
+						<a class="header__email" href="mailto:banket@kalugaplaza.ru"><span>banket@kalugaplaza.ru</span></a>
+					</div>
+					<div class="header__links">
+						<div class="header__phones">
+							<a href="tel:+79208794949"><span>+7 920 879 49 49</span></a>
+							<a href="tel:+74842777110"><span>+7 4842 777 110</span></a>
+						</div>
+						<div class="header__address">2-Тульский	<br> переулок, 1</div>
+						<a class="header__email" href="mailto:banket@kalugaplaza.ru"><span>banket@kalugaplaza.ru</span></a>
+					</div>
+					<div class="header__links">
+						<div class="header__phones">
+							<a href="tel:+79208794949"><span>+7 920 879 49 49</span></a>
+							<a href="tel:+74842777110"><span>+7 4842 777 110</span></a>
+						</div>
+						<div class="header__address">2-Тульский	<br> переулок, 1</div>
+						<a class="header__email" href="mailto:banket@kalugaplaza.ru"><span>banket@kalugaplaza.ru</span></a>
+					</div>
 					<div class="header__info">
 						<p>© Гостиница «Kaluga Plaza», 2021</p>
 						<div class="header__social">
@@ -184,20 +208,6 @@
 					</form>
 				</div>
 			</section>
-			<section class="block4">				
-				<div class="wrapper">
-					<div class="block4__window">
-						<h2>Контакты</h2>
-						<div class="block4__phone">
-							<a href="tel:+79208794949"><span>+7 920 879 49 49</span></a>
-							<a href="tel:+74842777110"><span>+7 4842 777 110</span></a>
-						</div>
-						<div class="block4__address">2-Тульский переулок, 1</div>
-						<a class="block4__email" href="mailto:banket@kalugaplaza.ru"><span>banket@kalugaplaza.ru</span></a>
-					</div>
-				</div>
-				<div class="block4__map" id="map"></div>
-			</section>
 		</main>
 		<!-- main -->
 
@@ -248,46 +258,7 @@
 		<script src="assets/js/fancybox4.min.js"></script>
 		<script src="assets/js/jquery.maskedinput.min.js"></script>
 		<script src="assets/js/layout.js"></script>
-		<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
-		<script>
-			ymaps.ready(init);
-			var myMap,
-				myPlacemark;
-			function init() {
-				myMap = new ymaps.Map("map", {
-					center: [54.513950, 36.300912],
-					zoom: 17
-				});
-				myPlacemark = new ymaps.Placemark([54.513950, 36.300912], {}, {
-					iconLayout: 'default#image',
-					iconImageHref: 'assets/img/marker.png',
-					iconImageSize: [48, 61],
-					iconImageOffset: [-24, -61]
-				});
-				myMap.geoObjects.add(myPlacemark);
-				myMap.behaviors.disable('scrollZoom');
-				myMap.controls.remove('searchControl');
-				myMap.controls.remove('trafficControl');
-				myMap.controls.remove('typeSelector');
-				myMap.controls.remove('fullscreenControl');
-				myMap.controls.remove('rulerControl');
-				myMap.controls.remove('geolocationControl');
-			}
-		</script>
-		<script>
-			$("form").submit(function () {
-				$.ajax({
-					type: "POST",
-					url: "request.php",
-					data: $(this).serialize()
-				}).done(function () {
-					$(this).find("input").val("");
-					$("form").trigger("reset");
-					$(".sent").fadeIn(300);
-				});
-				return false;
-			});
-		</script>
+
 	</body>    
 </html>
 
