@@ -1,55 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
-		<title>Test template</title>
+		<title>Таймер</title>
 		<meta content="" name="description">
 		<meta content="" name="keywords">
-		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta content="telephone=no" name="format-detection">
 		<meta name="HandheldFriendly" content="true">
-		<link href="assets/css/fancybox3.min.css" rel="stylesheet" type="text/css">
-		<link href="assets/css/bootstrap.grid.min.css" rel="stylesheet" type="text/css">
 		<link href="assets/css/index.css" rel="stylesheet" type="text/css">
-		<link rel="icon" type="image/x-icon" href="assets/img/favicon.svg">
+		<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
 	</head>
 
 	<body>
 		<!-- header -->
-		<header style="height: 100px;background: #cacaca;">
-			<div class="header">header info</div>
+		<header>
 		</header>
-		<!-- header --> 
+		<!-- header -->
 
 		<!-- main -->
-		<main style="height: 500px;">
-			<section class="block1">
-				<h1>This is a test template</h1>
-				<img src="/assets/json/const.png" alt="pic" style="display: block; margin: 0 auto; width: 485px;">
+		<main>
+			<section>
+				<h2 id="default" class="newYear" style="margin-bottom: 30px;"><span>До лета осталось</span></h2>
+				<h2 id="timer_on" class="prost" style="margin-bottom: 30px; text-align: right; color: #ffffff;"><span>Суета начнется через</span></h2>
+				<div id="time">
+					<div id="first" class="circle" style="--clr: #ffffff;">
+						<div class="dots day_dot"></div>
+						<svg>
+							<circle cx="70" cy="70" r="70"></circle>
+							<circle cx="70" cy="70" r="70" id="dd"></circle>
+						</svg>
+						<div id="days"></div>
+					</div>
+
+					<div id="second" class="circle" style="--clr: #ff2972;">
+						<div class="dots hr_dot"></div>
+						<svg>
+							<circle cx="70" cy="70" r="70"></circle>
+							<circle cx="70" cy="70" r="70" id="hh"></circle>
+						</svg>
+						<div id="hours"></div>
+					</div>
+
+					<div id="third" class="circle" style="--clr: #fee800;">
+						<div class="dots min_dot"></div>
+						<svg>
+							<circle cx="70" cy="70" r="70"></circle>
+							<circle cx="70" cy="70" r="70" id="mm"></circle>
+						</svg>
+						<div id="minutes"></div>
+					</div>
+
+					<div id="fourth" class="circle" style="--clr: #04fc43;">
+						<div class="dots sec_dot"></div>
+						<svg>
+							<circle cx="70" cy="70" r="70"></circle>
+							<circle cx="70" cy="70" r="70" id="ss"></circle>
+						</svg>
+						<div id="seconds"></div>
+					</div>
+				</div>
+				<form class="btns">
+					<button type="button" class="custom-btn start" id="start">Включить Таймер</button>
+					<button type="reset" id="reset" class="custom-btn">Сбросить Таймер</button>
+				</form>
 			</section>
+			<section>
+				<div class="keys">
+					<!-- <div data-key="65" class="key" id="budil">
+						<kbd>A</kbd>
+						<span class="sound">clap</span>
+					</div>
+					<div data-key="83" class="key">
+						<kbd>S</kbd>
+						<span class="sound">hihat</span>
+					</div>
+					<div data-key="68" class="key">
+						<kbd>D</kbd>
+						<span class="sound">kick</span>
+					</div>
+					<div data-key="70" class="key">
+						<kbd>F</kbd>
+						<span class="sound">openhat</span>
+					</div>
+					<div data-key="71" class="key">
+						<kbd>G</kbd>
+						<span class="sound">boom</span>
+					</div>
+					<div data-key="72" class="key">
+						<kbd>H</kbd>
+						<span class="sound">ride</span>
+					</div>
+					<div data-key="74" class="key">
+						<kbd>J</kbd>
+						<span class="sound">snare</span>
+					</div>
+					<div data-key="75" class="key">
+						<kbd>K</kbd>
+						<span class="sound">tom</span>
+					</div>
+					<div data-key="76" class="key">
+						<kbd>L</kbd>
+						<span class="sound">tink</span>
+					</div> -->
+				</div>
+			</section>
+			<audio data-key="65" src="sounds/clap.wav"></audio>
+			<!-- <audio data-key="83" src="sounds/hihat.wav"></audio> -->
+			<!-- <audio data-key="68" src="sounds/kick.wav"></audio>
+			<audio data-key="70" src="sounds/openhat.wav"></audio>
+			<audio data-key="71" src="sounds/boom.wav"></audio>
+			<audio data-key="72" src="sounds/ride.wav"></audio>
+			<audio data-key="74" src="sounds/snare.wav"></audio>
+			<audio data-key="75" src="sounds/tom.wav"></audio>
+			<audio data-key="76" src="sounds/tink.wav"></audio> -->
 		</main>
 		<!-- main -->
 
 		<!-- footer -->
-		<footer style="height: 500px;background: #cacaca;">
-			<div class="wrapper">
-				<div class="footer__wrap">
-					footer info
-
-				</div>
-			</div>
+		<footer>
 		</footer>
 		<!-- footer -->
 
-
-		<script src="assets/js/jquery360.min.js"></script>
-		<script src="assets/js/fancybox4.min.js"></script>
-		<script src="assets/js/jquery.maskedinput.min.js"></script>
-		<script src="assets/js/layout.js"></script>
-
-	</body>    
+		<script type="text/javascript" src="assets/js/layout.js"></script>
+	</body>
 </html>
 
 
