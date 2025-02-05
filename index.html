@@ -1,85 +1,72 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
-		<title>Таймер</title>
-		<meta content="" name="description">
-		<meta content="" name="keywords">
+		<title>HYPER</title>
+		<meta content="The leader in payment solutions for exporters" name="description">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta content="telephone=no" name="format-detection">
 		<meta name="HandheldFriendly" content="true">
-		<link href="assets/css/index.css" rel="stylesheet" type="text/css">
-		<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+		<link href="assets/fonts/stylesheet.css" rel="stylesheet" type="text/css">
+		<link href="assets/css/main.css" rel="stylesheet" type="text/css">
+		<link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
 	</head>
 
 	<body>
 		<!-- header -->
-		<header>
+		<header class="header">
+			<a href="/" class="header__logo">
+				<img src="assets/img/logo.svg" alt="logo">
+			</a>
+			<nav class="header__nav">
+				<a href="about.html">About</a>
+				<a href="services.html">Services</a>
+				<a href="vacancies.html">Vacancies</a>
+				<a href="contact.html">Contact</a>
+			</nav>
+			<a href="#" class="header__wallet">
+				<img src="assets/img/wallet.svg" alt="pic">
+			</a>
 		</header>
 		<!-- header -->
 
 		<!-- main -->
 		<main>
-			<section>
-				<h2 id="default" class="newYear" style="margin-bottom: 30px;"><span>До лета осталось</span></h2>
-				<h2 id="timer_on" class="prost" style="margin-bottom: 30px; text-align: right; color: #ffffff;"><span>Суета начнется через</span></h2>
-				<div id="time">
-					<div id="first" class="circle" style="--clr: #ffffff;">
-						<div class="dots day_dot"></div>
-						<svg>
-							<circle cx="70" cy="70" r="70"></circle>
-							<circle cx="70" cy="70" r="70" id="dd"></circle>
-						</svg>
-						<div id="days"></div>
+			<section class="index">
+				<div class="container">
+					<div class="index__logo">
+						<img src="assets/img/hyper-logo.svg" alt="logo">
 					</div>
-
-					<div id="second" class="circle" style="--clr: #ff2972;">
-						<div class="dots hr_dot"></div>
-						<svg>
-							<circle cx="70" cy="70" r="70"></circle>
-							<circle cx="70" cy="70" r="70" id="hh"></circle>
-						</svg>
-						<div id="hours"></div>
+					<h1 class="index__desc">The leader in payment solutions for exporters</h1>
+					<div class="index__features">
+						<div class="index__feature">Trusted by 350+ regional exporters</div>
+						<div class="index__feature">Comprehensive financial services for market leaders</div>
+						<div class="index__feature">Earn on the growing export market</div>
 					</div>
-
-					<div id="third" class="circle" style="--clr: #fee800;">
-						<div class="dots min_dot"></div>
-						<svg>
-							<circle cx="70" cy="70" r="70"></circle>
-							<circle cx="70" cy="70" r="70" id="mm"></circle>
+					<a href="https://t.me/info_hyper" class="index__btn" target="_blank">
+						<span>JOIN IN</span>
+						<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M19.1391 17.8227C19.1391 18.5498 18.5498 19.1391 17.8227 19.1391L3.54965 19.1391C2.82261 19.1391 2.23322 18.5498 2.23323 17.8227C2.23322 17.0957 2.82261 16.5063 3.54965 16.5063L14.6446 16.5063L9.75533 11.617C9.24123 11.1029 9.24123 10.2694 9.75533 9.75534C10.2694 9.24124 11.1029 9.24124 11.617 9.75534L16.5063 14.6446L16.5063 3.54965C16.5063 2.82261 17.0957 2.23323 17.8227 2.23323C18.5498 2.23323 19.1391 2.82261 19.1391 3.54965V17.8227ZM7.4282 7.42821C6.9141 7.9423 6.08059 7.9423 5.56649 7.4282L1.06738 2.92909C0.553281 2.41499 0.55328 1.58148 1.06738 1.06738C1.58147 0.553286 2.41499 0.553287 2.92908 1.06738L7.4282 5.5665C7.94229 6.0806 7.9423 6.91411 7.4282 7.42821Z" fill="#1E1E1E" />
 						</svg>
-						<div id="minutes"></div>
-					</div>
-
-					<div id="fourth" class="circle" style="--clr: #04fc43;">
-						<div class="dots sec_dot"></div>
-						<svg>
-							<circle cx="70" cy="70" r="70"></circle>
-							<circle cx="70" cy="70" r="70" id="ss"></circle>
-						</svg>
-						<div id="seconds"></div>
-					</div>
+					</a>
 				</div>
-				<form class="btns">
-					<button type="button" class="custom-btn start" id="start">Включить Таймер</button>
-					<button type="reset" id="reset" class="custom-btn">Сбросить Таймер</button>
-				</form>
 			</section>
-
-			<audio src="sounds/jojo.mp3"></audio>
+				
 
 		</main>
 		<!-- main -->
 
 		<!-- footer -->
-		<footer>
+		<footer class="footer footer--front-page">
+			<div class="container">
+				<div class="footer__copyright">2024 Hyper Inc. All Right Reserved</div>
+				<a href="#" class="footer__link">Privacy Policy</a>
+				<a href="#" class="footer__link">Terms of Use</a>
+			</div>
 		</footer>
 		<!-- footer -->
 
-		<script type="text/javascript" src="assets/js/layout.js"></script>
 	</body>
 </html>
-
-
