@@ -22,6 +22,9 @@
     text-align: left;
     color: #181818;
 }
+.panel-promo--detail{
+    background-image: url('../images/bg2-375.png');
+}
 .panel-promo__title{
     font-size: 24px;
     line-height: 110%;  
@@ -36,6 +39,9 @@
     font-size: 12px;
     line-height: 120%;
     
+}
+.panel-promo__txt--detail{
+    max-width: 150px;
 }
 .panel-promo__txt b{
     font-family: "Mulish-Bold", sans-serif;
@@ -333,7 +339,7 @@
 }
 .content-item__picture img{
     display: block;
-    max-width: 60%;
+    max-width: 100%;
     max-height: 100%;
     object-fit: contain;
     position: relative;
