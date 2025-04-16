@@ -1,2 +1,0 @@
-# HYPER
-Mobile version
