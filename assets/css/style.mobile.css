@@ -71,7 +71,6 @@
     background-image: url('../images/str1.png');
     background-repeat: no-repeat;
     background-position: top center;
-    background-size: contain;
 }  
 .stripe2{
     display: flex;
@@ -92,7 +91,6 @@
     background-image: url('../images/str2.png');
     background-repeat: no-repeat;
     background-position: top center;
-    background-size: contain;
 } 
 .stripe3{
     display: flex;
@@ -113,7 +111,6 @@
     background-image: url('../images/str3.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
 }
 .stripe__percent{
     display: flex;
