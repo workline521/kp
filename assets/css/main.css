@@ -1768,11 +1768,15 @@ button,
     .posts article > :last-child {
       margin-bottom: 0; }
     .posts article .image {
-      display: block;
-      margin: 0 0 2em 0; }
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 0 2em 0;
+      height: 256px; }
       .posts article .image img {
         display: block;
-        width: 100%; }
+        max-width: 90%;
+      max-height: 90%;}
   @media screen and (min-width: 1681px) {
     .posts article:nth-child(3n + 1):before {
       display: none; }
@@ -2427,4 +2431,16 @@ html{
 .description{
   margin-bottom: 10px;
   margin-top: 20px;
+}
+#main > .inner {
+    padding-top: 60px;
+}
+.rbg{
+  background: url('../images/russia.png') no-repeat center;
+  background-size: cover;
+}
+.eas{
+  max-width: 300px !important;
+  margin-left: auto;
+  margin-right: auto;
 }
