@@ -1,42 +1,3 @@
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Данные из формы
-    $name = htmlspecialchars(trim($_POST['name']));
-    $tel = htmlspecialchars(trim($_POST['tel']));
-    $message = htmlspecialchars(trim($_POST['demo-message']));
-    
-    // Валидация телефона (минимальная проверка)
-    if (empty($tel)) {
-        die("Телефон обязателен для заполнения.");
-    }
-    
-    // Настройки письма
-    $to = "corsair552@yandex.ru";
-    $subject = "Новое сообщение с сайта";
-    
-    // Формирование тела письма
-    $email_content = "Имя: $name\n";
-    $email_content .= "Телефон: $tel\n";
-    $email_content .= "Сообщение:\n$message\n";
-    
-    // Заголовки для защиты от спама
-    $headers = "From: no-reply@вашдомен.ru\r\n";
-    $headers .= "Reply-To: no-reply@вашдомен.ru\r\n";
-    $headers .= "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
-    $headers .= "X-Mailer: PHP/" . phpversion();
-    
-    // Дополнительные меры против спама
-    $email_content = wordwrap($email_content, 70, "\r\n");
-    
-    // Отправка письма
-    if (mail($to, $subject, $email_content, $headers)) {
-        echo "<p>Сообщение отправлено!</p>";
-    } else {
-        echo "<p>Ошибка при отправке.</p>";
-    }
-}
-?>
 <!DOCTYPE HTML>
 
 <html lang="ru">
@@ -264,30 +225,81 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			<div class="popup__content">
 				<button type="button" class="popup__close"></button>
 				<h3>Оставьте заявку</h3>
-				<form method="post" action="#">
-					<div class="row gtr-uniform">
-						<div class="col-6 col-12-xsmall">
-							<input type="text" name="name" id="name" value="" placeholder="Имя">
-						</div>
-						<div class="col-6 col-12-xsmall">
-							<input type="tel" name="tel" id="tel" value="" placeholder="Телефон" required>
-						</div>
-						<div class="col-12">
-							<textarea name="demo-message" id="demo-message" placeholder="Ваше сообщение" rows="6"></textarea>
-						</div>
-						<div class="col-12">
-							<ul class="actions">
-								<li><input type="submit" value="Отправить" class="primary"></li>
-							</ul>
-						</div>
-					</div>
-				</form>
-				<div class="success">
-					<h3>Спасибо</h3>
-					<div class="box">
-						<p>Мы свяжемся с вами в ближайшее время.</p>
-					</div>
-				</div>
+				<?php
+                $success = false;
+                $error = "";
+
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    // Получаем данные из формы
+                    $name = htmlspecialchars(trim($_POST['name']));
+                    $tel = htmlspecialchars(trim($_POST['tel']));
+                    $message = htmlspecialchars(trim($_POST['demo-message']));
+
+                    // Проверяем обязательные поля
+                    if (empty($tel)) {
+                        $error = "Телефон обязателен для заполнения.";
+                    } else {
+                        // Настройки для отправки письма
+                        $to = "corsair552@yandex.ru";
+                        $subject = "Новое сообщение с сайта";
+
+                        // Формируем содержимое письма
+                        $email_content = "Имя: $name\n";
+                        $email_content .= "Телефон: $tel\n";
+                        $email_content .= "Сообщение:\n$message\n";
+
+                        // Заголовки для защиты от спама
+                        $headers = "From: no-reply@" . $_SERVER['HTTP_HOST'] . "\r\n";
+                        $headers .= "Reply-To: no-reply@" . $_SERVER['HTTP_HOST'] . "\r\n";
+                        $headers .= "MIME-Version: 1.0\r\n";
+                        $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
+                        $headers .= "X-Mailer: PHP/" . phpversion();
+
+                        // Отправляем письмо
+                        if (mail($to, $subject, $email_content, $headers)) {
+                            $success = true;
+                        } else {
+                            $error = "Ошибка при отправке сообщения. Попробуйте еще раз.";
+                        }
+                    }
+                }
+                ?>
+                
+                <form method="post" action="">
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <input type="text" name="name" id="name"
+                                value="<?php if (isset($_POST['name']))
+                                    echo htmlspecialchars($_POST['name']); ?>" placeholder="Имя">
+                        </div>
+                        <div class="col-6 form-group">
+                            <input type="tel" name="tel" id="tel"
+                                value="<?php if (isset($_POST['tel']))
+                                    echo htmlspecialchars($_POST['tel']); ?>" placeholder="Телефон"
+                                required>
+                        </div>
+                        <div class="col-12 form-group">
+                            <textarea name="demo-message" id="demo-message" placeholder="Ваше сообщение"
+                                rows="6"><?php if (isset($_POST['demo-message']))
+                                    echo htmlspecialchars($_POST['demo-message']); ?></textarea>
+                        </div>
+                        <div class="col-12 form-group">
+                            <input type="submit" value="Отправить" class="btn">
+                        </div>
+                    </div>
+                </form>                
+                <?php if ($success): ?>
+                    <div class="success" style="display: block;">
+                        <h3>Спасибо</h3>
+                        <div class="box">
+                            <p>Мы свяжемся с вами в ближайшее время.</p>
+                        </div>
+                    </div>
+                <?php elseif (!empty($error)): ?>
+                    <div class="error" style="display: block;">
+                        <?php echo $error; ?>
+                    </div>
+                <?php endif; ?>
 			</div>
 		</div>
 		
