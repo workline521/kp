@@ -13,7 +13,8 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-		<link href="assets/css/index.css" rel="stylesheet" type="text/css">
+		<link href="assets/css/swiper.min.css" rel="stylesheet" type="text/css"/>
+		<link href="assets/css/layout.css" rel="stylesheet" type="text/css">
 		<link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
 		
 	</head>
@@ -23,10 +24,12 @@
 		<!-- header -->
 		<header class="header">
 			<div class="container">
-				<img class="header__logo" src="assets/img/logo.svg" alt="logo">
+				<a href="/" class="logo">
+					<img src="assets/img/logo.svg" alt="logo">
+				</a>
 				<div class="header__wrap">
 					<img class="header__percent" src="assets/img/percent.svg" alt="logo percent">
-					<button type="button" class="btn header__btn">Войти</button>
+					<button type="button" class="btn header__btn modal">Войти</button>
 				</div>
 			</div>
 		</header>
@@ -34,17 +37,242 @@
 
 		<!-- main -->
 		<main>
-			<section>
-				<div class="container"></div>
+			<section class="intro">
+				<div class="container">
+					<div class="intro__wrap">
+						<div class="intro__reg">Зарегистрируйтесь на&nbsp;сайте и&nbsp;получите скидку 2000 рублей на&nbsp;первый заказ</div>
+						<button type="button" class="btn-orange intro__btn modal">Зарегистрироваться</button>
+					</div>
+					<div class="intro__info">Откройте коллекцию путешествий по&nbsp;Лучшим ценам !</div>
+					<a href="#tour" class="btn-orange intro__link">Смотреть лучшие цены</a>
+				</div>
+				<div class="intro__percent"></div>
+			</section>
+			<section class="tour" id="tour">
+				<div class="container">
+					<h1 class="title">Туры Библио-Глобус</h1>
+					<h2 class="heading tour__heading">Лучшие цены на туры в августе</h2>
+					<div class="tour__block expand modal">
+						<img src="assets/img/gel.webp" alt="tour">
+					</div>
+					<div class="animate">
+						<h2 class="heading">Пляжный отдых: туры на море, путевки на море в России</h2>
+						<div class="tour__grid">
+							<div class="tour__item expand modal">
+								<img src="assets/img/pic1.webp" alt="tour">
+							</div>
+							<div class="tour__item expand modal">
+								<img src="assets/img/pic2.webp" alt="tour">
+							</div>
+							<div class="tour__item">
+								<div class="play-btn"> 
+									<svg class="play-icon" viewBox="0 0 28 30"> 
+										<path d="M 2.83861 29.7598C 2.52701 29.9289 2.2154 30 1.90794 30C 1.41724 30.002 0.930676 29.8068 0.576626 29.4776C 0.223611 29.1453 0.00207047 28.7059 0 28.1545L 0 1.84548C 0.00207047 1.29504 0.223611 0.855688 0.576626 0.523422C 0.930676 0.194159 1.41724 -0.000996969 1.90794 3.83062e-06C 2.2154 0.00100463 2.52701 0.0720614 2.83861 0.240196L 27.0289 13.3957C 27.6874 13.757 27.9938 14.3595 28 15C 27.9938 15.6405 27.6874 16.244 27.0289 16.6053L 2.83861 29.7598Z"></path> 
+									</svg> 
+								</div>
+								<video class="video" src="https://minio.bgit.ru/bgagentdb/videos/10.mp4" poster="assets/img/pic3.webp" preload="none" allowfullscreen controlslist="nodownload" disablepictureinpicture disableremoteplayback pip="false" type="video/mp4"></video>
+							</div>
+						</div>
+					</div>
+					<div class="animate">
+						<h2 class="heading tour__heading">Дарим путевку в Сочи на двоих</h2>
+						<div class="tour__block expand modal">
+							<img src="assets/img/pic4.webp" alt="tour">
+						</div>
+					</div>
+					<div class="animate">
+						<h2 class="heading tour__heading">Регулярные прямые рейсы в Абхазию: Москва-Сухум</h2>
+						<div class="tour__block expand modal">
+							<img src="assets/img/pic5.webp" alt="tour">
+						</div>
+					</div>
+					<div class="animate">
+						<h2 class="heading">Семейные туры, туры с детьми</h2>
+						<div class="tour__grid">
+							<div class="tour__item expand modal">
+								<img src="assets/img/pic6.webp" alt="tour">
+							</div>
+							<div class="tour__item expand modal">
+								<img src="assets/img/pic7.webp" alt="tour">
+							</div>
+							<div class="tour__item">
+								<div class="play-btn"> 
+									<svg class="play-icon" viewBox="0 0 28 30"> 
+										<path d="M 2.83861 29.7598C 2.52701 29.9289 2.2154 30 1.90794 30C 1.41724 30.002 0.930676 29.8068 0.576626 29.4776C 0.223611 29.1453 0.00207047 28.7059 0 28.1545L 0 1.84548C 0.00207047 1.29504 0.223611 0.855688 0.576626 0.523422C 0.930676 0.194159 1.41724 -0.000996969 1.90794 3.83062e-06C 2.2154 0.00100463 2.52701 0.0720614 2.83861 0.240196L 27.0289 13.3957C 27.6874 13.757 27.9938 14.3595 28 15C 27.9938 15.6405 27.6874 16.244 27.0289 16.6053L 2.83861 29.7598Z"></path> 
+									</svg> 
+								</div>
+								<video class="video" src="https://minio.bgit.ru/bgagentdb/videos/11.mp4" poster="assets/img/pic8.webp" preload="none" allowfullscreen controlslist="nodownload" disablepictureinpicture disableremoteplayback pip="false" type="video/mp4"></video>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="slider-block animate">
+				<div class="container">
+					<h2 class="heading tour__heading">Видео</h2>
+					<div class="swiper slider">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide">
+								<div class="slider__item">
+									<button type="button" class="play">
+										<svg class="play-icon" viewBox="0 0 28 30"> 
+											<path d="M 2.83861 29.7598C 2.52701 29.9289 2.2154 30 1.90794 30C 1.41724 30.002 0.930676 29.8068 0.576626 29.4776C 0.223611 29.1453 0.00207047 28.7059 0 28.1545L 0 1.84548C 0.00207047 1.29504 0.223611 0.855688 0.576626 0.523422C 0.930676 0.194159 1.41724 -0.000996969 1.90794 3.83062e-06C 2.2154 0.00100463 2.52701 0.0720614 2.83861 0.240196L 27.0289 13.3957C 27.6874 13.757 27.9938 14.3595 28 15C 27.9938 15.6405 27.6874 16.244 27.0289 16.6053L 2.83861 29.7598Z"></path> 
+										</svg>
+									</button>
+									<video class="slider__video" src="assets/video/v1.MP4"></video>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="slider__item">
+									<button type="button" class="play">
+										<svg class="play-icon" viewBox="0 0 28 30"> 
+											<path d="M 2.83861 29.7598C 2.52701 29.9289 2.2154 30 1.90794 30C 1.41724 30.002 0.930676 29.8068 0.576626 29.4776C 0.223611 29.1453 0.00207047 28.7059 0 28.1545L 0 1.84548C 0.00207047 1.29504 0.223611 0.855688 0.576626 0.523422C 0.930676 0.194159 1.41724 -0.000996969 1.90794 3.83062e-06C 2.2154 0.00100463 2.52701 0.0720614 2.83861 0.240196L 27.0289 13.3957C 27.6874 13.757 27.9938 14.3595 28 15C 27.9938 15.6405 27.6874 16.244 27.0289 16.6053L 2.83861 29.7598Z"></path> 
+										</svg>
+									</button>
+									<video class="slider__video" src="assets/video/v1.MP4"></video>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="slider__item">
+									<button type="button" class="play">
+										<svg class="play-icon" viewBox="0 0 28 30"> 
+											<path d="M 2.83861 29.7598C 2.52701 29.9289 2.2154 30 1.90794 30C 1.41724 30.002 0.930676 29.8068 0.576626 29.4776C 0.223611 29.1453 0.00207047 28.7059 0 28.1545L 0 1.84548C 0.00207047 1.29504 0.223611 0.855688 0.576626 0.523422C 0.930676 0.194159 1.41724 -0.000996969 1.90794 3.83062e-06C 2.2154 0.00100463 2.52701 0.0720614 2.83861 0.240196L 27.0289 13.3957C 27.6874 13.757 27.9938 14.3595 28 15C 27.9938 15.6405 27.6874 16.244 27.0289 16.6053L 2.83861 29.7598Z"></path> 
+										</svg>
+									</button>
+									<video class="slider__video" src="assets/video/v1.MP4"></video>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="slider__item">
+									<button type="button" class="play">
+										<svg class="play-icon" viewBox="0 0 28 30"> 
+											<path d="M 2.83861 29.7598C 2.52701 29.9289 2.2154 30 1.90794 30C 1.41724 30.002 0.930676 29.8068 0.576626 29.4776C 0.223611 29.1453 0.00207047 28.7059 0 28.1545L 0 1.84548C 0.00207047 1.29504 0.223611 0.855688 0.576626 0.523422C 0.930676 0.194159 1.41724 -0.000996969 1.90794 3.83062e-06C 2.2154 0.00100463 2.52701 0.0720614 2.83861 0.240196L 27.0289 13.3957C 27.6874 13.757 27.9938 14.3595 28 15C 27.9938 15.6405 27.6874 16.244 27.0289 16.6053L 2.83861 29.7598Z"></path> 
+										</svg>
+									</button>
+									<video class="slider__video" src="assets/video/v1.MP4"></video>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="slider__item">
+									<button type="button" class="play">
+										<svg class="play-icon" viewBox="0 0 28 30"> 
+											<path d="M 2.83861 29.7598C 2.52701 29.9289 2.2154 30 1.90794 30C 1.41724 30.002 0.930676 29.8068 0.576626 29.4776C 0.223611 29.1453 0.00207047 28.7059 0 28.1545L 0 1.84548C 0.00207047 1.29504 0.223611 0.855688 0.576626 0.523422C 0.930676 0.194159 1.41724 -0.000996969 1.90794 3.83062e-06C 2.2154 0.00100463 2.52701 0.0720614 2.83861 0.240196L 27.0289 13.3957C 27.6874 13.757 27.9938 14.3595 28 15C 27.9938 15.6405 27.6874 16.244 27.0289 16.6053L 2.83861 29.7598Z"></path> 
+										</svg>
+									</button>
+									<video class="slider__video" src="assets/video/v1.MP4"></video>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-button-prev"></div>
+						<div class="swiper-button-next"></div>
+					</div>
+					<div class="slider__note">Зарегистрироваться и получить больше выгодных предложений</div>
+					<button type="button" class="btn-orange slider__reg modal">Зарегистрироваться</button>
+				</div>
+			</section>
+			<section class="adv">
+				<div class="container">
+					<div class="animate">
+						<div class="title">Преимущества</div>
+						<div class="adv__items">
+							<div class="adv__item">
+								<div class="adv__icon"></div>
+								<div class="adv__title">Честные цены на туры</div>
+								<div class="adv__txt">Стоимость туров Библио-Глобус во&nbsp;всех каналах продаж одинаковая. Подпишитесь на&nbsp;наши соцсети по&nbsp;ссылкам ниже&nbsp;&mdash; и&nbsp;получите промокод и&nbsp;скидку на&nbsp;туры Библио-Глобус.</div>
+							</div>
+							<div class="adv__item">
+								<div class="adv__icon"></div>
+								<div class="adv__title">Прямые рейсы</div>
+								<div class="adv__txt">Предлагаем только удобные и&nbsp;комфортные перелеты прямыми рейсами Аэрофлот. Никаких пересадок, только комфорт и&nbsp;самый высокий уровень сервиса на&nbsp;борту.</div>
+							</div>
+							<div class="adv__item">
+								<div class="adv__icon"></div>
+								<div class="adv__title">Онлайн оплата и туры в рассрочку</div>
+								<div class="adv__txt">Вы&nbsp;можете забронировать тур онлайн и&nbsp;выбрать удобный формат оплаты. Мы&nbsp;также даем возможность забронировать тур с&nbsp;частичной оплатой и&nbsp;купить тур в&nbsp;рассрочку.</div>
+							</div>
+							<div class="adv__item">
+								<div class="adv__icon"></div>
+								<div class="adv__title">VIP-сервис</div>
+								<div class="adv__txt">На&nbsp;нашем сайте большой выбор первоклассных отелей, вы&nbsp;можете заказать перелет Бизнес-классом, а&nbsp;также индивидуальный трансфер. Наши менеджеры обеспечат онлайн сопровождение вашего тура на&nbsp;всех этапах.</div>
+							</div>
+							<div class="adv__item">
+								<div class="adv__icon"></div>
+								<div class="adv__title">Онлайн поддержка</div>
+								<div class="adv__txt">Доступны для онлайн-консультаций до&nbsp;и&nbsp;после покупки тура. Вы&nbsp;всегда можете написать нам или позвонить по&nbsp;телефону, если возникли вопросы при бронировании, трансфере или заселении. Мы&nbsp;будем рады помочь.</div>
+							</div>
+							<div class="adv__item">
+								<div class="adv__icon"></div>
+								<div class="adv__title">Сайт официального турагентства</div>
+								<div class="adv__txt">Наша компания и&nbsp;сайт&nbsp;&mdash; часть группы компаний Международного Аэропорта Шереметьево. Доменное имя biblioglobus.ru принадлежит Biblio-Globus Turoperator, поэтому вы&nbsp;можете быть точно уверены в&nbsp;надежности и&nbsp;безопасности при&nbsp;заказе туров.</div>
+							</div>
+						</div>
+					</div>
+					<div class="animate">
+						<div class="title title--partner">Партнеры</div>
+						<div class="partner__items">
+							<div class="partner__item">
+								<img src="assets/img/p1.webp" alt="partner">
+							</div>
+							<div class="partner__item">
+								<img src="assets/img/p2.webp" alt="partner">
+							</div>
+							<div class="partner__item">
+								<img src="assets/img/p3.webp" alt="partner">
+							</div>
+							<div class="partner__item">
+								<img src="assets/img/p4.webp" alt="partner">
+							</div>
+						</div>
+					</div>
+				</div>
 			</section>
 		</main>
 		<!-- main -->
 
 		<!-- footer -->
-		<footer style="padding-bottom: 1000px;">
+		<footer class="footer">
+			<div class="container">
+				<a href="/" class="footer__logo">
+					<img src="assets/img/logo.svg" alt="logo">
+				</a>
+				<a href="/policy.html" class="footer__policy">Политика конфиденциальности</a>
+				<div class="footer__copyright">© 2025 Все права защищены</div>
+			</div>			
 		</footer>
 		<!-- footer -->
-
+		<div class="popup">
+			<div class="popup__form">
+				<button type="button" class="popup__close"></button>
+				<div class="popup__wrap">
+					<div class="popup__left">
+						<div class="popup__discount">Скидка !</div>
+						<div class="popup__num">2000 ₽*</div>
+					</div>
+					<div class="popup__right">Регистрируйся, получи промокод и&nbsp;путешествуй с&nbsp;выгодой!</div>
+				</div>
+				<form action="#" method="post">
+					<input type="text" name="firstname" id="firstname" placeholder="Имя*" required>
+					<input type="text" name="lastname" id="lastname" placeholder="Фамилия*" required>
+					<input type="email" name="email" id="email" placeholder="Ваш Email*" required>
+					<input type="tel" name="tel" id="tel" placeholder="Ваш Телефон*" required>
+					<div class="popup__txt">Нажимая на кнопку, Вы зарегистрируетесь в личном кабинете и в течение 15 минут получите промокод на указанный E-mail. Получая промокод, Вы даете согласие на обработку Ваших персональных данных и на получение сообщений рекламного и информационного характера. * – Промокод действует на туры от 40000 ₽. Скидка не более 2000 ₽.</div>
+					<div class="popup__txt">Мы гарантируем безопасность и сохранность ваших данных. Пожалуйста, ознакомьтесь с <a href="/policy.html" target="_blank">Политикой обработки данных</a>.</div>
+					<button type="submit" class="popup__submit">Получить промокод</button>
+				</form>
+			</div>
+		</div>
+		<div class="sms">
+			<div class="sms__wrap">
+				<button type="button" class="sms__close"></button>
+				<div class="sms__title">Введите код из СМС</div>
+				<form action="#" method="post">
+					<input type="number" name="sms" id="sms" placeholder="Код из СМС">
+					<button type="submit" class="sms__submit">Отправить</button>
+				</form>
+			</div>
+		</div>
+		<script src="assets/js/swiper.min.js"></script>
+		<script src="assets/js/layout.js"></script>
 	</body>    
 </html>
 
