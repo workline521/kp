@@ -59,19 +59,19 @@ document.addEventListener("DOMContentLoaded", function () {
         },
     });
 
-    // Обработчики для кнопок переключения
+    // Функция для остановки всех видео и показа всех кнопок play
     const stopAllVideos = () => {
         document.querySelectorAll('.slider__video').forEach(video => {
             video.pause();
             video.currentTime = 0;
-            video.removeAttribute('controls');
-        });
-        document.querySelectorAll('.play').forEach(btn => {
-            btn.style.display = 'block';
+            video.removeAttribute('controls');            
+            const playButton = video.previousElementSibling;
+            if (playButton && playButton.classList.contains('play')) {
+                playButton.style.display = 'block';
+            }
         });
     };
 
-    // Добавляем обработчики на кнопки навигации
     document.querySelector('.swiper-button-next').addEventListener('click', stopAllVideos);
     document.querySelector('.swiper-button-prev').addEventListener('click', stopAllVideos);
 
@@ -79,17 +79,36 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.play').forEach(button => {
         button.addEventListener('click', function(e) {
             const video = this.nextElementSibling;
-            document.querySelectorAll('.slider__video').forEach(v => {
-                if (v !== video) {
-                    v.pause();
-                    v.currentTime = 0;
-                    v.removeAttribute('controls');
-                }
-            });
+            stopAllVideos();
             video.setAttribute('controls', 'true');
-            video.play();
-            this.style.display = 'none';
+            video.play();            
+            this.style.display = 'none';         
             e.stopPropagation();
+        });
+    });
+
+    // Обработчик для событий окончания видео
+    document.querySelectorAll('.slider__video').forEach(video => {
+        video.addEventListener('ended', function() {
+            const playButton = this.previousElementSibling;
+            if (playButton && playButton.classList.contains('play')) {
+                playButton.style.display = 'block';
+            }
+            this.removeAttribute('controls');
+        });
+        
+        video.addEventListener('pause', function() {
+            const playButton = this.previousElementSibling;
+            if (playButton && playButton.classList.contains('play')) {
+                playButton.style.display = 'block';
+            }
+        });
+        
+        video.addEventListener('play', function() {
+            const playButton = this.previousElementSibling;
+            if (playButton && playButton.classList.contains('play')) {
+                playButton.style.display = 'none';
+            }
         });
     });
 
