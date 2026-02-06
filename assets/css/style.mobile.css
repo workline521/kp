@@ -169,7 +169,6 @@
 }
 .intro .container {
     position: relative;
-    padding-top: 46px;
     min-height: 648px;
 }
 .intro__bg {
@@ -357,7 +356,6 @@
 .tech {
     padding-top: 52px;
     padding-bottom: 23px;
-    overflow: hidden;
 }
 .tech__title {
     width: 100%;
@@ -864,4 +862,24 @@
 }
 .fin__icon:nth-child(3) svg{
     width: 33px;
+}
+
+
+.item:nth-child(1) {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+}
+.item:nth-child(2) {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 20px;
+}
+.item:nth-child(3) {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 40px;
+}
+#content{
+    overflow: visible;
 }

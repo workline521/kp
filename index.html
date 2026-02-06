@@ -2862,8 +2862,8 @@ display: none;
                 </section>
                 <section class="video">
                     <video poster="./assets/images/poster1.png" autoplay muted playsinline loop>
-                        <source src="./assets/images/vid1-mob.mp4" type="video/mp4" media="(max-width: 1024px)">                       
                         <source src="./assets/images/vid1-desk.mp4" type="video/mp4" media="(min-width: 1025px)">
+                        <source src="./assets/images/vid1-mob.mp4" type="video/mp4">                       
                     </video>
                 </section>
                 <section class="tech">
@@ -2899,7 +2899,7 @@ display: none;
                                     <img src="./assets/images/tech3-mob.png" alt="biom 720" />
                                 </picture>
                                 <div class="tech__item-content">	
-                                    <div class="tech__item-title">Gore-Tex</div>
+                                    <div class="tech__item-title">GORE-TEX<sup>®</sup></div>
                                     <p>GORE-TEX<sup>®</sup> – водонепроницаемая мембрана, встроенная между верхом обуви и подкладкой. На&nbsp;100% блокирует попадание воды внутрь ботинка и при этом отлично пропускает воздух, чтобы ноги могли дышать. </p>
                                 </div>
                             </div>
@@ -3164,8 +3164,8 @@ display: none;
                                 <img src="./assets/images/num1.svg" alt="number" class="adv__count">
                                 <div class="adv__bg nebo nebo--bl">
                                     <video autoplay muted playsinline loop>
-                                        <source src="./assets/images/advantages-mob.mp4" type="video/mp4" media="(max-width: 767px)">                       
-                                        <source src="./assets/images/advantages.mp4" type="video/mp4" media="(min-width: 768px)">
+                                        <source src="./assets/images/advantages.mp4" type="video/mp4" media="(min-width: 1025px)">
+                                        <source src="./assets/images/advantages-mob.mp4" type="video/mp4">                       
                                     </video>
                                 </div>
                                 
@@ -3198,10 +3198,10 @@ display: none;
                         </div>
                     </div>
                 </section>
-                <section class="video video-last">
-                    <video poster="./assets/images/poster1.png" muted playsinline loop>
-                        <source src="./assets/images/vid2-mob.mp4" type="video/mp4" media="(max-width: 767px)">                       
-                        <source src="./assets/images/vid2-desk.mp4" type="video/mp4" media="(min-width: 768px)">
+                <section class="video">
+                    <video poster="./assets/images/poster1.png" autoplay muted playsinline loop>
+                        <source src="./assets/images/vid2-desk.mp4" type="video/mp4" media="(min-width: 1025px)">
+                        <source src="./assets/images/vid2-mob.mp4" type="video/mp4">                       
                     </video>
                 </section>
                 <section class="fin">
@@ -3322,7 +3322,7 @@ display: none;
                 let animated = false;
                 const animationSettings = {
                     delay: 300, // задержка между элементами в ms
-                    threshold: 0.7, // процент видимости для срабатывания
+                    threshold: 0.6, // процент видимости для срабатывания
                     rootMargin: '50px', // отступ от края viewport
                     animateOnce: true // анимировать только один раз
                 };
@@ -3378,7 +3378,7 @@ display: none;
                     window.addEventListener('resize', checkVisibility);
                 } 
                 //Финальное видео начинает проигрываться после того, как пользователь проскроллил его на 20%
-                const videoSection = document.querySelector('.video-last');
+                /* const videoSection = document.querySelector('.video-last');
                 
                 if (!videoSection) return;
                 
@@ -3458,34 +3458,36 @@ display: none;
                 }
                 checkInitialVisibility();
                 window.addEventListener('resize', checkInitialVisibility);
-                window.addEventListener('load', checkInitialVisibility);
+                window.addEventListener('load', checkInitialVisibility); */
             });
             // анимация для tech__items
             document.addEventListener('DOMContentLoaded', function() {
-                const techItemsContainer = document.querySelector('.tech__items');
-                const techItems = document.querySelectorAll('.tech__item');
-                let animationTriggered = false;                
-                const observer = new IntersectionObserver(
-                    (entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting && !animationTriggered) {
-                                animationTriggered = true;
-                                techItems.forEach((item, index) => {
-                                    setTimeout(() => {
-                                        item.classList.add('animate');
-                                    }, index * 300);
-                                });
-                                observer.unobserve(techItemsContainer);
-                            }
-                        });
-                    },
-                    {
-                        threshold: 0.2,
-                        rootMargin: '0px'
+                if (window.innerWidth > 1024) {                   
+                    const techItemsContainer = document.querySelector('.tech__items');
+                    const techItems = document.querySelectorAll('.tech__item');
+                    let animationTriggered = false;                
+                    const observer = new IntersectionObserver(
+                        (entries) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting && !animationTriggered) {
+                                    animationTriggered = true;
+                                    techItems.forEach((item, index) => {
+                                        setTimeout(() => {
+                                            item.classList.add('animate');
+                                        }, index * 300);
+                                    });
+                                    observer.unobserve(techItemsContainer);
+                                }
+                            });
+                        },
+                        {
+                            threshold: 0.2,
+                            rootMargin: '0px'
+                        }
+                    );
+                    if (techItemsContainer) {
+                        observer.observe(techItemsContainer);
                     }
-                );
-                if (techItemsContainer) {
-                    observer.observe(techItemsContainer);
                 }
             });
         </script>
