@@ -65,33 +65,6 @@ window.addEventListener('load', () => {
     });
 
     // анимация маски в блоке с видео
-    /* const vd = document.querySelector(".rec__vd");
-    if (vd) {
-        const tl2 = gsap.timeline({
-            scrollTrigger: {
-                trigger: ".rec",
-                start: "top top",
-                end: "bottom top",  
-                pin: true,
-                pinSpacing: false, 
-                scrub: true,
-                refreshPriority: -1, 
-            },
-        });
-        tl2
-            .to(vd, {
-                "mask-size": "100% 100%",
-                "-webkit-mask-size": "100% 100%",
-                duration: 1,
-                ease: "none",
-            })
-            .to(vd, {
-                "mask-size": "1000% 1000%",
-                "-webkit-mask-size": "1000% 1000%",
-                duration: 1,
-                ease: "none",
-            });
-    } */
     const vd = document.querySelector(".rec__vd");
     const video = document.querySelector('.rec__vd video');
 
@@ -221,6 +194,89 @@ window.addEventListener('load', () => {
         ScrollTrigger.refresh();
     });
 
+
+    // ===== ВЫПЛЫВАНИЕ ТЕКСТА С ДВИЖЕНИЕМ (через обёртку) =====
+    document.querySelectorAll(".msk").forEach(msk => {
+        // 1. Убедимся, что маска скрывает переполнение
+        msk.style.overflow = "hidden";
+
+        // 2. Проходим по всем прямым дочерним элементам (ваш <h1>, <p> и т.д.)
+        Array.from(msk.children).forEach(el => {
+            // 3. Создаём внутреннюю обёртку, которую будем анимировать
+            const wrapper = document.createElement("span");
+            wrapper.className = "msk-anim-wrap";
+            // Переносим всё содержимое el внутрь wrapper
+            while (el.firstChild) {
+            wrapper.appendChild(el.firstChild);
+            }
+            el.appendChild(wrapper);
+
+            // 4. Устанавливаем начальное состояние для обёртки
+            gsap.set(wrapper, {
+            display: "block",          // чтобы transform работал
+            y: "110%",
+            opacity: 0
+            });
+
+            // 5. Наблюдатель за появлением родительского элемента (el)
+            const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                // 6. Анимируем обёртку – выезжает вверх
+                gsap.to(wrapper, {
+                    y: "0%",
+                    opacity: 1,
+                    duration: 0.6,
+                    ease: "power2.out",
+                    overwrite: "auto",
+                    force3D: true
+                });
+                observer.unobserve(el);
+                }
+            });
+            }, {
+            threshold: 0.1,
+            rootMargin: "0px 0px -30% 0px"
+            });
+
+            observer.observe(el);
+        });
+    });
+
+    // ===== АНИМАЦИЯ КАРТИНОК (через класс .img-animated) =====
+    document.querySelectorAll(".img-animated").forEach(img => {
+        // Проверяем, не анимирована ли уже
+        if (img.dataset.animated) return;
+
+        // Начальное состояние уже задано через CSS, но для надёжности можно продублировать (необязательно)
+        // gsap.set(img, { opacity: 0, scale: 0.92 });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                gsap.to(img, {
+                opacity: 1,
+                scale: 1,
+                duration: 0.8,
+                ease: "power2.out",
+                overwrite: "auto",
+                force3D: true,
+                onComplete: () => {
+                    // Убираем класс, чтобы не мешать (опционально)
+                    img.classList.remove("img-animated");
+                }
+                });
+                img.dataset.animated = "true";
+                observer.unobserve(img);
+            }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: "0px 0px -30% 0px" // тот же отступ, что и у текстов
+        });
+
+        observer.observe(img);
+    });
 });
 
 //slider
@@ -348,15 +404,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+//tilt parallax для блоков  intro, wk
 document.addEventListener("DOMContentLoaded", () => {
-    // --- Функция инициализации блока intro (контейнер не анимируется) ---
+    // ========== БЛОК intro ==========
     function initIntro(wrapper) {
         const rock = wrapper.querySelector(".intro__rock");
         const sign = wrapper.querySelector(".intro__sign");
         const glow = wrapper.querySelector(".intro__glow");
-        // container больше не используем
+        const container = wrapper.querySelector(".container.container--first");
 
-        if (!rock || !sign || !glow) return null;
+        if (!rock || !sign || !glow || !container) return null;
 
         wrapper.style.perspective = "1000px";
 
@@ -364,7 +421,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rock: { translate: 15 },
         sign: { translate: 30 },
         glow: { translate: 45 },
-        // container убран
+        container: { translate: 20, rotate: 8 },
         };
 
         function updateLayers(x, y) {
@@ -389,7 +446,15 @@ document.addEventListener("DOMContentLoaded", () => {
             ease: "power1.out",
             overwrite: "auto",
         });
-        // container не трогаем
+        gsap.to(container, {
+            x: x * CONFIG.container.translate,
+            y: y * CONFIG.container.translate,
+            rotationX: y * -CONFIG.container.rotate,
+            rotationY: x * CONFIG.container.rotate,
+            duration: 0.2,
+            ease: "power1.out",
+            overwrite: "auto",
+        });
         }
 
         function resetLayers() {
@@ -414,7 +479,15 @@ document.addEventListener("DOMContentLoaded", () => {
             ease: "elastic.out(1, 0.3)",
             overwrite: "auto",
         });
-        // container не трогаем
+        gsap.to(container, {
+            x: 0,
+            y: 0,
+            rotationX: 0,
+            rotationY: 0,
+            duration: 0.9,
+            ease: "elastic.out(1, 0.3)",
+            overwrite: "auto",
+        });
         }
 
         const handleMouseMove = (e) => {
@@ -450,11 +523,11 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    // --- Функция инициализации блока wk (без изменений) ---
+    // ========== БЛОК wk ==========
     function initWk(wrapper) {
         const bg = wrapper.querySelector(".wk__bg");
         const rain = wrapper.querySelector(".wk__rain");
-        const wrap = wrapper.querySelector(".wk__wrap");
+        const wrap = wrapper.querySelector(".wk__wrap"); // обёртка карточек, заголовок не трогаем
 
         if (!bg || !rain || !wrap) return null;
 
@@ -551,7 +624,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    // --- Контроллеры и управление ---
+    // ========== УПРАВЛЕНИЕ ==========
     let introController = null;
     let wkController = null;
 
@@ -567,9 +640,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const isTouchDevice =
         "ontouchstart" in window || navigator.maxTouchPoints > 0;
-        if (window.innerWidth <= 1024 || isTouchDevice) {
-        return;
-        }
+        if (window.innerWidth <= 1024 || isTouchDevice) return;
 
         const introWrapper = document.querySelector(".intro");
         if (introWrapper) {

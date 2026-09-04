@@ -280,9 +280,6 @@ Swiper 11.2.10
     text-transform: uppercase;
     
 }
-.pl__title span{
-    color: #BE3638;
-}
 .pl__note{
     margin-top: 325px;
     max-width: 281px;
@@ -329,16 +326,24 @@ Swiper 11.2.10
     right: 0;
     margin-left: auto;
 }
-.link::after{
+.link::before{
     content: "";
     position: absolute;
-    width: 319px;
-    height: 305px;
-    background: url("../images/arrow.webp") no-repeat center;
+    width: 63px;
+    height: 49px;
+    background: url("../images/arrow-standart.svg") no-repeat center;
     background-size: contain;
-    top: -124px;
-    right: -124px;
+    top: 4px;
+    right: 4px;
     pointer-events: none;
+    opacity: 1;
+    transition: filter 0.5s ease;
+}
+.link:hover::before{
+    filter:
+        drop-shadow(0 0 8px #fff)
+        drop-shadow(0 0 32px #fff)
+        drop-shadow(0 0 128px #fff);
 }
 .h-slider-wrap{
     width: 100%;
@@ -1047,8 +1052,8 @@ Swiper 11.2.10
     height: 100%;
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 240'%3E%3Cpath d='M120.286 69.1563C103.823 60.4407 37.5683 30.8239 6.49892 17.1049C3.27093 16.0962 -2.3377 12.263 1.05169 4.99998C4.44108 -2.263 12.5514 -0.0437555 16.1829 1.97374C35.5508 10.4472 82.7602 30.2994 116.654 41.9201C159.021 56.4461 205.626 66.7353 249.809 75.814C293.992 84.8928 373.279 91.5505 378.727 92.1557C384.174 92.761 395.068 93.9715 393.858 101.84C392.889 108.134 387.805 109.708 385.384 109.708C370.051 109.103 336.601 108.134 325.465 109.103C311.544 110.313 308.518 116.366 300.044 122.418C293.266 127.26 287.939 128.067 286.124 127.865H257.677C249.809 128.067 233.709 132.707 232.257 149.654C230.441 170.838 249.203 176.285 258.282 179.917C267.361 183.548 390.226 215.626 402.937 219.863C415.647 224.1 420.489 228.942 418.673 234.389C416.857 239.836 413.226 241.047 401.121 238.021C389.016 234.994 316.991 219.258 291.571 213.811C266.15 208.363 173.547 196.258 122.707 193.837C71.8657 191.416 21.6301 194.443 17.3934 194.443C13.1567 194.443 4.07793 193.837 4.07793 183.548C4.07793 173.259 16.7881 173.259 23.4459 172.049C30.1036 170.838 90.0232 165.391 98.4967 164.18C106.97 162.97 116.654 157.523 122.707 144.207C128.759 130.892 144.496 135.128 151.153 134.523C157.811 133.918 168.705 129.681 171.732 121.813C174.758 113.945 174.758 103.655 166.284 95.182C157.811 86.7085 140.864 80.0508 120.286 69.1563Z' fill='white'/%3E%3C/svg%3E");
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 240'%3E%3Cpath d='M120.286 69.1563C103.823 60.4407 37.5683 30.8239 6.49892 17.1049C3.27093 16.0962 -2.3377 12.263 1.05169 4.99998C4.44108 -2.263 12.5514 -0.0437555 16.1829 1.97374C35.5508 10.4472 82.7602 30.2994 116.654 41.9201C159.021 56.4461 205.626 66.7353 249.809 75.814C293.992 84.8928 373.279 91.5505 378.727 92.1557C384.174 92.761 395.068 93.9715 393.858 101.84C392.889 108.134 387.805 109.708 385.384 109.708C370.051 109.103 336.601 108.134 325.465 109.103C311.544 110.313 308.518 116.366 300.044 122.418C293.266 127.26 287.939 128.067 286.124 127.865H257.677C249.809 128.067 233.709 132.707 232.257 149.654C230.441 170.838 249.203 176.285 258.282 179.917C267.361 183.548 390.226 215.626 402.937 219.863C415.647 224.1 420.489 228.942 418.673 234.389C416.857 239.836 413.226 241.047 401.121 238.021C389.016 234.994 316.991 219.258 291.571 213.811C266.15 208.363 173.547 196.258 122.707 193.837C71.8657 191.416 21.6301 194.443 17.3934 194.443C13.1567 194.443 4.07793 193.837 4.07793 183.548C4.07793 173.259 16.7881 173.259 23.4459 172.049C30.1036 170.838 90.0232 165.391 98.4967 164.18C106.97 162.97 116.654 157.523 122.707 144.207C128.759 130.892 144.496 135.128 151.153 134.523C157.811 133.918 168.705 129.681 171.732 121.813C174.758 113.945 174.758 103.655 166.284 95.182C157.811 86.7085 140.864 80.0508 120.286 69.1563Z' fill='white'/%3E%3C/svg%3E");
-    -webkit-mask-size: 5% 5%;
-    mask-size: 5% 5%;
+    -webkit-mask-size: 30% 30%;
+    mask-size: 30% 30%;
     -webkit-mask-position: center;
     mask-position: center;
     -webkit-mask-repeat: no-repeat;
@@ -1190,11 +1195,13 @@ Swiper 11.2.10
     margin-top: 10px;
     color: #3B3B3B;
     font-family: 'Mulish-Light', Arial, sans-serif;
-    font-size: 20px;
+    font-size: 16px;
+    text-align: right;
     font-weight: 300;
     line-height: 150%;
     opacity: 0;
     transition: opacity 0.5s ease;
+    min-height: 48px;
 }
 .tech__phase-video{
     display: flex;
@@ -1236,7 +1243,7 @@ Swiper 11.2.10
     width: 100%;
     position: relative;
     padding-bottom: 202px;
-    padding-top: 153px;
+    padding-top: 84px;
 }
 .intro-before{
     position: absolute;
@@ -1309,12 +1316,13 @@ Swiper 11.2.10
 }
 .intro__logo{
     display: block;
-    position: absolute;
-    top: -68px;
-    left: 50%;
-    transform: translateX(-50%);
     width: 100%;
     max-width: 946px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 5;
+    margin-bottom: -52px;
 }
 .intro__logo::after{
     position: absolute;
@@ -1443,7 +1451,8 @@ body .page-sections h1.intro__title{
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: 0;
-    background-size: 190%;
+    background-size: 100%;
+    /* background-size: 190%; */
 }
 .intro__rock img, .intro__sign img{
     display: block;
@@ -1464,7 +1473,6 @@ body .page-sections h1.intro__title{
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: 0;
-/*     background-size: 190%; */
 }
 .intro__glow{
     display: block;
@@ -1536,6 +1544,15 @@ body .page-sections h1.intro__title{
     background: url('../images/white-glow.webp') no-repeat center;
     background-size: contain;
 }
+.msk-anim-wrap {
+    will-change: transform, opacity;
+}
+.img-animated {
+    opacity: 0;
+    transform: scale(0.92);
+    transition: opacity 0.01s ease, transform 0.01s ease;
+    will-change: opacity, transform;
+}
 @media (max-width: 1420px){
     .container{
         max-width: 844px;
@@ -1561,13 +1578,16 @@ body .page-sections h1.intro__title{
     }
     .intro__logo{
         max-width: 597px;
-        top: -43px;
+        margin-bottom: -33px;
     }
     .intro__logo::after{
         top: -15px;
         right: -60px;
         width: 28px;
         height: 29px;
+    }
+    .intro__sign{
+        background-size: 190%;
     }
     .intro__glow{
         background-position-y: -338px;
@@ -1582,11 +1602,10 @@ body .page-sections h1.intro__title{
         font-size: 8px;
         padding-right: 30px;
     }
-    .link::after{
-        width: 199px;
-        height: 191px;
-        top: -78px;
-        right: -76px;
+    .link::before{
+        top: 3px;
+        width: 39px;
+        height: 30px;
     }
     .intro__nav-txt{
         font-size: 9px;
@@ -1643,6 +1662,7 @@ body .page-sections h1.intro__title{
     }
     .intro {
         padding-bottom: 151px;
+        padding-top: 53px;
     }
     .tech{
         padding-top: 70px;
@@ -1680,6 +1700,7 @@ body .page-sections h1.intro__title{
     .tech__phase-txt{
         font-size: 12px;
         margin-top: 15px;
+        min-height: 36px;
     }
     .tech__phase-title{
         font-size: 11px;
