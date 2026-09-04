@@ -65,19 +65,78 @@ window.addEventListener('load', () => {
     });
 
     // анимация маски в блоке с видео
-    const vd = document.querySelector(".rec__vd");
+    /* const vd = document.querySelector(".rec__vd");
     if (vd) {
         const tl2 = gsap.timeline({
             scrollTrigger: {
                 trigger: ".rec",
                 start: "top top",
-                end: "bottom top",  // пин действует только пока блок виден
+                end: "bottom top",  
                 pin: true,
-                pinSpacing: false, // не добавлять дополнительное пространство
+                pinSpacing: false, 
                 scrub: true,
-                refreshPriority: -1, // низкий приоритет – обновляется позже других
+                refreshPriority: -1, 
             },
         });
+        tl2
+            .to(vd, {
+                "mask-size": "100% 100%",
+                "-webkit-mask-size": "100% 100%",
+                duration: 1,
+                ease: "none",
+            })
+            .to(vd, {
+                "mask-size": "1000% 1000%",
+                "-webkit-mask-size": "1000% 1000%",
+                duration: 1,
+                ease: "none",
+            });
+    } */
+    const vd = document.querySelector(".rec__vd");
+    const video = document.querySelector('.rec__vd video');
+
+    if (vd) {
+        const tl2 = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".rec",
+                start: "top top",
+                end: "bottom top",
+                pin: true,
+                pinSpacing: false,
+                scrub: true,
+                refreshPriority: -1,
+
+                onUpdate: (self) => {
+                    const rect = vd.getBoundingClientRect();
+
+                    const isPartiallyVisible = rect.bottom > 0;
+
+                    if (self.progress > 0 && isPartiallyVisible) {
+                        if (video && video.paused) {
+                            video.play().catch(e => console.warn('Play blocked:', e));
+                        }
+                    } else {
+                        if (video && !video.paused) {
+                            video.pause();
+                        }
+                    }
+                },
+                onRefresh: (self) => {
+                    const rect = vd.getBoundingClientRect();
+                    const isPartiallyVisible = rect.bottom > 0;
+                    if (self.progress > 0 && isPartiallyVisible) {
+                        if (video && video.paused) {
+                            video.play().catch(e => console.warn('Play blocked:', e));
+                        }
+                    } else {
+                        if (video && !video.paused) {
+                            video.pause();
+                        }
+                    }
+                }
+            }
+        });
+
         tl2
             .to(vd, {
                 "mask-size": "100% 100%",
@@ -116,12 +175,15 @@ window.addEventListener('load', () => {
                     else if (i === 1) { scale = 0.8; opacity = 0.8; }
                 }
             }
+            // Выбираем transform-origin в зависимости от индекса фазы
+            let origin = (i === 1) ? 'right bottom' 
+                        : (i === 2) ? 'right top' 
+                        : 'right center';
             
             gsap.set(el, { 
                 scale, 
                 opacity,
-                transformOrigin: 'right center',
-                // force3D: true, // иногда помогает
+                transformOrigin: origin,
             });
         });
     }
@@ -131,12 +193,12 @@ window.addEventListener('load', () => {
         scrollTrigger: {
             trigger: wrapper,
             start: 'top top',
-            end: '+=200%',           // увеличьте, если нужно
+            end: '+=200%',
             pin: true,
             pinSpacing: true,
             scrub: 1.5,
             anticipatePin: 1,
-            refreshPriority: 1,      // высокий приоритет – обновляется после остальных
+            refreshPriority: 1,
             onUpdate: (self) => {
                 const progress = self.progress;
                 const index = Math.min(2, Math.floor(progress * 3));
@@ -147,13 +209,14 @@ window.addEventListener('load', () => {
         }
     });
 
+    // устанавливаем начальное состояние (первая фаза активна)**
+    updatePhases(0);   // <-- добавить эту строку
+
     // После всех инициализаций выполняем принудительный refresh
-    // Но сначала дадим браузеру отрисоваться
     requestAnimationFrame(() => {
         ScrollTrigger.refresh();
     });
 
-    // Также обновляем при ресайзе – уже есть, но можно оставить
     window.addEventListener('resize', () => {
         ScrollTrigger.refresh();
     });
@@ -285,219 +348,277 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    // --- Функция инициализации блока intro (контейнер не анимируется) ---
+    function initIntro(wrapper) {
+        const rock = wrapper.querySelector(".intro__rock");
+        const sign = wrapper.querySelector(".intro__sign");
+        const glow = wrapper.querySelector(".intro__glow");
+        // container больше не используем
 
-//wk block
-document.addEventListener('DOMContentLoaded', () => {
-    // --- Блок wk ---
-    const wkWrapper = document.querySelector('.wk');
-    if (!wkWrapper) return;
+        if (!rock || !sign || !glow) return null;
 
-    const bg = wkWrapper.querySelector('.wk__bg');
-    const rain = wkWrapper.querySelector('.wk__rain');
-    const container = wkWrapper.querySelector('.container');
+        wrapper.style.perspective = "1000px";
 
-    if (!bg || !rain || !container) {
-        console.warn('Не найдены все слои wk');
-        return;
+        const CONFIG = {
+        rock: { translate: 15 },
+        sign: { translate: 30 },
+        glow: { translate: 45 },
+        // container убран
+        };
+
+        function updateLayers(x, y) {
+        gsap.to(rock, {
+            x: x * CONFIG.rock.translate,
+            y: y * CONFIG.rock.translate,
+            duration: 0.2,
+            ease: "power1.out",
+            overwrite: "auto",
+        });
+        gsap.to(sign, {
+            x: x * CONFIG.sign.translate,
+            y: y * CONFIG.sign.translate,
+            duration: 0.2,
+            ease: "power1.out",
+            overwrite: "auto",
+        });
+        gsap.to(glow, {
+            x: x * CONFIG.glow.translate,
+            y: y * CONFIG.glow.translate,
+            duration: 0.2,
+            ease: "power1.out",
+            overwrite: "auto",
+        });
+        // container не трогаем
+        }
+
+        function resetLayers() {
+        gsap.to(rock, {
+            x: 0,
+            y: 0,
+            duration: 0.9,
+            ease: "elastic.out(1, 0.3)",
+            overwrite: "auto",
+        });
+        gsap.to(sign, {
+            x: 0,
+            y: 0,
+            duration: 0.9,
+            ease: "elastic.out(1, 0.3)",
+            overwrite: "auto",
+        });
+        gsap.to(glow, {
+            x: 0,
+            y: 0,
+            duration: 0.9,
+            ease: "elastic.out(1, 0.3)",
+            overwrite: "auto",
+        });
+        // container не трогаем
+        }
+
+        const handleMouseMove = (e) => {
+        const rect = wrapper.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        updateLayers(x, y);
+        };
+
+        const handleMouseLeave = resetLayers;
+
+        const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+            if (!entry.isIntersecting) resetLayers();
+            });
+        },
+        { threshold: 0.1 },
+        );
+        observer.observe(wrapper);
+
+        return {
+        addEvents() {
+            wrapper.addEventListener("mousemove", handleMouseMove);
+            wrapper.addEventListener("mouseleave", handleMouseLeave);
+        },
+        removeEvents() {
+            wrapper.removeEventListener("mousemove", handleMouseMove);
+            wrapper.removeEventListener("mouseleave", handleMouseLeave);
+            observer.disconnect();
+            resetLayers();
+        },
+        };
     }
 
-    // Убедимся, что перспектива задана (если нет в CSS)
-    wkWrapper.style.perspective = '1000px';
+    // --- Функция инициализации блока wk (без изменений) ---
+    function initWk(wrapper) {
+        const bg = wrapper.querySelector(".wk__bg");
+        const rain = wrapper.querySelector(".wk__rain");
+        const wrap = wrapper.querySelector(".wk__wrap");
 
-    const CONFIG = {
+        if (!bg || !rain || !wrap) return null;
+
+        wrapper.style.perspective = "1000px";
+
+        const CONFIG = {
         bg: { translate: 20 },
         rain: { translate: 40 },
-        container: { translate: 30, rotate: 10 }
-    };
+        wrap: { translate: 30, rotate: 10 },
+        };
 
-    // --- Функция плавного обновления (gsap.to) ---
-    function updateWkLayers(x, y) {
+        function updateLayers(x, y) {
         gsap.to(bg, {
             x: x * CONFIG.bg.translate,
             y: y * CONFIG.bg.translate,
             duration: 0.2,
-            ease: 'power1.out',
-            overwrite: 'auto'
+            ease: "power1.out",
+            overwrite: "auto",
         });
         gsap.to(rain, {
             x: x * CONFIG.rain.translate,
             y: y * CONFIG.rain.translate,
             duration: 0.2,
-            ease: 'power1.out',
-            overwrite: 'auto'
+            ease: "power1.out",
+            overwrite: "auto",
         });
-        gsap.to(container, {
-            x: x * CONFIG.container.translate,
-            y: y * CONFIG.container.translate,
-            rotationX: y * -CONFIG.container.rotate,
-            rotationY: x * CONFIG.container.rotate,
+        gsap.to(wrap, {
+            x: x * CONFIG.wrap.translate,
+            y: y * CONFIG.wrap.translate,
+            rotationX: y * -CONFIG.wrap.rotate,
+            rotationY: x * CONFIG.wrap.rotate,
             duration: 0.2,
-            ease: 'power1.out',
-            overwrite: 'auto'
+            ease: "power1.out",
+            overwrite: "auto",
         });
-    }
+        }
 
-    // --- Функция плавного возврата ---
-    function resetWkLayers() {
+        function resetLayers() {
         gsap.to(bg, {
-            x: 0, y: 0,
+            x: 0,
+            y: 0,
             duration: 0.9,
-            ease: 'elastic.out(1, 0.3)',
-            overwrite: 'auto'
+            ease: "elastic.out(1, 0.3)",
+            overwrite: "auto",
         });
         gsap.to(rain, {
-            x: 0, y: 0,
+            x: 0,
+            y: 0,
             duration: 0.9,
-            ease: 'elastic.out(1, 0.3)',
-            overwrite: 'auto'
+            ease: "elastic.out(1, 0.3)",
+            overwrite: "auto",
         });
-        gsap.to(container, {
-            x: 0, y: 0, rotationX: 0, rotationY: 0,
+        gsap.to(wrap, {
+            x: 0,
+            y: 0,
+            rotationX: 0,
+            rotationY: 0,
             duration: 0.9,
-            ease: 'elastic.out(1, 0.3)',
-            overwrite: 'auto'
+            ease: "elastic.out(1, 0.3)",
+            overwrite: "auto",
         });
-    }
+        }
 
-    // --- Обработчик движения мыши ---
-    wkWrapper.addEventListener('mousemove', (e) => {
-        const rect = wkWrapper.getBoundingClientRect();
+        const handleMouseMove = (e) => {
+        const rect = wrapper.getBoundingClientRect();
         const x = (e.clientX - rect.left) / rect.width - 0.5;
         const y = (e.clientY - rect.top) / rect.height - 0.5;
-        updateWkLayers(x, y);
-    });
+        updateLayers(x, y);
+        };
 
-    // --- Уход мыши ---
-    wkWrapper.addEventListener('mouseleave', resetWkLayers);
+        const handleMouseLeave = resetLayers;
 
-    // --- IntersectionObserver для скролла ---
-    const observerWk = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) {
-                resetWkLayers();
-            }
-        });
-    }, { threshold: 0.1 });
-
-    observerWk.observe(wkWrapper);
-});
-
-//intro block
-document.addEventListener("DOMContentLoaded", () => {
-    const introWrapper = document.querySelector(".intro");
-    if (!introWrapper) return;
-
-    const rock = introWrapper.querySelector(".intro__rock");
-    const sign = introWrapper.querySelector(".intro__sign");
-    const glow = introWrapper.querySelector(".intro__glow");
-    const container = introWrapper.querySelector(".container.container--first");
-
-    if (!rock || !sign || !glow || !container) {
-        console.warn("Не найдены все слои intro");
-        return;
-    }
-
-    // Добавляем перспективу
-    introWrapper.style.perspective = "1000px";
-
-    const CONFIG = {
-        rock: { translate: 15 },
-        sign: { translate: 30 },
-        glow: { translate: 45 },
-        container: { translate: 20, rotate: 8 },
-    };
-
-    // --- Вспомогательная функция для плавного обновления ---
-    function updateIntroLayers(x, y) {
-        // Используем gsap.to с небольшой длительностью для плавности
-        gsap.to(rock, {
-        x: x * CONFIG.rock.translate,
-        y: y * CONFIG.rock.translate,
-        duration: 0.2,
-        ease: "power1.out",
-        overwrite: "auto",
-        });
-        gsap.to(sign, {
-        x: x * CONFIG.sign.translate,
-        y: y * CONFIG.sign.translate,
-        duration: 0.2,
-        ease: "power1.out",
-        overwrite: "auto",
-        });
-        gsap.to(glow, {
-        x: x * CONFIG.glow.translate,
-        y: y * CONFIG.glow.translate,
-        duration: 0.2,
-        ease: "power1.out",
-        overwrite: "auto",
-        });
-        gsap.to(container, {
-        x: x * CONFIG.container.translate,
-        y: y * CONFIG.container.translate,
-        rotationX: y * -CONFIG.container.rotate,
-        rotationY: x * CONFIG.container.rotate,
-        duration: 0.2,
-        ease: "power1.out",
-        overwrite: "auto",
-        });
-    }
-
-    // --- Функция плавного возврата ---
-    function resetIntroLayers() {
-        gsap.to(rock, {
-        x: 0,
-        y: 0,
-        duration: 0.9,
-        ease: "elastic.out(1, 0.3)",
-        overwrite: "auto",
-        });
-        gsap.to(sign, {
-        x: 0,
-        y: 0,
-        duration: 0.9,
-        ease: "elastic.out(1, 0.3)",
-        overwrite: "auto",
-        });
-        gsap.to(glow, {
-        x: 0,
-        y: 0,
-        duration: 0.9,
-        ease: "elastic.out(1, 0.3)",
-        overwrite: "auto",
-        });
-        gsap.to(container, {
-        x: 0,
-        y: 0,
-        rotationX: 0,
-        rotationY: 0,
-        duration: 0.9,
-        ease: "elastic.out(1, 0.3)",
-        overwrite: "auto",
-        });
-    }
-
-    // --- Обработчик движения мыши ---
-    introWrapper.addEventListener("mousemove", (e) => {
-        const rect = introWrapper.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        updateIntroLayers(x, y);
-    });
-
-    // --- Уход мыши ---
-    introWrapper.addEventListener("mouseleave", resetIntroLayers);
-
-    // --- IntersectionObserver для скролла ---
-    const observerIntro = new IntersectionObserver(
+        const observer = new IntersectionObserver(
         (entries) => {
-        entries.forEach((entry) => {
-            if (!entry.isIntersecting) {
-            resetIntroLayers();
-            }
-        });
+            entries.forEach((entry) => {
+            if (!entry.isIntersecting) resetLayers();
+            });
         },
         { threshold: 0.1 },
-    );
+        );
+        observer.observe(wrapper);
 
-    observerIntro.observe(introWrapper);
+        return {
+        addEvents() {
+            wrapper.addEventListener("mousemove", handleMouseMove);
+            wrapper.addEventListener("mouseleave", handleMouseLeave);
+        },
+        removeEvents() {
+            wrapper.removeEventListener("mousemove", handleMouseMove);
+            wrapper.removeEventListener("mouseleave", handleMouseLeave);
+            observer.disconnect();
+            resetLayers();
+        },
+        };
+    }
+
+    // --- Контроллеры и управление ---
+    let introController = null;
+    let wkController = null;
+
+    function initParallax() {
+        if (introController) {
+        introController.removeEvents();
+        introController = null;
+        }
+        if (wkController) {
+        wkController.removeEvents();
+        wkController = null;
+        }
+
+        const isTouchDevice =
+        "ontouchstart" in window || navigator.maxTouchPoints > 0;
+        if (window.innerWidth <= 1024 || isTouchDevice) {
+        return;
+        }
+
+        const introWrapper = document.querySelector(".intro");
+        if (introWrapper) {
+        introController = initIntro(introWrapper);
+        if (introController) introController.addEvents();
+        }
+
+        const wkWrapper = document.querySelector(".wk");
+        if (wkWrapper) {
+        wkController = initWk(wkWrapper);
+        if (wkController) wkController.addEvents();
+        }
+    }
+
+    initParallax();
+
+    let resizeTimeout;
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(initParallax, 200);
+    });
+});
+
+// воспроизведение видео:
+document.addEventListener("DOMContentLoaded", () => {
+    const video = document.querySelector('.vd video');
+
+    // Создаём ScrollTrigger
+    ScrollTrigger.create({
+        trigger: '.vd',               // элемент-триггер
+        start: 'top 70%',             // верх триггера на 70% от верха окна
+        end: 'bottom top',            // низ триггера касается верха окна (блок полностью скрылся)
+        toggleActions: 'play pause play pause',
+        // play   – при входе (сверху вниз)
+        // pause  – при выходе (скролл дальше вниз)
+        // play   – при входе назад (скролл вверх)
+        // pause  – при выходе назад (скролл вверх, блок снова уходит за верх)
+        onEnter: () => {
+            video.play().catch(e => console.warn('Автовоспроизведение заблокировано:', e));
+        },
+        onLeave: () => {
+            video.pause();
+        },
+        onEnterBack: () => {
+            video.play().catch(e => console.warn('Автовоспроизведение заблокировано:', e));
+        },
+        onLeaveBack: () => {
+            video.pause();
+        }
+    });
+
 });
