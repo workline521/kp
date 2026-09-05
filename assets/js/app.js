@@ -2,12 +2,12 @@ window.addEventListener('load', () => {
     gsap.registerPlugin(ScrollTrigger);
 
     // горизонтальный слайдер с gsap зависит от скролла
-    const wrappers = document.querySelectorAll(".h-slider-wrap");
+/*     const wrappers = document.querySelectorAll(".h-slider-wrap");
     wrappers.forEach((wrap) => {
         const slider = wrap.querySelector(".h-slider");
         const originalSlide = wrap.querySelector(".h-slide");
         if (!slider || !originalSlide) return;
-        const cloneCount = 15; // чем меньше тем медленнее
+        const cloneCount = 15; 
         for (let i = 0; i < cloneCount - 1; i++) {
             const clone = originalSlide.cloneNode(true);
             slider.appendChild(clone);
@@ -33,7 +33,8 @@ window.addEventListener('load', () => {
             },
         );
     });
-    ScrollTrigger.refresh();
+    ScrollTrigger.refresh(); */
+    
 
     // появление слова ДолгОиграющий комфорт и расширение буквы О
     const tl = gsap.timeline({
@@ -64,16 +65,48 @@ window.addEventListener('load', () => {
         }
     });
 
-    // анимация маски в блоке с видео
-    const vd = document.querySelector(".rec__vd");
-    const video = document.querySelector('.rec__vd video');
+    // анимация маски в блоке с видео    
+    // ===== Адаптивный src для видео =====
+    const vdo = document.querySelector('.rec__vd video'); // переименовали переменную
+
+    if (vdo) {
+        // Функция установки правильного источника
+        function setVideoSource() {
+            const isMobile = window.innerWidth <= 1024;
+            const newSrc = isMobile
+                ? './assets/images/mask-video-mobile.mp4'
+                : './assets/images/mask-video.mp4';
+
+            // Меняем src только если он отличается
+            if (vdo.src !== newSrc) {
+                vdo.src = newSrc;
+                vdo.load(); // перезагружаем видео с новым источником
+                // (остальные действия по воспроизведению управляются через ScrollTrigger)
+            }
+        }
+
+        // Устанавливаем начальный src
+        setVideoSource();
+
+        // Следим за изменением размера окна (с debounce 200 мс)
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                setVideoSource();
+            }, 200);
+        });
+    }
+
+    // ===== Анимация маски (с переименованной переменной) =====
+    const vd = document.querySelector('.rec__vd');
 
     if (vd) {
         const tl2 = gsap.timeline({
             scrollTrigger: {
-                trigger: ".rec",
-                start: "top top",
-                end: "bottom top",
+                trigger: '.rec',
+                start: 'top top',
+                end: 'bottom top',
                 pin: true,
                 pinSpacing: false,
                 scrub: true,
@@ -81,16 +114,15 @@ window.addEventListener('load', () => {
 
                 onUpdate: (self) => {
                     const rect = vd.getBoundingClientRect();
-
                     const isPartiallyVisible = rect.bottom > 0;
 
                     if (self.progress > 0 && isPartiallyVisible) {
-                        if (video && video.paused) {
-                            video.play().catch(e => console.warn('Play blocked:', e));
+                        if (vdo && vdo.paused) {
+                            vdo.play().catch(e => console.warn('Play blocked:', e));
                         }
                     } else {
-                        if (video && !video.paused) {
-                            video.pause();
+                        if (vdo && !vdo.paused) {
+                            vdo.pause();
                         }
                     }
                 },
@@ -98,12 +130,12 @@ window.addEventListener('load', () => {
                     const rect = vd.getBoundingClientRect();
                     const isPartiallyVisible = rect.bottom > 0;
                     if (self.progress > 0 && isPartiallyVisible) {
-                        if (video && video.paused) {
-                            video.play().catch(e => console.warn('Play blocked:', e));
+                        if (vdo && vdo.paused) {
+                            vdo.play().catch(e => console.warn('Play blocked:', e));
                         }
                     } else {
-                        if (video && !video.paused) {
-                            video.pause();
+                        if (vdo && !vdo.paused) {
+                            vdo.pause();
                         }
                     }
                 }
@@ -112,24 +144,31 @@ window.addEventListener('load', () => {
 
         tl2
             .to(vd, {
-                "mask-size": "100% 100%",
-                "-webkit-mask-size": "100% 100%",
+                'mask-size': '100% 100%',
+                '-webkit-mask-size': '100% 100%',
                 duration: 1,
-                ease: "none",
+                ease: 'none'
             })
             .to(vd, {
-                "mask-size": "1000% 1000%",
-                "-webkit-mask-size": "1000% 1000%",
+                'mask-size': '1000% 1000%',
+                '-webkit-mask-size': '1000% 1000%',
                 duration: 1,
-                ease: "none",
+                ease: 'none'
             });
     }
 
     //анимация переключения фаз
     const wrapper = document.querySelector('.tech__wrapper');
     const phases = document.querySelectorAll('.tech__phase');
+    const phasesContainer = document.querySelector('.tech__phases-wrap');
+
+    let currentTL = null;
+    let currentActiveIndex = 0; // храним текущий активный индекс
 
     function updatePhases(activeIndex) {
+        currentActiveIndex = activeIndex; // запоминаем
+        const isMobile = window.innerWidth <= 1024;
+
         phases.forEach((el, i) => {
             el.classList.toggle('active', i === activeIndex);
             
@@ -148,10 +187,19 @@ window.addEventListener('load', () => {
                     else if (i === 1) { scale = 0.8; opacity = 0.8; }
                 }
             }
-            // Выбираем transform-origin в зависимости от индекса фазы
-            let origin = (i === 1) ? 'right bottom' 
+            
+            let origin;
+            if (isMobile) {
+                // На мобильных – все фазы прижимаются к левому краю
+                origin = (i === 1) ? 'left bottom' 
+                        : (i === 2) ? 'left top' 
+                        : 'left center';
+            } else {
+                // Десктоп – разный origin для разных фаз
+                origin = (i === 1) ? 'right bottom' 
                         : (i === 2) ? 'right top' 
                         : 'right center';
+            }
             
             gsap.set(el, { 
                 scale, 
@@ -161,37 +209,55 @@ window.addEventListener('load', () => {
         });
     }
 
-    // Создаём таймлайн с повышенным приоритетом обновления
-    const tl3 = gsap.timeline({
-        scrollTrigger: {
-            trigger: wrapper,
-            start: 'top top',
-            end: '+=200%',
-            pin: true,
-            pinSpacing: true,
-            scrub: 1.5,
-            anticipatePin: 1,
-            refreshPriority: 1,
-            onUpdate: (self) => {
-                const progress = self.progress;
-                const index = Math.min(2, Math.floor(progress * 3));
-                updatePhases(index);
-            },
-            onEnter: () => console.log('pin начался'),
-            onLeave: () => console.log('pin закончился')
+    function buildPhaseTrigger() {
+        if (currentTL) {
+            currentTL.kill();
+            currentTL = null;
         }
-    });
 
-    // устанавливаем начальное состояние (первая фаза активна)**
-    updatePhases(0);   // <-- добавить эту строку
+        const isDesktop = window.innerWidth > 1024;
+        const triggerElement = isDesktop ? wrapper : phasesContainer;
+        if (!triggerElement) return;
 
-    // После всех инициализаций выполняем принудительный refresh
-    requestAnimationFrame(() => {
+        currentTL = gsap.timeline({
+            scrollTrigger: {
+                trigger: triggerElement,
+                start: 'top top',
+                end: '+=200%',
+                pin: true,
+                pinSpacing: true,
+                scrub: 1.5,
+                anticipatePin: 1,
+                refreshPriority: 1,
+                onUpdate: (self) => {
+                    const progress = self.progress;
+                    const index = Math.min(2, Math.floor(progress * 3));
+                    updatePhases(index);
+                },
+                onEnter: () => console.log('pin начался'),
+                onLeave: () => console.log('pin закончился')
+            }
+        });
+
+        // Применяем текущее состояние (с новым origin, если изменилась ширина)
+        updatePhases(currentActiveIndex);
         ScrollTrigger.refresh();
-    });
+    }
 
+    // Устанавливаем начальное состояние (первая фаза активна)
+    updatePhases(0);
+
+    // Инициализируем триггер
+    buildPhaseTrigger();
+
+    // Перестраиваем при ресайзе (с debounce)
+    let resizeTimer;
     window.addEventListener('resize', () => {
-        ScrollTrigger.refresh();
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            buildPhaseTrigger();
+            ScrollTrigger.refresh();
+        }, 200);
     });
 
 
@@ -277,6 +343,7 @@ window.addEventListener('load', () => {
 
         observer.observe(img);
     });
+    
 });
 
 //slider
@@ -667,29 +734,142 @@ document.addEventListener("DOMContentLoaded", () => {
 // воспроизведение видео:
 document.addEventListener("DOMContentLoaded", () => {
     const video = document.querySelector('.vd video');
-
-    // Создаём ScrollTrigger
+    if (!video) return;
+    const desktopSrc = './assets/images/last-video.mp4';
+    const mobileSrc = './assets/images/last-video-mobile.mp4';
+    const updateVideoSource = (isDesktop) => {
+        const newSrc = isDesktop ? desktopSrc : mobileSrc;
+        if (video.src !== newSrc) {
+            video.src = newSrc;
+            video.load();
+        }
+    };
+    const mql = window.matchMedia('(min-width: 1025px)');
+    updateVideoSource(mql.matches);
+    mql.addEventListener('change', (e) => updateVideoSource(e.matches));
+    const triggerElement = document.querySelector('.vd');
     ScrollTrigger.create({
-        trigger: '.vd',               // элемент-триггер
-        start: 'top 70%',             // верх триггера на 70% от верха окна
-        end: 'bottom top',            // низ триггера касается верха окна (блок полностью скрылся)
-        toggleActions: 'play pause play pause',
-        // play   – при входе (сверху вниз)
-        // pause  – при выходе (скролл дальше вниз)
-        // play   – при входе назад (скролл вверх)
-        // pause  – при выходе назад (скролл вверх, блок снова уходит за верх)
-        onEnter: () => {
-            video.play().catch(e => console.warn('Автовоспроизведение заблокировано:', e));
-        },
-        onLeave: () => {
-            video.pause();
-        },
-        onEnterBack: () => {
-            video.play().catch(e => console.warn('Автовоспроизведение заблокировано:', e));
-        },
-        onLeaveBack: () => {
-            video.pause();
+        trigger: triggerElement,
+        start: 'top 70%',       
+        end: 'bottom top',    
+        onUpdate: (self) => {
+            const rect = triggerElement.getBoundingClientRect();
+            const isVisible = rect.bottom > 0;
+            if (self.progress > 0 && isVisible) {
+                if (video.paused) {
+                    video.play().catch(e => console.warn('Автовоспроизведение заблокировано:', e));
+                }
+            } else {
+                if (!video.paused) {
+                    video.pause();
+                }
+            }
         }
     });
-
 });
+//  ГОРИЗОНТАЛЬНЫЙ СЛАЙДЕР 
+(function() {
+    'use strict';
+
+    // ===== НАСТРОЙКИ СКОРОСТИ =====
+    // Меньше число → медленнее (но не меньше 1.0)
+    const desktopSpeed = 1;   // для экранов > 1024px
+    const mobileSpeed  = 1;   // для экранов <= 1024px
+    // ================================
+
+    function initSliders() {
+        const wrappers = document.querySelectorAll(".h-slider-wrap");
+        if (!wrappers.length) return;
+
+        wrappers.forEach((wrap, idx) => {
+            const slider = wrap.querySelector(".h-slider");
+            const originalSlide = wrap.querySelector(".h-slide");
+            if (!slider || !originalSlide) return;
+
+            // Убиваем старые триггеры
+            ScrollTrigger.getAll().forEach(st => {
+                if (st.trigger === wrap) st.kill();
+            });
+
+            // Очищаем клоны
+            while (slider.children.length > 1) {
+                slider.removeChild(slider.lastChild);
+            }
+
+            const isMobile = window.innerWidth <= 1024;
+            const marginRight = isMobile ? 24 : 39;
+            const speedFactor = isMobile ? mobileSpeed : desktopSpeed;
+
+            // Начинаем с 1 клона (оригинал) и добавляем, пока не достигнем нужной длины
+            let cloneCount = 1;
+            let totalWidth, wrapWidth, maxScroll;
+
+            function addClonesUntilEnough() {
+                while (true) {
+                    // Пересчитываем ширину трека
+                    const slideWidth = originalSlide.offsetWidth + marginRight;
+                    totalWidth = slideWidth * slider.children.length;
+                    slider.style.width = totalWidth + "px";
+                    wrapWidth = wrap.offsetWidth;
+                    maxScroll = totalWidth - wrapWidth;
+
+                    // Нужная длина трека: высота окна * speedFactor
+                    const targetScroll = window.innerHeight * speedFactor;
+
+                    if (maxScroll >= targetScroll && maxScroll > 0) {
+                        break;
+                    }
+
+                    // Добавляем один клон
+                    const clone = originalSlide.cloneNode(true);
+                    slider.appendChild(clone);
+                    cloneCount++;
+                }
+            }
+
+            // Добавляем базовый клон (оригинал уже есть)
+            addClonesUntilEnough();
+
+            // Если maxScroll всё ещё <= 0, пропускаем
+            if (maxScroll <= 0) {
+                console.warn(`⚠️ Слайдер ${idx} слишком короткий, пропускаем`);
+                return;
+            }
+
+            gsap.killTweensOf(slider);
+
+            // Направление: слева направо (отрицательный x к 0)
+            gsap.fromTo(slider,
+                { x: -maxScroll },
+                {
+                    x: 0,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: wrap,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: 1,
+                        invalidateOnRefresh: true,
+                        refreshPriority: -10,
+                    }
+                }
+            );            
+        });
+
+        ScrollTrigger.refresh();
+    }
+
+    if (document.readyState === 'complete') {
+        initSliders();
+    } else {
+        window.addEventListener('load', initSliders);
+    }
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            initSliders();
+        }, 300);
+    });
+})();

@@ -83,6 +83,10 @@ Swiper 11.2.10
     width: fit-content;
     margin-top: 48px;
 }
+.lst__logo span{
+    display: flex !important;
+    align-items: center;
+}
 .lst__logo svg{
     display: block;
 }
@@ -540,8 +544,11 @@ Swiper 11.2.10
     transition: flex 0.3s ease-in-out, transform 0.3s ease;
     display: flex;
     align-items: stretch;
+    cursor: pointer;
 }
-
+.card.active{
+    cursor: auto;
+}
 .card-content {
     width: 100%;
     position: relative;
@@ -734,8 +741,11 @@ Swiper 11.2.10
 }
 .sl__link{
     margin-bottom: 160px;
-    z-index: 2;
+    z-index: 0;
     margin-top: auto;
+}
+.card.active .sl__link{
+    z-index: 2;
 }
 .sl__items{
     display: grid;
@@ -833,16 +843,16 @@ Swiper 11.2.10
 .o-fill {
     position: absolute;
     left: 36.4219px;
-    width: 0;                   /* начальная ширина 0 */
-    height: 16px;               /* фиксированная высота 16px */
+    width: 0;                   
+    height: 16px;              
     display: block;
     will-change: width;
 }
 .o-fill-top {
-  top: 13px;                  /* отступ сверху 11px */
+    top: 13px;                  
 }
 .o-fill-bottom {
-  top: 72px;                  /* 102 - 16 - 11 = 75px */
+    top: 72px;                  
 }
 .km__wrap{
     display: flex;
@@ -1454,13 +1464,6 @@ body .page-sections h1.intro__title{
     background-size: 100%;
     /* background-size: 190%; */
 }
-.intro__rock img, .intro__sign img{
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-} 
 .intro__sign{
     display: block;
     position: absolute;
@@ -1552,6 +1555,9 @@ body .page-sections h1.intro__title{
     transform: scale(0.92);
     transition: opacity 0.01s ease, transform 0.01s ease;
     will-change: opacity, transform;
+}
+.mobile-only{
+    display: none;
 }
 @media (max-width: 1420px){
     .container{
