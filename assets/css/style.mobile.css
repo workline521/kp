@@ -282,7 +282,7 @@ body .page-sections h1.intro__title{
 }
 .intro__info .right{
     overflow: hidden;
-    max-width: 160px;
+    max-width: 159px;
     margin-left: auto;
     white-space: nowrap;
 }
@@ -792,7 +792,7 @@ body .page-sections h1.intro__title{
     background-size: cover;
     background-repeat: no-repeat;
     background-position-x: center;
-    background-position-y: bottom;
+    background-position-y: -50px;
 }
 .wk__bg, .wk__rain{
     display: none;
@@ -816,14 +816,21 @@ body .page-sections h1.intro__title{
     color: #BE3638;
 }
 .wk__wrap{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
     column-gap: 25px;
     width: 100%;
     max-width: 310px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 33px;
+}
+.wk__col:first-child{
+    order: 2;
+}
+.wk__col:last-child{
+    order: 1;
 }
 .wk__heading{
     color: #BE3638;
@@ -935,8 +942,8 @@ body .page-sections h1.intro__title{
 }
 .pl__col1-txt{
     position: absolute;
-    top: 0;
-    left: 4px;
+    top: 4px;
+    left: 6px;
     color: #fff;
     font-family: 'Mulish-Bold', Arial, sans-serif;
     font-size: 22px;
