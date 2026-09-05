@@ -324,10 +324,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const swiper = new Swiper(swiperEl, {
             effect: "fade",
             fadeEffect: { crossFade: true },
-            pagination: {
-                el: swiperEl.querySelector(".swiper-pagination"),
-                clickable: true,
-            },
             navigation: {
                 nextEl: swiperEl.querySelector(".swiper-button-next"),
                 prevEl: swiperEl.querySelector(".swiper-button-prev"),
@@ -433,6 +429,60 @@ document.addEventListener("DOMContentLoaded", function () {
             }, 1500);
         }
     }
+
+    cards.forEach((card, index) => {
+        // Функция активации карточки
+        const activateCard = (targetCard) => {
+            if (targetCard.classList.contains('active')) return;
+
+            // Убираем active у всех
+            cards.forEach(c => c.classList.remove('active'));
+
+            // Добавляем active через requestAnimationFrame
+            requestAnimationFrame(() => {
+                targetCard.classList.add('active');
+            });
+
+            // Обновляем Swiper
+            const swiperInstance = swipers[index];
+            if (swiperInstance) {
+                setTimeout(() => {
+                    swiperInstance.update();
+                }, 400);
+            }
+        };
+
+        // Обработчик клика (для десктопа и мобила)
+        const handler = (e) => {
+            // Игнорируем, если клик по элементам управления Swiper
+            if (e.target.closest(".swiper-button-next, .swiper-button-prev, .swiper-pagination-bullet")) {
+                return;
+            }
+            // Игнорируем, если клик по ссылке внутри
+            if (e.target.closest('a')) {
+                return;
+            }
+            activateCard(card);
+        };
+
+        // Для мобильных устройств используем touchstart, чтобы избежать задержки 300ms
+        const touchHandler = (e) => {
+            // Игнорируем, если касание по элементам управления Swiper
+            if (e.target.closest(".swiper-button-next, .swiper-button-prev, .swiper-pagination-bullet")) {
+                return;
+            }
+            if (e.target.closest('a')) {
+                return;
+            }
+            // Предотвращаем клик, чтобы не дублировать
+            e.preventDefault();
+            activateCard(card);
+        };
+
+        // Назначаем оба события
+        card.addEventListener('click', handler);
+        card.addEventListener('touchstart', touchHandler, { passive: false });
+    });
 });
 
 //tilt parallax для блоков  intro, wk

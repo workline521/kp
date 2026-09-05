@@ -643,7 +643,6 @@ Swiper 11.2.10
     width: 100%;
     height: 100%;
 }
-/* Кнопки навигации и пагинация — красиво */
 .mySwiper .swiper-button-next::after,
 .mySwiper .swiper-button-prev::after {
     display: none;
@@ -651,23 +650,25 @@ Swiper 11.2.10
 .mySwiper .swiper-button-next{
     width: 83px;
     height: 64px;
-    background: url(../images/next.svg) no-repeat center;
+    background: url('../images/next.svg') no-repeat center;
     background-size: contain;
     margin-top: 0;
     top: 131px;
     right: 62px;
     transition: opoacity 0.3s ease;
+    z-index: 1;
 }
 .mySwiper .swiper-button-prev {
     width: 83px;
     height: 64px;
-    background: url(../images/prev.svg) no-repeat center;
+    background: url('../images/prev.svg') no-repeat center;
     background-size: contain;
     margin-top: 0;
     top: 131px;
     left: auto;
     right: 140px;
     transition: opoacity 0.3s ease;
+    z-index: 1;
 }
 .mySwiper .swiper-button-next::after,
 .mySwiper .swiper-button-prev::after {
