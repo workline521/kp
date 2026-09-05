@@ -385,14 +385,13 @@ body .page-sections h1.intro__title{
     max-width: 100%;
     object-fit: contain;
 }
-.tech__phases-wrap{
-    
-    width: 100%;    
+.tech__phases-wrap{    
+    height: 100vh;    
 }
 .tech__phases-wrap-mobile{
-    height: calc(100vh - 83px);
     display: flex;
     align-items: center;
+    height: 100vh;  
 }
 .tech__right{
     display: none;
