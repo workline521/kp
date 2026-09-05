@@ -307,14 +307,12 @@ window.addEventListener('load', () => {
 
         observer.observe(img);
     });
-    
-});
 
-//slider
-document.addEventListener("DOMContentLoaded", function () {
+
+    //slider
     const swipers = [];
 
-    // Инициализация Swiper для каждой карточки
+    // 1. Инициализация Swiper для каждой карточки
     document.querySelectorAll(".card .swiper").forEach((swiperEl) => {
         const card = swiperEl.closest('.card');
         const countContainer = card.querySelector('.slider-count');
@@ -342,31 +340,33 @@ document.addEventListener("DOMContentLoaded", function () {
         swipers.push(swiper);
     });
 
-    // Принудительно обновляем все слайдеры после инициализации (чтобы они знали свои размеры)
+    // Принудительно обновляем все слайдеры после инициализации
     swipers.forEach(swiper => swiper.update());
 
-    // Обработка кликов по карточкам
+    // 2. Обработка кликов по карточкам (единый блок)
     const cards = document.querySelectorAll(".card");
+
     cards.forEach((card, index) => {
-        card.addEventListener("click", function (e) {
-            // Игнорируем клики по элементам управления слайдером
-            if (e.target.closest(".swiper-button-next, .swiper-button-prev, .swiper-pagination-bullet")) {
-                return;
-            }
+        const activateCard = (targetCard) => {
+            if (targetCard.classList.contains('active')) return;
 
-            // Переключаем активный класс
-            cards.forEach(c => c.classList.remove("active"));
-            this.classList.add("active");
+            // Убираем active у всех
+            cards.forEach(c => c.classList.remove('active'));
 
+            // Добавляем active через requestAnimationFrame для плавной анимации
+            requestAnimationFrame(() => {
+                targetCard.classList.add('active');
+            });
+
+            // Обновляем Swiper внутри активной карточки
             const swiperInstance = swipers[index];
             if (!swiperInstance) return;
 
-            // Собираем все изображения внутри слайдов этой карточки
-            const images = this.querySelectorAll('.swiper-slide img');
+            // --- Ожидание загрузки изображений (как в первом блоке) ---
+            const images = targetCard.querySelectorAll('.swiper-slide img');
             let loaded = 0;
             const total = images.length;
 
-            // Функция, которая вызовет update после загрузки всех изображений
             const updateSwiper = () => {
                 loaded++;
                 if (loaded === total) {
@@ -375,115 +375,78 @@ document.addEventListener("DOMContentLoaded", function () {
             };
 
             if (total === 0) {
-                // Если нет изображений, обновляем сразу
                 swiperInstance.update();
                 return;
             }
 
             images.forEach(img => {
                 if (img.complete) {
-                    // Уже загружено (или ошибка)
                     updateSwiper();
                 } else {
                     img.addEventListener('load', updateSwiper);
-                    img.addEventListener('error', updateSwiper); // на случай ошибки
+                    img.addEventListener('error', updateSwiper);
                 }
             });
 
-            // Страховочный таймаут (если изображения зависнут)
+            // Страховочный таймаут
             setTimeout(() => {
-                // Если не все загрузились, принудительно обновим через 1.5 сек
                 if (loaded < total) {
                     swiperInstance.update();
                 }
             }, 1500);
-        });
+        };
+
+        // Обработчик клика (только click, без touchstart)
+        const clickHandler = (e) => {
+            // Игнорируем клики по элементам управления Swiper
+            if (e.target.closest(".swiper-button-next, .swiper-button-prev, .swiper-pagination-bullet")) {
+                return;
+            }
+            // Игнорируем клики по ссылкам
+            if (e.target.closest('a')) {
+                return;
+            }
+            activateCard(card);
+        };
+
+        card.addEventListener('click', clickHandler);
     });
 
-    // Активация первой карточки
+    // 3. Активация первой карточки и обновление её Swiper
     if (cards.length) {
-        cards[0].classList.add("active");
-        // Дожидаемся загрузки изображений в первой карточке
         const firstCard = cards[0];
-        const images = firstCard.querySelectorAll('.swiper-slide img');
-        let loaded = 0;
-        const total = images.length;
-        const updateFirst = () => {
-            loaded++;
-            if (loaded === total && swipers[0]) {
-                swipers[0].update();
-            }
-        };
-        if (total === 0) {
-            if (swipers[0]) swipers[0].update();
-        } else {
-            images.forEach(img => {
-                if (img.complete) updateFirst();
-                else {
-                    img.addEventListener('load', updateFirst);
-                    img.addEventListener('error', updateFirst);
+        firstCard.classList.add('active');
+        const swiperInstance = swipers[0];
+        if (swiperInstance) {
+            const images = firstCard.querySelectorAll('.swiper-slide img');
+            let loaded = 0;
+            const total = images.length;
+            const updateFirst = () => {
+                loaded++;
+                if (loaded === total) {
+                    swiperInstance.update();
                 }
-            });
-            setTimeout(() => {
-                if (loaded < total && swipers[0]) swipers[0].update();
-            }, 1500);
+            };
+            if (total === 0) {
+                swiperInstance.update();
+            } else {
+                images.forEach(img => {
+                    if (img.complete) updateFirst();
+                    else {
+                        img.addEventListener('load', updateFirst);
+                        img.addEventListener('error', updateFirst);
+                    }
+                });
+                setTimeout(() => {
+                    if (loaded < total) swiperInstance.update();
+                }, 1500);
+            }
         }
     }
-
-    cards.forEach((card, index) => {
-        // Функция активации карточки
-        const activateCard = (targetCard) => {
-            if (targetCard.classList.contains('active')) return;
-
-            // Убираем active у всех
-            cards.forEach(c => c.classList.remove('active'));
-
-            // Добавляем active через requestAnimationFrame
-            requestAnimationFrame(() => {
-                targetCard.classList.add('active');
-            });
-
-            // Обновляем Swiper
-            const swiperInstance = swipers[index];
-            if (swiperInstance) {
-                setTimeout(() => {
-                    swiperInstance.update();
-                }, 400);
-            }
-        };
-
-        // Обработчик клика (для десктопа и мобила)
-        const handler = (e) => {
-            // Игнорируем, если клик по элементам управления Swiper
-            if (e.target.closest(".swiper-button-next, .swiper-button-prev, .swiper-pagination-bullet")) {
-                return;
-            }
-            // Игнорируем, если клик по ссылке внутри
-            if (e.target.closest('a')) {
-                return;
-            }
-            activateCard(card);
-        };
-
-        // Для мобильных устройств используем touchstart, чтобы избежать задержки 300ms
-        const touchHandler = (e) => {
-            // Игнорируем, если касание по элементам управления Swiper
-            if (e.target.closest(".swiper-button-next, .swiper-button-prev, .swiper-pagination-bullet")) {
-                return;
-            }
-            if (e.target.closest('a')) {
-                return;
-            }
-            // Предотвращаем клик, чтобы не дублировать
-            e.preventDefault();
-            activateCard(card);
-        };
-
-        // Назначаем оба события
-        card.addEventListener('click', handler);
-        card.addEventListener('touchstart', touchHandler, { passive: false });
-    });
+    
 });
+    
+
 
 //tilt parallax для блоков  intro, wk
 document.addEventListener("DOMContentLoaded", () => {
