@@ -1,41 +1,6 @@
 window.addEventListener('load', () => {
     gsap.registerPlugin(ScrollTrigger);
 
-    // горизонтальный слайдер с gsap зависит от скролла
-/*     const wrappers = document.querySelectorAll(".h-slider-wrap");
-    wrappers.forEach((wrap) => {
-        const slider = wrap.querySelector(".h-slider");
-        const originalSlide = wrap.querySelector(".h-slide");
-        if (!slider || !originalSlide) return;
-        const cloneCount = 15; 
-        for (let i = 0; i < cloneCount - 1; i++) {
-            const clone = originalSlide.cloneNode(true);
-            slider.appendChild(clone);
-        }
-        const slideWidth = originalSlide.offsetWidth + 39;
-        const totalWidth = slideWidth * cloneCount;
-        slider.style.width = totalWidth + "px";
-        const wrapWidth = wrap.offsetWidth;
-        const maxScroll = totalWidth - wrapWidth;
-        gsap.fromTo(
-            slider,
-            { x: -maxScroll },
-            {
-                x: 0,
-                ease: "none",
-                scrollTrigger: {
-                trigger: wrap,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 1,
-                invalidateOnRefresh: true,
-                },
-            },
-        );
-    });
-    ScrollTrigger.refresh(); */
-    
-
     // появление слова ДолгОиграющий комфорт и расширение буквы О
     const tl = gsap.timeline({
         scrollTrigger: {
@@ -163,10 +128,10 @@ window.addEventListener('load', () => {
     const phasesContainer = document.querySelector('.tech__phases-wrap');
 
     let currentTL = null;
-    let currentActiveIndex = 0; // храним текущий активный индекс
+    let currentActiveIndex = 0; 
 
     function updatePhases(activeIndex) {
-        currentActiveIndex = activeIndex; // запоминаем
+        currentActiveIndex = activeIndex;
         const isMobile = window.innerWidth <= 1024;
 
         phases.forEach((el, i) => {
@@ -190,12 +155,12 @@ window.addEventListener('load', () => {
             
             let origin;
             if (isMobile) {
-                // На мобильных – все фазы прижимаются к левому краю
+
                 origin = (i === 1) ? 'left bottom' 
                         : (i === 2) ? 'left top' 
                         : 'left center';
             } else {
-                // Десктоп – разный origin для разных фаз
+
                 origin = (i === 1) ? 'right bottom' 
                         : (i === 2) ? 'right top' 
                         : 'right center';
@@ -239,18 +204,17 @@ window.addEventListener('load', () => {
             }
         });
 
-        // Применяем текущее состояние (с новым origin, если изменилась ширина)
         updatePhases(currentActiveIndex);
         ScrollTrigger.refresh();
     }
 
-    // Устанавливаем начальное состояние (первая фаза активна)
+
     updatePhases(0);
 
-    // Инициализируем триггер
+
     buildPhaseTrigger();
 
-    // Перестраиваем при ресайзе (с debounce)
+
     let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
