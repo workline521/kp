@@ -553,6 +553,8 @@ body .page-sections h1.intro__title{
 .km{
     background-color: #FFF;
     padding-top: 29px;
+    position: relative;
+    z-index: 4;
 }
 .km .container{
     padding-left: 6px;
