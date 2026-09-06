@@ -340,7 +340,7 @@ body .page-sections h1.intro__title{
     content: '';
     top: 40px;
     width: 100%;
-    height: calc(100% - 40px);
+    height: 300vh;
     background: #fff;
     z-index: 0;
 }
@@ -406,7 +406,8 @@ body .page-sections h1.intro__title{
     object-fit: contain;
 }
 .tech__phases-wrap{
-    height: 100vh;    
+    height: 100vh;
+    margin-bottom: 100vh;    
 }
 .tech__phases-wrap-mobile{
     height: 100vh;
@@ -498,6 +499,7 @@ body .page-sections h1.intro__title{
     background: #ffffff;
     position: relative;
     margin-bottom: 100vh;
+    z-index: 4;
 }
 
 .rec__vd {
@@ -782,6 +784,8 @@ body .page-sections h1.intro__title{
 .h-slider-wrap{
     width: 100%;
     overflow: hidden;
+    position: relative;
+    z-index: 4;
 }
 .h-slider-wrap--white{
     background: #FFF;
@@ -813,6 +817,8 @@ body .page-sections h1.intro__title{
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: -50px;
+    position: relative;
+    z-index: 4;
 }
 .wk__bg, .wk__rain{
     display: none;
@@ -891,6 +897,10 @@ body .page-sections h1.intro__title{
     left: 8px;
     width: 11px;
     height: 11px;
+}
+.pl-block{
+    position: relative;
+    z-index: 4;
 }
 .pl{
     padding-top: 26px;
@@ -1078,6 +1088,8 @@ body .page-sections h1.intro__title{
     background-image: url(../images/lst-bg.webp);
     background-repeat: no-repeat;
     background-position: center bottom;
+    position: relative;
+    z-index: 4;
 }
 .lst__txt{
     color: #909090;
@@ -1130,7 +1142,8 @@ body .page-sections h1.intro__title{
     margin-top: 54px;
 }
 .sl-block{
-    
+    position: relative;
+    z-index: 4;
 }
 
 .mySwiper{

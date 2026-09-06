@@ -1056,6 +1056,7 @@ Swiper 11.2.10
     background: #ffffff;
     position: relative;
     margin-bottom: 100vh;
+    z-index: 2;
 }
 
 .rec__vd {
@@ -1088,7 +1089,7 @@ Swiper 11.2.10
     content: '';
     top: 242px;
     width: 100%;
-    height: calc(100% - 242px);
+    height: 300vh;
     background: #fff;
     z-index: 1;
 }
@@ -1133,6 +1134,8 @@ Swiper 11.2.10
     flex-wrap: wrap;
     align-items: flex-start;
     justify-content: space-between;
+    height: 100vh;
+    margin-bottom: 100vh;
 }
 .tech__left{
     width: 47.2%;
@@ -1560,7 +1563,7 @@ body .page-sections h1.intro__title{
 .mobile-only{
     display: none;
 }
-@media (max-width: 1420px){
+@media (max-width: 1700px){
     .container{
         max-width: 844px;
     }
@@ -1665,7 +1668,7 @@ body .page-sections h1.intro__title{
         max-width: 150px;
     }
     .intro__rock, .intro__sign, .intro__glow{
-        height: 1260px;
+        height: 1189px;
     }
     .intro {
         padding-bottom: 151px;
@@ -1911,13 +1914,14 @@ body .page-sections h1.intro__title{
     }
     .wk{
         height: 700px;
+        margin-top: -55px;
     }
     .wk__title{
         font-size: 22px;
         letter-spacing: 10px;
     }
     .wk .container{
-        padding-top: 112px;
+        padding-top: 45px;
     }
     .wk__item:first-child svg{
         width: 35px;
@@ -1974,8 +1978,9 @@ body .page-sections h1.intro__title{
     }
     .pl .container::before{
         height: 348px;
-        width: 560px;
+        width: 590px;
         top: -9px;
+        left: -343px;
     }
     .pl__col2{
         padding-left: 6px;
