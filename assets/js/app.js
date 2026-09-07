@@ -1,4 +1,4 @@
-console.log('v14');
+console.log('v16');
 window.addEventListener('load', () => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -123,57 +123,73 @@ window.addEventListener('load', () => {
             });
     }
 
+    
     //анимация переключения фаз (GSAP)
-    (function() {
-        const wrapper = document.querySelector('.tech__wrapper');
-        const phases = document.querySelectorAll('.tech__phase');
-        const phasesWrap = document.querySelector('.tech__phases-wrap');
+(function() {
+    const wrapper = document.querySelector('.tech__wrapper');
+    const phases = document.querySelectorAll('.tech__phase');
+    const phasesWrap = document.querySelector('.tech__phases-wrap');
 
-        let currentTrigger = null;
-        let currentActiveIndex = 0;
+    let currentTrigger = null;
+    let currentActiveIndex = 0;
 
-        function updatePhases(activeIndex) {
-            currentActiveIndex = activeIndex;
-            phases.forEach((el, i) => {
-                el.classList.toggle('active', i === activeIndex);
-                
-                let scale = 1;
-                let opacity = 1;
-                
-                if (i !== activeIndex) {
-                    if (activeIndex === 0) {
-                        if (i === 1) { scale = 0.8; opacity = 0.8; }
-                        else if (i === 2) { scale = 0.6; opacity = 0.6; }
-                    } else if (activeIndex === 1) {
-                        if (i === 0) { scale = 0.8; opacity = 0.8; }
-                        else if (i === 2) { scale = 0.8; opacity = 0.8; }
-                    } else if (activeIndex === 2) {
-                        if (i === 0) { scale = 0.6; opacity = 0.6; }
-                        else if (i === 1) { scale = 0.8; opacity = 0.8; }
-                    }
+    function updatePhases(activeIndex) {
+        currentActiveIndex = activeIndex;
+        phases.forEach((el, i) => {
+            el.classList.toggle('active', i === activeIndex);
+            
+            let scale = 1;
+            let opacity = 1;
+            
+            if (i !== activeIndex) {
+                if (activeIndex === 0) {
+                    if (i === 1) { scale = 0.8; opacity = 0.8; }
+                    else if (i === 2) { scale = 0.6; opacity = 0.6; }
+                } else if (activeIndex === 1) {
+                    if (i === 0) { scale = 0.8; opacity = 0.8; }
+                    else if (i === 2) { scale = 0.8; opacity = 0.8; }
+                } else if (activeIndex === 2) {
+                    if (i === 0) { scale = 0.6; opacity = 0.6; }
+                    else if (i === 1) { scale = 0.8; opacity = 0.8; }
                 }
-                
-                el.style.transform = `scale(${scale})`;
-                el.style.opacity = opacity;
-            });
+            }
+            
+            // transform-origin уже в CSS
+            el.style.transform = `scale(${scale})`;
+            el.style.opacity = opacity;
+        });
+    }
+
+    function buildTrigger() {
+        // Убиваем старый триггер
+        if (currentTrigger) {
+            currentTrigger.kill();
+            currentTrigger = null;
         }
 
-        function buildTrigger() {
-            if (currentTrigger) {
-                currentTrigger.kill();
-                currentTrigger = null;
-            }
+        const isMobile = window.innerWidth <= 1024;
+        const triggerElement = isMobile ? phasesWrap : wrapper;
+        if (!triggerElement) return;
 
-            const isMobile = window.innerWidth <= 1024;
-            const triggerElement = isMobile ? phasesWrap : wrapper;
-            if (!triggerElement) return;
-
-            const endValue = isMobile ? '+=150%' : '+=200%';
-
+        if (isMobile) {
+            // Мобильная версия – без pin, просто переключение фаз при скролле
+            currentTrigger = ScrollTrigger.create({
+                trigger: triggerElement,
+                start: 'top bottom',   // блок появляется снизу
+                end: 'bottom top',     // блок уходит вверх
+                scrub: 1,
+                onUpdate: (self) => {
+                    const progress = self.progress; // от 0 до 1
+                    const index = Math.min(2, Math.floor(progress * 3));
+                    updatePhases(index);
+                }
+            });
+        } else {
+            // Десктоп – с pin (как раньше)
             currentTrigger = ScrollTrigger.create({
                 trigger: triggerElement,
                 start: 'top top',
-                end: endValue,
+                end: '+=200%',
                 pin: true,
                 pinSpacing: true,
                 scrub: 1.5,
@@ -184,27 +200,32 @@ window.addEventListener('load', () => {
                     const index = Math.min(2, Math.floor(progress * 3));
                     updatePhases(index);
                 },
-                onEnter: () => console.log('pin начался', isMobile ? '(mobile)' : '(desktop)'),
-                onLeave: () => console.log('pin закончился', isMobile ? '(mobile)' : '(desktop)')
+                onEnter: () => console.log('pin начался (desktop)'),
+                onLeave: () => console.log('pin закончился (desktop)')
             });
-
-            updatePhases(currentActiveIndex);
         }
 
-        updatePhases(0);
-        buildTrigger();
+        // Восстанавливаем активную фазу (если была)
+        updatePhases(currentActiveIndex);
+    }
 
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                buildTrigger();
-                ScrollTrigger.refresh();
-            }, 200);
-        });
+    // Инициализация
+    updatePhases(0);
+    buildTrigger();
 
-        ScrollTrigger.refresh();
-    })();
+    // Пересоздаём при ресайзе
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            buildTrigger();
+            ScrollTrigger.refresh();
+        }, 200);
+    });
+
+    // Принудительный refresh после загрузки
+    ScrollTrigger.refresh();
+})();
 
     // ===== ВЫПЛЫВАНИЕ ТЕКСТА С ДВИЖЕНИЕМ (через обёртку) =====
     document.querySelectorAll(".msk").forEach(msk => {
@@ -696,38 +717,39 @@ document.addEventListener("DOMContentLoaded", () => {
 // воспроизведение видео:
 document.addEventListener("DOMContentLoaded", () => {
     const video = document.querySelector('.vd video');
-    if (!video) return;
-    const desktopSrc = './assets/images/last-video.mp4';
-    const mobileSrc = './assets/images/last-video-mobile.mp4';
-    const updateVideoSource = (isDesktop) => {
-        const newSrc = isDesktop ? desktopSrc : mobileSrc;
-        if (video.src !== newSrc) {
-            video.src = newSrc;
-            video.load();
-        }
-    };
-    const mql = window.matchMedia('(min-width: 1025px)');
-    updateVideoSource(mql.matches);
-    mql.addEventListener('change', (e) => updateVideoSource(e.matches));
-    const triggerElement = document.querySelector('.vd');
-    ScrollTrigger.create({
-        trigger: triggerElement,
-        start: 'top 70%',       
-        end: 'bottom top',    
-        onUpdate: (self) => {
-            const rect = triggerElement.getBoundingClientRect();
-            const isVisible = rect.bottom > 0;
-            if (self.progress > 0 && isVisible) {
-                if (video.paused) {
-                    video.play().catch(e => console.warn('Автовоспроизведение заблокировано:', e));
-                }
-            } else {
-                if (!video.paused) {
-                    video.pause();
+    if (video) {
+        const desktopSrc = './assets/images/last-video.mp4';
+        const mobileSrc = './assets/images/last-video-mobile.mp4';
+        const updateVideoSource = (isDesktop) => {
+            const newSrc = isDesktop ? desktopSrc : mobileSrc;
+            if (video.src !== newSrc) {
+                video.src = newSrc;
+                video.load();
+            }
+        };
+        const mql = window.matchMedia('(min-width: 1025px)');
+        updateVideoSource(mql.matches);
+        mql.addEventListener('change', (e) => updateVideoSource(e.matches));
+        const triggerElement = document.querySelector('.vd');
+        ScrollTrigger.create({
+            trigger: triggerElement,
+            start: 'top 70%',       
+            end: 'bottom top',    
+            onUpdate: (self) => {
+                const rect = triggerElement.getBoundingClientRect();
+                const isVisible = rect.bottom > 0;
+                if (self.progress > 0 && isVisible) {
+                    if (video.paused) {
+                        video.play().catch(e => console.warn('Автовоспроизведение заблокировано:', e));
+                    }
+                } else {
+                    if (!video.paused) {
+                        video.pause();
+                    }
                 }
             }
-        }
-    });
+        });
+    }
 });
 //  ГОРИЗОНТАЛЬНЫЙ СЛАЙДЕР 
 (function() {
@@ -838,5 +860,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+// Прелоадер – скрываем после полной загрузки всех ресурсов
+window.addEventListener('load', function() {
+    const preloader = document.getElementById('preloader');
 
+    // Плавно скрываем (добавляем класс hidden)
+    preloader.classList.add('hidden');
+
+    // Мы НЕ удаляем прелоадер из DOM и НЕ меняем overflow на body,
+    // чтобы не нарушить расчёты ScrollTrigger (пины будут работать).
+    // Прелоадер остаётся в потоке, но прозрачен и не перехватывает события.
+});
 

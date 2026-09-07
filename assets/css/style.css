@@ -343,12 +343,6 @@ Swiper 11.2.10
     opacity: 1;
     transition: filter 0.5s ease;
 }
-.link:hover::before{
-    filter:
-        drop-shadow(0 0 8px #fff)
-        drop-shadow(0 0 32px #fff)
-        drop-shadow(0 0 128px #fff);
-}
 .h-slider-wrap{
     width: 100%;
     overflow: hidden;
@@ -647,29 +641,41 @@ Swiper 11.2.10
 .mySwiper .swiper-button-prev::after {
     display: none;
 }
+
 .mySwiper .swiper-button-next{
-    width: 83px;
+    width: 81px;
     height: 64px;
-    background: url('../images/next.svg') no-repeat center;
-    background-size: contain;
     margin-top: 0;
     top: 131px;
     right: 62px;
-    transition: opoacity 0.3s ease;
     z-index: 1;
+    transition: filter 0.5s ease, opacity 0.3s ease;
 }
 .mySwiper .swiper-button-prev {
-    width: 83px;
+    width: 81px;
     height: 64px;
-    background: url('../images/prev.svg') no-repeat center;
-    background-size: contain;
     margin-top: 0;
     top: 131px;
     left: auto;
     right: 140px;
-    transition: opoacity 0.3s ease;
     z-index: 1;
+    transition: filter 0.5s ease, opacity 0.3s ease;
 }
+.mySwiper .swiper-button-prev svg, .mySwiper .swiper-button-next svg{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.mySwiper .swiper-button-prev svg path:first-child, .mySwiper .swiper-button-next svg path:first-child{
+    fill: transparent;
+    stroke: #fff;
+    transition: 0.5s ease;
+}
+.mySwiper .swiper-button-prev svg path:last-child, .mySwiper .swiper-button-next svg path:last-child{
+    fill: #fff;
+    transition: 0.5s ease;
+}
+
 .mySwiper .swiper-button-next::after,
 .mySwiper .swiper-button-prev::after {
     font-size: 16px;
@@ -1132,9 +1138,9 @@ Swiper 11.2.10
 .tech__wrapper{
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-
+    height: 100vh;
 }
 .tech__left{
     width: 47.2%;
@@ -1235,6 +1241,10 @@ Swiper 11.2.10
     background-size: contain;
     opacity: 0;
     transition: opacity 0.5s ease;
+}
+.tech__phase:nth-child(3) .tech__phase-video{
+    bottom: 0;
+    top: -135px;
 }
 .tech__phase-video img, .tech__phase-video video{
     display: block;
@@ -1568,6 +1578,26 @@ body .page-sections h1.intro__title{
 .mobile-only{
     display: none;
 }
+@media (hover: hover){
+    .link:hover::before{
+        filter:
+            drop-shadow(0 0 8px #fff)
+            drop-shadow(0 0 32px #fff)
+            drop-shadow(0 0 128px #fff);
+    }
+    .mySwiper .swiper-button-prev:hover, .mySwiper .swiper-button-next:hover{
+        filter:
+            drop-shadow(0 0 8px #fff)
+            drop-shadow(0 0 32px #fff)
+            drop-shadow(0 0 128px #fff);
+    }
+    .mySwiper .swiper-button-prev:hover svg path:first-child, .mySwiper .swiper-button-next:hover svg path:first-child{
+        fill: #fff;
+    }
+    .mySwiper .swiper-button-prev:hover svg path:last-child, .mySwiper .swiper-button-next:hover svg path:last-child{
+        fill: #BE3638;
+    }
+}
 @media (max-width: 1700px){
     .container{
         max-width: 844px;
@@ -1603,8 +1633,8 @@ body .page-sections h1.intro__title{
     }
     .intro__txts::after{
         top: 92px;
-        width: 756px;
-    }
+        width: 870px;
+    }    
     .link{
         width: 169px;
         height: 36px;
@@ -1735,7 +1765,7 @@ body .page-sections h1.intro__title{
     .km{
         padding-top: 119px;
         background-size: 100%;
-        background-position: center -1094px;
+        background-position: center -1445px;        
     }
     .km__count{
         font-size: 11px;
@@ -1847,10 +1877,12 @@ body .page-sections h1.intro__title{
     }
     .sl__txt{
         max-width: 180px;
+        font-size: 8px;
     }
     .sl__items{
         gap: 25px;
         margin-top: 75px;
+        width: 350px;
     }
     .sl__link{
         margin-bottom: 100px; 
@@ -2090,8 +2122,22 @@ body .page-sections h1.intro__title{
         font-size: 15px;
         margin-top: 35px;
     }
+    .intro__txts{
+        padding-left: 0;
+    }
 }
 @media (max-width: 1440px){
+    .km{
+        background-position: center -1094px;
+    }
+    .sl__txt {
+        max-width: 120px;
+    }
+    .intro__txts::after {
+        top: 92px;
+        width: 756px;
+    }
+    
     .intro__rock{
         height: 1189px;
         background-position-x: center;
@@ -2132,4 +2178,64 @@ body .page-sections h1.intro__title{
     .intro__glow {
         background-position-y: -338px;
     }
+}
+
+
+
+
+/* Никакого overflow:hidden на html/body – не трогаем прокрутку */
+html, body {
+  margin: 0;
+  padding: 0;
+  /* overflow не задаём */
+}
+
+/* Прелоадер – поверх всего, фиксирован */
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1A1A1A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+  transition: opacity 0.8s ease;
+  pointer-events: all; /* пока виден, блокирует клики */
+}
+
+/* Когда скрыт – прозрачный и пропускает клики */
+#preloader.hidden {
+  opacity: 0;
+  pointer-events: none; /* чтобы клики проходили сквозь */
+}
+
+/* Стили текста и точек (без изменений) */
+.loader-inner {
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+.loading-text { margin-right: 8px; }
+.dots { display: flex; gap: 6px; align-items: center; }
+.dots span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+  animation: dot-bounce 1.4s infinite ease-in-out both;
+}
+.dots span:nth-child(1) { animation-delay: -0.32s; }
+.dots span:nth-child(2) { animation-delay: -0.16s; }
+.dots span:nth-child(3) { animation-delay: 0s; }
+@keyframes dot-bounce {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
 }
