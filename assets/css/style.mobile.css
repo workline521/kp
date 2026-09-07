@@ -263,6 +263,7 @@ Swiper 11.2.10
 .container--second{
     position: relative;
     max-width: 298px;
+    pointer-events: none;
 }
 .intro__count{
     color: #BE3638;
@@ -339,8 +340,8 @@ body .page-sections h1.intro__title{
     position: absolute;
     content: '';
     top: 40px;
-    width: 100%;
-    height: 300vh;
+    width: 100%;    
+    height: 3334px;
     background: #fff;
     z-index: 0;
 }
@@ -405,14 +406,20 @@ body .page-sections h1.intro__title{
     max-width: 100%;
     object-fit: contain;
 }
-.tech__phases-wrap{
-    height: 100vh;
-    margin-bottom: 100vh;    
-}
-.tech__phases-wrap-mobile{
-    height: 100vh;
+.tech__phases-wrap {
+    height: 100vh !important;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+}
+.tech__phases {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;   /* если нужно центрировать по горизонтали */
+
 }
 .tech__right{
     display: none;
@@ -422,7 +429,7 @@ body .page-sections h1.intro__title{
     width: calc(100% - 130px);
     margin-left: auto;
     padding-right: 8px;
-    transition: opacity 0.5s ease, transform 0.5s ease, padding-bottom 0.5s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease;
     will-change: transform, opacity;
     backface-visibility: hidden;
     position: relative;
@@ -1214,9 +1221,12 @@ body .page-sections h1.intro__title{
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 416px;
-    background: url('../images/slider-bg.webp') no-repeat center;
+    height: 100%;
+    background-image: url('../images/slider-bg.webp');
     background-size: cover;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: bottom;
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
@@ -1224,7 +1234,7 @@ body .page-sections h1.intro__title{
 .sl-block .cards .sl__img img{
     display: block;
     width: auto !important;
-    max-width: 68%;
+    max-width: 75%;
     object-fit: contain;
     aspect-ratio: 286 / 231;
     margin: 0 !important;
@@ -1359,4 +1369,16 @@ body .page-sections h1.intro__title{
     font-family: 'Mulish-Medium', Arial, sans-serif;
     font-weight: 500;
     color: #FFF;
+}
+
+
+
+.tech__phase {
+    transform-origin: left center;
+}
+.tech__phase:nth-child(2) {
+    transform-origin: left bottom;
+}
+.tech__phase:nth-child(3) {
+    transform-origin: left top;
 }

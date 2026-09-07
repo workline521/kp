@@ -1,4 +1,4 @@
-console.log('v6');
+console.log('v14');
 window.addEventListener('load', () => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -123,75 +123,59 @@ window.addEventListener('load', () => {
             });
     }
 
-    //анимация переключения фаз
-    const wrapper = document.querySelector('.tech__wrapper');
-    const phases = document.querySelectorAll('.tech__phase');
-    const phasesContainer = document.querySelector('.tech__phases-wrap');
+    //анимация переключения фаз (GSAP)
+    (function() {
+        const wrapper = document.querySelector('.tech__wrapper');
+        const phases = document.querySelectorAll('.tech__phase');
+        const phasesWrap = document.querySelector('.tech__phases-wrap');
 
-    let currentTL = null;
-    let currentActiveIndex = 0; 
+        let currentTrigger = null;
+        let currentActiveIndex = 0;
 
-    function updatePhases(activeIndex) {
-        currentActiveIndex = activeIndex;
-        const isMobile = window.innerWidth <= 1024;
-
-        phases.forEach((el, i) => {
-            el.classList.toggle('active', i === activeIndex);
-            
-            let scale = 1;
-            let opacity = 1;
-            
-            if (i !== activeIndex) {
-                if (activeIndex === 0) {
-                    if (i === 1) { scale = 0.8; opacity = 0.8; }
-                    else if (i === 2) { scale = 0.6; opacity = 0.6; }
-                } else if (activeIndex === 1) {
-                    if (i === 0) { scale = 0.8; opacity = 0.8; }
-                    else if (i === 2) { scale = 0.8; opacity = 0.8; }
-                } else if (activeIndex === 2) {
-                    if (i === 0) { scale = 0.6; opacity = 0.6; }
-                    else if (i === 1) { scale = 0.8; opacity = 0.8; }
+        function updatePhases(activeIndex) {
+            currentActiveIndex = activeIndex;
+            phases.forEach((el, i) => {
+                el.classList.toggle('active', i === activeIndex);
+                
+                let scale = 1;
+                let opacity = 1;
+                
+                if (i !== activeIndex) {
+                    if (activeIndex === 0) {
+                        if (i === 1) { scale = 0.8; opacity = 0.8; }
+                        else if (i === 2) { scale = 0.6; opacity = 0.6; }
+                    } else if (activeIndex === 1) {
+                        if (i === 0) { scale = 0.8; opacity = 0.8; }
+                        else if (i === 2) { scale = 0.8; opacity = 0.8; }
+                    } else if (activeIndex === 2) {
+                        if (i === 0) { scale = 0.6; opacity = 0.6; }
+                        else if (i === 1) { scale = 0.8; opacity = 0.8; }
+                    }
                 }
-            }
-            
-            let origin;
-            if (isMobile) {
-
-                origin = (i === 1) ? 'left bottom' 
-                        : (i === 2) ? 'left top' 
-                        : 'left center';
-            } else {
-
-                origin = (i === 1) ? 'right bottom' 
-                        : (i === 2) ? 'right top' 
-                        : 'right center';
-            }
-            
-            gsap.set(el, { 
-                scale, 
-                opacity,
-                transformOrigin: origin,
+                
+                el.style.transform = `scale(${scale})`;
+                el.style.opacity = opacity;
             });
-        });
-    }
-
-    function buildPhaseTrigger() {
-        if (currentTL) {
-            currentTL.kill();
-            currentTL = null;
         }
 
-        const isDesktop = window.innerWidth > 1024;
-        const triggerElement = isDesktop ? wrapper : phasesContainer;
-        if (!triggerElement) return;
+        function buildTrigger() {
+            if (currentTrigger) {
+                currentTrigger.kill();
+                currentTrigger = null;
+            }
 
-        currentTL = gsap.timeline({
-            scrollTrigger: {
+            const isMobile = window.innerWidth <= 1024;
+            const triggerElement = isMobile ? phasesWrap : wrapper;
+            if (!triggerElement) return;
+
+            const endValue = isMobile ? '+=150%' : '+=200%';
+
+            currentTrigger = ScrollTrigger.create({
                 trigger: triggerElement,
                 start: 'top top',
-                end: 'bottom top',
+                end: endValue,
                 pin: true,
-                pinSpacing: false,
+                pinSpacing: true,
                 scrub: 1.5,
                 anticipatePin: 1,
                 refreshPriority: 1,
@@ -200,31 +184,27 @@ window.addEventListener('load', () => {
                     const index = Math.min(2, Math.floor(progress * 3));
                     updatePhases(index);
                 },
-                onEnter: () => console.log('pin начался'),
-                onLeave: () => console.log('pin закончился')
-            }
+                onEnter: () => console.log('pin начался', isMobile ? '(mobile)' : '(desktop)'),
+                onLeave: () => console.log('pin закончился', isMobile ? '(mobile)' : '(desktop)')
+            });
+
+            updatePhases(currentActiveIndex);
+        }
+
+        updatePhases(0);
+        buildTrigger();
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                buildTrigger();
+                ScrollTrigger.refresh();
+            }, 200);
         });
 
-        updatePhases(currentActiveIndex);
         ScrollTrigger.refresh();
-    }
-
-
-    updatePhases(0);
-
-
-    buildPhaseTrigger();
-
-
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            buildPhaseTrigger();
-            ScrollTrigger.refresh();
-        }, 200);
-    });
-
+    })();
 
     // ===== ВЫПЛЫВАНИЕ ТЕКСТА С ДВИЖЕНИЕМ (через обёртку) =====
     document.querySelectorAll(".msk").forEach(msk => {
@@ -323,6 +303,10 @@ window.addEventListener('load', () => {
         const swiper = new Swiper(swiperEl, {
             effect: "fade",
             fadeEffect: { crossFade: true },
+            autoplay: {
+                delay: 2000, 
+                disableOnInteraction: true,
+            },
             navigation: {
                 nextEl: swiperEl.querySelector(".swiper-button-next"),
                 prevEl: swiperEl.querySelector(".swiper-button-prev"),
@@ -851,3 +835,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 300);
     });
 })();
+
+
+
+
+
