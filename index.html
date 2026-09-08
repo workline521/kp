@@ -2775,6 +2775,7 @@
 			<!--template start -->
 
             <!-- Прелоадер -->
+            <!-- Прелоадер -->
             <style>
                 #preloader {
                     position: fixed;
@@ -2884,7 +2885,7 @@
                         <span>RECEPTOR<sup>®</sup></span>
                     </div>                
                     <div class="loader-container">
-                        <div class="progress-text">0%</div>
+                        <div class="progress-text">0</div>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width:0%;"></div>
                         </div>
@@ -2905,7 +2906,9 @@
                             <div class="intro__txts">
                                 <div class="intro__txt">10.000 шагов?</div>                            
                                 <div class="intro__boot">
-                                    <img src="./assets/images/intro-boot.webp" alt="boot">
+                                    <img class="pic-red" src="./assets/images/intro-boot.webp" alt="receptor">
+                                    <img class="pic-pink" src="./assets/images/gl2.webp" alt="receptor">
+                                    <img class="pic-white" src="./assets/images/gl1.webp" alt="receptor">
                                 </div>
                                 <div class="intro__txt">Легче, чем кажется</div>                             
                             </div>
@@ -2963,7 +2966,7 @@
                                                 <div class="tech__phase-title"><span class="red">Фаза 1.</span> Амортизация</div>
                                                 <div class="tech__phase-txt">Скошенная пятка помогает мягче приземляться</div>
                                                 <div class="tech__phase-video">
-                                                    <video src="./assets/images/ph1.mp4" autoplay muted playsinline loop></video>
+                                                    <video src="./assets/images/ph2.mp4" autoplay muted playsinline loop></video>
                                                 </div>
                                             </div>
                                             <div class="tech__phase">
@@ -2971,7 +2974,7 @@
                                                 <div class="tech__phase-title"><span class="red">Фаза 2.</span> Стабилизация</div>
                                                 <div class="tech__phase-txt">Встроенный стабилизатор удерживает стопу в&nbsp;правильном положении</div>
                                                 <div class="tech__phase-video">
-                                                    <video src="./assets/images/ph2.mp4" autoplay muted playsinline loop></video>
+                                                    <video src="./assets/images/ph1.mp4" autoplay muted playsinline loop></video>
                                                 </div>
                                             </div>
                                             <div class="tech__phase">
@@ -3104,46 +3107,7 @@
                                     <img class="card-nav__img" src="./assets/images/nav-1.webp" alt="logo">
                                 </div>
                                 <div class="swiper mySwiper">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <div class="sl__wrap">
-                                                <div class="sl__heading">мужские модели</div>
-                                                <div class="sl__items">
-                                                    <div class="sl__item">
-                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
-                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
-                                                        </svg>
-                                                        <div class="sl__txt">Технология <span>RECEPTOR<sup>®</sup></span> для&nbsp;устойчивого и&nbsp;комфортного движения</div>
-                                                    </div>
-                                                    <div class="sl__item">
-                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
-                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
-                                                        </svg>
-                                                        <div class="sl__txt">Технология <span>FLUIDFORM<sup>™</sup></span> – анатомическая форма и&nbsp;герметичное соединение</div>
-                                                    </div>
-                                                    <div class="sl__item">
-                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
-                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
-                                                        </svg>
-                                                        <div class="sl__txt">Дышащий верх из&nbsp;текстильной сетки</div>
-                                                    </div>
-                                                    <div class="sl__item">
-                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
-                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
-                                                        </svg>
-                                                        <div class="sl__txt">Система быстрой <br> шнуровки </div>
-                                                    </div>
-                                                </div>
-                                                <a href="https://www.ecco.ru/catalog/854304/51642/" class="link sl__link" target="_blank"><span>смотреть коллекцию</span></a>
-                                            </div>
-                                            <div class="sl__img">
-                                                <img src="./assets/images/sl-m1.webp" alt="logo">
-                                            </div>
-                                        </div>
+                                    <div class="swiper-wrapper">                                        
                                         <div class="swiper-slide">
                                             <div class="sl__wrap">
                                                 <div class="sl__heading">мужские модели</div>
@@ -3187,6 +3151,45 @@
                                                 <a href="https://www.ecco.ru/catalog/854334/61959/" class="link sl__link" target="_blank"><span>смотреть коллекцию</span></a>
                                             </div>
                                             <div class="sl__img"><img src="./assets/images/sl-m2.webp" alt="logo"></div>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <div class="sl__wrap">
+                                                <div class="sl__heading">мужские модели</div>
+                                                <div class="sl__items">
+                                                    <div class="sl__item">
+                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
+                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
+                                                        </svg>
+                                                        <div class="sl__txt">Технология <span>RECEPTOR<sup>®</sup></span> для&nbsp;устойчивого и&nbsp;комфортного движения</div>
+                                                    </div>
+                                                    <div class="sl__item">
+                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
+                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
+                                                        </svg>
+                                                        <div class="sl__txt">Технология <span>FLUIDFORM<sup>™</sup></span> – анатомическая форма и&nbsp;герметичное соединение</div>
+                                                    </div>
+                                                    <div class="sl__item">
+                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
+                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
+                                                        </svg>
+                                                        <div class="sl__txt">Дышащий верх из&nbsp;текстильной сетки</div>
+                                                    </div>
+                                                    <div class="sl__item">
+                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
+                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
+                                                        </svg>
+                                                        <div class="sl__txt">Система быстрой <br> шнуровки </div>
+                                                    </div>
+                                                </div>
+                                                <a href="https://www.ecco.ru/catalog/854304/51642/" class="link sl__link" target="_blank"><span>смотреть коллекцию</span></a>
+                                            </div>
+                                            <div class="sl__img">
+                                                <img src="./assets/images/sl-m1.webp" alt="logo">
+                                            </div>
                                         </div>
                                         <div class="swiper-slide">
                                             <div class="sl__wrap">
@@ -3251,44 +3254,7 @@
                                     <img class="card-nav__img" src="./assets/images/nav-2.webp" alt="logo">
                                 </div> 
                                 <div class="swiper mySwiper">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <div class="sl__wrap">
-                                                <div class="sl__heading">Женские модели</div>
-                                                <div class="sl__items">                                                    
-                                                    <div class="sl__item">
-                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
-                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
-                                                        </svg>
-                                                        <div class="sl__txt">Технология <span>RECEPTOR<sup>®</sup></span> для&nbsp;устойчивого и&nbsp;комфортного движения</div>
-                                                    </div>
-                                                    <div class="sl__item">
-                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
-                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
-                                                        </svg>
-                                                        <div class="sl__txt">Технология <span>FLUIDFORM<sup>™</sup></span> – анатомическая форма и&nbsp;герметичное соединение</div>
-                                                    </div>
-                                                    <div class="sl__item">
-                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
-                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
-                                                        </svg>
-                                                        <div class="sl__txt">Дышащий верх из&nbsp;текстильной сетки</div>
-                                                    </div>
-                                                    <div class="sl__item">
-                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
-                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
-                                                        </svg>
-                                                        <div class="sl__txt">Система быстрой <br> шнуровки</div>
-                                                    </div>                                                    
-                                                </div>
-                                                <a href="https://www.ecco.ru/catalog/854303/51294/" class="link sl__link" target="_blank"><span>смотреть коллекцию</span></a>
-                                            </div>
-                                            <div class="sl__img"><img src="./assets/images/sl-w1.webp" alt="logo"></div>
-                                        </div>
+                                    <div class="swiper-wrapper">                                        
                                         <div class="swiper-slide">
                                             <div class="sl__wrap">
                                                 <div class="sl__heading">Женские модели</div>
@@ -3332,6 +3298,43 @@
                                                 <a href="https://www.ecco.ru/catalog/854343/61965/" class="link sl__link" target="_blank"><span>смотреть коллекцию</span></a>
                                             </div>
                                             <div class="sl__img"><img src="./assets/images/sl-w2.webp" alt="logo"></div>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <div class="sl__wrap">
+                                                <div class="sl__heading">Женские модели</div>
+                                                <div class="sl__items">                                                    
+                                                    <div class="sl__item">
+                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
+                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
+                                                        </svg>
+                                                        <div class="sl__txt">Технология <span>RECEPTOR<sup>®</sup></span> для&nbsp;устойчивого и&nbsp;комфортного движения</div>
+                                                    </div>
+                                                    <div class="sl__item">
+                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
+                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
+                                                        </svg>
+                                                        <div class="sl__txt">Технология <span>FLUIDFORM<sup>™</sup></span> – анатомическая форма и&nbsp;герметичное соединение</div>
+                                                    </div>
+                                                    <div class="sl__item">
+                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
+                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
+                                                        </svg>
+                                                        <div class="sl__txt">Дышащий верх из&nbsp;текстильной сетки</div>
+                                                    </div>
+                                                    <div class="sl__item">
+                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
+                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
+                                                        </svg>
+                                                        <div class="sl__txt">Система быстрой <br> шнуровки</div>
+                                                    </div>                                                    
+                                                </div>
+                                                <a href="https://www.ecco.ru/catalog/854303/51294/" class="link sl__link" target="_blank"><span>смотреть коллекцию</span></a>
+                                            </div>
+                                            <div class="sl__img"><img src="./assets/images/sl-w1.webp" alt="logo"></div>
                                         </div>
                                         <div class="swiper-slide">
                                             <div class="sl__wrap">
@@ -3436,43 +3439,6 @@
                                                             <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
                                                             <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
                                                         </svg>
-                                                        <div class="sl__txt">Верх из натуральной дышащей кожи</div>
-                                                    </div>
-                                                    <div class="sl__item">
-                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
-                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
-                                                        </svg>
-                                                        <div class="sl__txt">Удобная застежка-велькро</div>
-                                                    </div>
-                                                    <div class="sl__item">
-                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
-                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
-                                                        </svg>
-                                                        <div class="sl__txt">Технология <span>FLUIDFORM<sup>™</sup></span> – анатомическая форма и&nbsp;герметичное соединение</div>
-                                                    </div>
-                                                    <div class="sl__item">
-                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
-                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
-                                                        </svg>
-                                                        <div class="sl__txt">Технология <span>RECEPTOR<sup>®</sup></span> для&nbsp;устойчивого и&nbsp;комфортного движения</div>
-                                                    </div>                                               
-                                                </div>
-                                                <a href="https://www.ecco.ru/catalog/724802/59622/" class="link sl__link" target="_blank"><span>смотреть коллекцию</span></a>
-                                            </div>
-                                            <div class="sl__img"><img src="./assets/images/sl-c2.webp" alt="logo"></div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="sl__wrap">
-                                                <div class="sl__heading">детские модели</div>
-                                                <div class="sl__items">
-                                                    <div class="sl__item">
-                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
-                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
-                                                        </svg>
                                                         <div class="sl__txt">Технология <span>RECEPTOR<sup>®</sup></span> для&nbsp;устойчивого и&nbsp;комфортного движения</div>
                                                     </div> 
                                                     <div class="sl__item">
@@ -3508,6 +3474,43 @@
                                             </div>
                                             <div class="sl__img"><img src="./assets/images/sl-c3.webp" alt="logo"></div>
                                         </div>
+                                        <div class="swiper-slide">
+                                            <div class="sl__wrap">
+                                                <div class="sl__heading">детские модели</div>
+                                                <div class="sl__items">
+                                                    <div class="sl__item">
+                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
+                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
+                                                        </svg>
+                                                        <div class="sl__txt">Верх из натуральной дышащей кожи</div>
+                                                    </div>
+                                                    <div class="sl__item">
+                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
+                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
+                                                        </svg>
+                                                        <div class="sl__txt">Удобная застежка-велькро</div>
+                                                    </div>
+                                                    <div class="sl__item">
+                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
+                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
+                                                        </svg>
+                                                        <div class="sl__txt">Технология <span>FLUIDFORM<sup>™</sup></span> – анатомическая форма и&nbsp;герметичное соединение</div>
+                                                    </div>
+                                                    <div class="sl__item">
+                                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                                            <path d="M11 0V11H0" stroke="#FF7E80" stroke-width="2"/>
+                                                            <path opacity="0.8" d="M11 22L11 11L22 11" stroke="white" stroke-width="2"/>
+                                                        </svg>
+                                                        <div class="sl__txt">Технология <span>RECEPTOR<sup>®</sup></span> для&nbsp;устойчивого и&nbsp;комфортного движения</div>
+                                                    </div>                                               
+                                                </div>
+                                                <a href="https://www.ecco.ru/catalog/724802/59622/" class="link sl__link" target="_blank"><span>смотреть коллекцию</span></a>
+                                            </div>
+                                            <div class="sl__img"><img src="./assets/images/sl-c2.webp" alt="logo"></div>
+                                        </div>                                        
                                     </div>
                                     <div class="swiper-button-next">
                                         <svg width="45" height="35" viewBox="0 0 45 35">

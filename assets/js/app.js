@@ -1,882 +1,879 @@
-console.log('v18');
-window.addEventListener('load', () => {
-    gsap.registerPlugin(ScrollTrigger);
+console.log("v20");
+window.addEventListener("load", () => {
+  gsap.registerPlugin(ScrollTrigger);
 
-    // появление слова ДолгОиграющий комфорт и расширение буквы О
-    const tl = gsap.timeline({
-        scrollTrigger: {
-            trigger: ".km__title",
-            start: "top 60%",
-            end: "top 40%",
-            scrub: 1,
-        },
-    });
-    tl.fromTo(".km__title", 
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1, ease: "power1.out" }
-    )
+  // появление слова ДолгОиграющий комфорт и расширение буквы О
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".km__title",
+      start: "top 60%",
+      end: "top 40%",
+      scrub: 1,
+    },
+  });
+  tl.fromTo(
+    ".km__title",
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 1, ease: "power1.out" },
+  )
     .to(".letter-o", { width: 167, duration: 1, ease: "power1.out" }, "<")
     .to(".o-fill", { width: 93.3473, duration: 1, ease: "power1.out" }, "<");
 
-    //просветление картинки с подошвой
-    gsap.to(".km6-end", {
-        opacity: 1,
-        filter: "brightness(1)",
+  //просветление картинки с подошвой
+  gsap.to(".km6-end", {
+    opacity: 1,
+    filter: "brightness(1)",
+    scrollTrigger: {
+      trigger: ".km__changing-pic",
+      start: "top 80%", // верх блока на 50% высоты окна
+      end: "top 40%", // верх блока у верхнего края окна
+      scrub: true, // привязка к скроллу (плавно)
+      //markers: true    // для отладки – покажет точки старта/финиша
+    },
+  });
+
+  // анимация маски в блоке с видео
+  // ===== Адаптивный src для видео =====
+  const vdo = document.querySelector(".rec__vd video"); // переименовали переменную
+  if (window.innerWidth > 1024) {
+    // ===== Анимация маски  =====
+    const vd = document.querySelector(".rec__vd");
+
+    if (vd) {
+      const tl2 = gsap.timeline({
         scrollTrigger: {
-            trigger: ".km__changing-pic",
-            start: "top 50%",   // верх блока на 50% высоты окна
-            end: "top top",     // верх блока у верхнего края окна
-            scrub: true,        // привязка к скроллу (плавно)
-            //markers: true    // для отладки – покажет точки старта/финиша
-        }
-    });
+          trigger: ".rec",
+          start: "top top",
+          end: "bottom top",
+          pin: true,
+          pinSpacing: false,
+          anticipatePin: 1,
+          scrub: true,
+          refreshPriority: 1,
 
-     // анимация маски в блоке с видео    
-    // ===== Адаптивный src для видео =====
-    const vdo = document.querySelector('.rec__vd video'); // переименовали переменную
-    if (window.innerWidth > 1024) {
-        if (vdo) {
-            // Функция установки правильного источника
-            function setVideoSource() {
-                const isMobile = window.innerWidth <= 1024;
-                const newSrc = isMobile
-                    ? './assets/images/mask-video-mobile.mp4'
-                    : './assets/images/mask-video.mp4';
+          onUpdate: (self) => {
+            const rect = vd.getBoundingClientRect();
+            const isPartiallyVisible = rect.bottom > 0;
 
-                // Меняем src только если он отличается
-                if (vdo.src !== newSrc) {
-                    vdo.src = newSrc;
-                    vdo.load(); // перезагружаем видео с новым источником
-                    // (остальные действия по воспроизведению управляются через ScrollTrigger)
-                }
+            if (self.progress > 0 && isPartiallyVisible) {
+              if (vdo && vdo.paused) {
+                vdo.play().catch((e) => console.warn("Play blocked:", e));
+              }
+            } else {
+              if (vdo && !vdo.paused) {
+                vdo.pause();
+              }
             }
+          },
+          onRefresh: (self) => {
+            const rect = vd.getBoundingClientRect();
+            const isPartiallyVisible = rect.bottom > 0;
+            if (self.progress > 0 && isPartiallyVisible) {
+              if (vdo && vdo.paused) {
+                vdo.play().catch((e) => console.warn("Play blocked:", e));
+              }
+            } else {
+              if (vdo && !vdo.paused) {
+                vdo.pause();
+              }
+            }
+          },
+        },
+      });
 
-            // Устанавливаем начальный src
-            setVideoSource();
+      tl2
+        .to(vd, {
+          "mask-size": "100% 100%",
+          "-webkit-mask-size": "100% 100%",
+          duration: 1,
+          ease: "none",
+        })
+        .to(vd, {
+          "mask-size": "1000% 1000%",
+          "-webkit-mask-size": "1000% 1000%",
+          duration: 1,
+          ease: "none",
+        });
+    } 
+  } else {
+    if (vdo) {
+      vdo.setAttribute("autoplay", "");
+      vdo.setAttribute("loop", "");
+      vdo.muted = true;
+      vdo.play().catch((e) => console.warn("Autoplay blocked:", e));
+      vdo.src = "./assets/images/mask-video-mobile.mp4";
+      vdo.load();
+    }
+  }
 
-            // Следим за изменением размера окна (с debounce 200 мс)
-            let resizeTimer;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(() => {
-                    setVideoSource();
-                }, 200);
-            });
+  //анимация переключения фаз (GSAP)
+  (function () {
+    const wrapper = document.querySelector(".tech__wrapper");
+    const phases = document.querySelectorAll(".tech__phase");
+    const phasesWrap = document.querySelector(".tech__phases-wrap");
+
+    let currentTrigger = null;
+    let currentActiveIndex = 0;
+
+    function updatePhases(activeIndex) {
+      currentActiveIndex = activeIndex;
+      phases.forEach((el, i) => {
+        el.classList.toggle("active", i === activeIndex);
+
+        let scale = 1;
+        let opacity = 1;
+
+        if (i !== activeIndex) {
+          if (activeIndex === 0) {
+            if (i === 1) {
+              scale = 0.8;
+              opacity = 0.8;
+            } else if (i === 2) {
+              scale = 0.6;
+              opacity = 0.6;
+            }
+          } else if (activeIndex === 1) {
+            if (i === 0) {
+              scale = 0.8;
+              opacity = 0.8;
+            } else if (i === 2) {
+              scale = 0.8;
+              opacity = 0.8;
+            }
+          } else if (activeIndex === 2) {
+            if (i === 0) {
+              scale = 0.6;
+              opacity = 0.6;
+            } else if (i === 1) {
+              scale = 0.8;
+              opacity = 0.8;
+            }
+          }
         }
 
-        // ===== Анимация маски (с переименованной переменной) =====
-        const vd = document.querySelector('.rec__vd');
+        el.style.transform = `scale(${scale})`;
+        el.style.opacity = opacity;
 
-        if (vd) {
-            const tl2 = gsap.timeline({
-                scrollTrigger: {
-                    trigger: '.rec',
-                    start: 'top top',
-                    end: 'bottom top',
-                    pin: true,
-                    pinSpacing: false,
-                    anticipatePin: 1, 
-                    scrub: true,
-                    refreshPriority: 1,
-
-                    onUpdate: (self) => {
-                        const rect = vd.getBoundingClientRect();
-                        const isPartiallyVisible = rect.bottom > 0;
-
-                        if (self.progress > 0 && isPartiallyVisible) {
-                            if (vdo && vdo.paused) {
-                                vdo.play().catch(e => console.warn('Play blocked:', e));
-                            }
-                        } else {
-                            if (vdo && !vdo.paused) {
-                                vdo.pause();
-                            }
-                        }
-                    },
-                    onRefresh: (self) => {
-                        const rect = vd.getBoundingClientRect();
-                        const isPartiallyVisible = rect.bottom > 0;
-                        if (self.progress > 0 && isPartiallyVisible) {
-                            if (vdo && vdo.paused) {
-                                vdo.play().catch(e => console.warn('Play blocked:', e));
-                            }
-                        } else {
-                            if (vdo && !vdo.paused) {
-                                vdo.pause();
-                            }
-                        }
-                    }
-                }
-            });
-
-            tl2
-                .to(vd, {
-                    'mask-size': '100% 100%',
-                    '-webkit-mask-size': '100% 100%',
-                    duration: 1,
-                    ease: 'none'
-                })
-                .to(vd, {
-                    'mask-size': '1000% 1000%',
-                    '-webkit-mask-size': '1000% 1000%',
-                    duration: 1,
-                    ease: 'none'
-                });
-        } 
-    } else {
-        if (vdo) {
-            vdo.setAttribute('autoplay', '');
-            vdo.setAttribute('loop', '');
-            vdo.muted = true;
-            vdo.play().catch(e => console.warn('Autoplay blocked:', e));
+        // ===== УПРАВЛЕНИЕ ВИДЕО =====
+        const video = el.querySelector("video");
+        if (video) {
+          if (i === activeIndex) {
+            // Активная фаза – запускаем видео
+            video.play().catch((e) => console.warn("Playback error:", e));
+          } else {
+            // Неактивная фаза – останавливаем и сбрасываем
+            video.pause();
+            video.currentTime = 0; // опционально
+          }
         }
+      });
     }
 
+    function buildTrigger() {
+      // Убиваем старый триггер
+      if (currentTrigger) {
+        currentTrigger.kill();
+        currentTrigger = null;
+      }
 
-    
-    //анимация переключения фаз (GSAP)
-    (function() {
-        const wrapper = document.querySelector('.tech__wrapper');
-        const phases = document.querySelectorAll('.tech__phase');
-        const phasesWrap = document.querySelector('.tech__phases-wrap');
+      const isMobile = window.innerWidth <= 1024;
+      const triggerElement = isMobile ? phasesWrap : wrapper;
+      if (!triggerElement) return;
 
-        let currentTrigger = null;
-        let currentActiveIndex = 0;
+      if (isMobile) {
+        // Мобильная версия – без pin, просто переключение фаз при скролле
+        currentTrigger = ScrollTrigger.create({
+          trigger: triggerElement,
+          start: "top bottom", // блок появляется снизу
+          end: "bottom 30%", // блок уходит вверх
+          scrub: true,
+          onUpdate: (self) => {
+            const progress = self.progress; // от 0 до 1
+            const index = Math.min(2, Math.floor(progress * 3));
+            updatePhases(index);
+          },
+        });
+      } else {
+        // Десктоп – с pin
+        currentTrigger = ScrollTrigger.create({
+          trigger: triggerElement,
+          start: "top top",
+          end: "+=200%",
+          pin: true,
+          pinSpacing: true,
+          scrub: 1.5,
+          anticipatePin: 1,
+          refreshPriority: 1,
+          onUpdate: (self) => {
+            const progress = self.progress;
+            const index = Math.min(2, Math.floor(progress * 3));
+            updatePhases(index);
+          },
+          onEnter: () => console.log("pin начался (desktop)"),
+          onLeave: () => console.log("pin закончился (desktop)"),
+        });
+      }
 
-        function updatePhases(activeIndex) {
-            currentActiveIndex = activeIndex;
-            phases.forEach((el, i) => {
-                el.classList.toggle('active', i === activeIndex);
-                
-                let scale = 1;
-                let opacity = 1;
-                
-                if (i !== activeIndex) {
-                    if (activeIndex === 0) {
-                        if (i === 1) { scale = 0.8; opacity = 0.8; }
-                        else if (i === 2) { scale = 0.6; opacity = 0.6; }
-                    } else if (activeIndex === 1) {
-                        if (i === 0) { scale = 0.8; opacity = 0.8; }
-                        else if (i === 2) { scale = 0.8; opacity = 0.8; }
-                    } else if (activeIndex === 2) {
-                        if (i === 0) { scale = 0.6; opacity = 0.6; }
-                        else if (i === 1) { scale = 0.8; opacity = 0.8; }
-                    }
-                }
-                
-                el.style.transform = `scale(${scale})`;
-                el.style.opacity = opacity;
+      // Восстанавливаем активную фазу (если была)
+      updatePhases(currentActiveIndex);
+    }
 
-                // ===== УПРАВЛЕНИЕ ВИДЕО =====
-                const video = el.querySelector('video');
-                if (video) {
-                    if (i === activeIndex) {
-                        // Активная фаза – запускаем видео
-                        video.play().catch(e => console.warn('Playback error:', e));
-                    } else {
-                        // Неактивная фаза – останавливаем и сбрасываем
-                        video.pause();
-                        video.currentTime = 0; // опционально
-                    }
-                }
-            });
-        }
+    // Инициализация
+    updatePhases(0);
+    buildTrigger();
 
-        function buildTrigger() {
-            // Убиваем старый триггер
-            if (currentTrigger) {
-                currentTrigger.kill();
-                currentTrigger = null;
-            }
-
-            const isMobile = window.innerWidth <= 1024;
-            const triggerElement = isMobile ? phasesWrap : wrapper;
-            if (!triggerElement) return;
-
-            if (isMobile) {
-                // Мобильная версия – без pin, просто переключение фаз при скролле
-                currentTrigger = ScrollTrigger.create({
-                    trigger: triggerElement,
-                    start: 'top bottom',   // блок появляется снизу
-                    end: 'bottom top',     // блок уходит вверх
-                    scrub: true,
-                    onUpdate: (self) => {
-                        const progress = self.progress; // от 0 до 1
-                        const index = Math.min(2, Math.floor(progress * 3));
-                        updatePhases(index);
-                    }
-                });
-            } else {
-                // Десктоп – с pin 
-                currentTrigger = ScrollTrigger.create({
-                    trigger: triggerElement,
-                    start: 'top top',
-                    end: '+=200%',
-                    pin: true,
-                    pinSpacing: true,
-                    scrub: 1.5,
-                    anticipatePin: 1,
-                    refreshPriority: 1,
-                    onUpdate: (self) => {
-                        const progress = self.progress;
-                        const index = Math.min(2, Math.floor(progress * 3));
-                        updatePhases(index);
-                    },
-                    onEnter: () => console.log('pin начался (desktop)'),
-                    onLeave: () => console.log('pin закончился (desktop)')
-                });
-            }
-
-            // Восстанавливаем активную фазу (если была)
-            updatePhases(currentActiveIndex);
-        }
-
-        // Инициализация
-        updatePhases(0);
+    // Пересоздаём при ресайзе
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
         buildTrigger();
-
-        // Пересоздаём при ресайзе
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                buildTrigger();
-                ScrollTrigger.refresh();
-            }, 200);
-        });
-
-        // Принудительный refresh после загрузки
         ScrollTrigger.refresh();
-    })();
-
-    // ===== ВЫПЛЫВАНИЕ ТЕКСТА С ДВИЖЕНИЕМ (через обёртку) =====
-    document.querySelectorAll(".msk").forEach(msk => {
-        // 1. Убедимся, что маска скрывает переполнение
-        msk.style.overflow = "hidden";
-
-        // 2. Проходим по всем прямым дочерним элементам (ваш <h1>, <p> и т.д.)
-        Array.from(msk.children).forEach(el => {
-            // 3. Создаём внутреннюю обёртку, которую будем анимировать
-            const wrapper = document.createElement("span");
-            wrapper.className = "msk-anim-wrap";
-            // Переносим всё содержимое el внутрь wrapper
-            while (el.firstChild) {
-            wrapper.appendChild(el.firstChild);
-            }
-            el.appendChild(wrapper);
-
-            // 4. Устанавливаем начальное состояние для обёртки
-            gsap.set(wrapper, {
-            display: "block",          // чтобы transform работал
-            y: "110%",
-            opacity: 0
-            });
-
-            // 5. Наблюдатель за появлением родительского элемента (el)
-            const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                // 6. Анимируем обёртку – выезжает вверх
-                gsap.to(wrapper, {
-                    y: "0%",
-                    opacity: 1,
-                    duration: 0.6,
-                    ease: "power2.out",
-                    overwrite: "auto",
-                    force3D: true
-                });
-                observer.unobserve(el);
-                }
-            });
-            }, {
-            threshold: 0.1,
-            rootMargin: "0px 0px -30% 0px"
-            });
-
-            observer.observe(el);
-        });
+      }, 200);
     });
 
-    // ===== АНИМАЦИЯ КАРТИНОК (через класс .img-animated) =====
-    document.querySelectorAll(".img-animated").forEach(img => {
-        // Проверяем, не анимирована ли уже
-        if (img.dataset.animated) return;
+    // Принудительный refresh после загрузки
+    ScrollTrigger.refresh();
+  })();
 
-        // Начальное состояние уже задано через CSS, но для надёжности можно продублировать (необязательно)
-        // gsap.set(img, { opacity: 0, scale: 0.92 });
+  // ===== ВЫПЛЫВАНИЕ ТЕКСТА С ДВИЖЕНИЕМ (через обёртку) =====
+  document.querySelectorAll(".msk").forEach((msk) => {
+    // 1. Убедимся, что маска скрывает переполнение
+    msk.style.overflow = "hidden";
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+    // 2. Проходим по всем прямым дочерним элементам (ваш <h1>, <p> и т.д.)
+    Array.from(msk.children).forEach((el) => {
+      // 3. Создаём внутреннюю обёртку, которую будем анимировать
+      const wrapper = document.createElement("span");
+      wrapper.className = "msk-anim-wrap";
+      // Переносим всё содержимое el внутрь wrapper
+      while (el.firstChild) {
+        wrapper.appendChild(el.firstChild);
+      }
+      el.appendChild(wrapper);
+
+      // 4. Устанавливаем начальное состояние для обёртки
+      gsap.set(wrapper, {
+        display: "block", // чтобы transform работал
+        y: "110%",
+        opacity: 0,
+      });
+
+      // 5. Наблюдатель за появлением родительского элемента (el)
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                gsap.to(img, {
+              // 6. Анимируем обёртку – выезжает вверх
+              gsap.to(wrapper, {
+                y: "0%",
                 opacity: 1,
-                scale: 1,
-                duration: 0.8,
+                duration: 0.6,
                 ease: "power2.out",
                 overwrite: "auto",
                 force3D: true,
-                onComplete: () => {
-                    // Убираем класс, чтобы не мешать (опционально)
-                    img.classList.remove("img-animated");
-                }
-                });
-                img.dataset.animated = "true";
-                observer.unobserve(img);
+              });
+              observer.unobserve(el);
             }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: "0px 0px -30% 0px",
+        },
+      );
+
+      observer.observe(el);
+    });
+  });
+
+  // ===== АНИМАЦИЯ КАРТИНОК (через класс .img-animated) =====
+  document.querySelectorAll(".img-animated").forEach((img) => {
+    // Проверяем, не анимирована ли уже
+    if (img.dataset.animated) return;
+
+    // Начальное состояние уже задано через CSS, но для надёжности можно продублировать (необязательно)
+    // gsap.set(img, { opacity: 0, scale: 0.92 });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            gsap.to(img, {
+              opacity: 1,
+              scale: 1,
+              duration: 0.8,
+              ease: "power2.out",
+              overwrite: "auto",
+              force3D: true,
+              onComplete: () => {
+                // Убираем класс, чтобы не мешать (опционально)
+                img.classList.remove("img-animated");
+              },
             });
-        }, {
-            threshold: 0.1,
-            rootMargin: "0px 0px -30% 0px" // тот же отступ, что и у текстов
+            img.dataset.animated = "true";
+            observer.unobserve(img);
+          }
         });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -30% 0px", // тот же отступ, что и у текстов
+      },
+    );
 
-        observer.observe(img);
+    observer.observe(img);
+  });
+
+  //slider
+  const swipers = [];
+
+  // 1. Инициализация Swiper для каждой карточки
+  document.querySelectorAll(".card .swiper").forEach((swiperEl) => {
+    const card = swiperEl.closest(".card");
+    const countContainer = card.querySelector(".slider-count");
+    const currentSpan = countContainer?.querySelector(".current-slide");
+    const totalSpan = countContainer?.querySelector(".total-slides");
+
+    const swiper = new Swiper(swiperEl, {
+      effect: "fade",
+      fadeEffect: { crossFade: true },
+      loop: true, // <-- добавляем бесконечный цикл
+      navigation: {
+        nextEl: swiperEl.querySelector(".swiper-button-next"),
+        prevEl: swiperEl.querySelector(".swiper-button-prev"),
+      },
+      on: {
+        init: function () {
+          if (totalSpan) totalSpan.textContent = this.slides.length - 2 * this.loopedSlides; // реальное количество слайдов (без дублей)
+          if (currentSpan) currentSpan.textContent = this.realIndex + 1; // реальный индекс
+        },
+        slideChange: function () {
+          if (currentSpan) currentSpan.textContent = this.realIndex + 1;
+        },
+      },
     });
 
+    swipers.push(swiper);
+  });
 
-    //slider
-    const swipers = [];
+  // Принудительно обновляем все слайдеры после инициализации
+  swipers.forEach((swiper) => swiper.update());
 
-    // 1. Инициализация Swiper для каждой карточки
-    document.querySelectorAll(".card .swiper").forEach((swiperEl) => {
-        const card = swiperEl.closest('.card');
-        const countContainer = card.querySelector('.slider-count');
-        const currentSpan = countContainer?.querySelector('.current-slide');
-        const totalSpan = countContainer?.querySelector('.total-slides');
+  // 2. Обработка кликов по карточкам (единый блок)
+  const cards = document.querySelectorAll(".card");
 
-        const swiper = new Swiper(swiperEl, {
-            effect: "fade",
-            fadeEffect: { crossFade: true },
-            navigation: {
-                nextEl: swiperEl.querySelector(".swiper-button-next"),
-                prevEl: swiperEl.querySelector(".swiper-button-prev"),
-            },
-            on: {
-                init: function () {
-                    if (totalSpan) totalSpan.textContent = this.slides.length;
-                    if (currentSpan) currentSpan.textContent = this.activeIndex + 1;
-                },
-                slideChange: function () {
-                    if (currentSpan) currentSpan.textContent = this.activeIndex + 1;
-                }
-            }
-        });
+  cards.forEach((card, index) => {
+    const activateCard = (targetCard) => {
+      if (targetCard.classList.contains("active")) return;
 
-        swipers.push(swiper);
-    });
+      // Убираем active у всех
+      cards.forEach((c) => c.classList.remove("active"));
 
-    // Принудительно обновляем все слайдеры после инициализации
-    swipers.forEach(swiper => swiper.update());
+      // Добавляем active через requestAnimationFrame для плавной анимации
+      requestAnimationFrame(() => {
+        targetCard.classList.add("active");
+      });
 
-    // 2. Обработка кликов по карточкам (единый блок)
-    const cards = document.querySelectorAll(".card");
+      // Обновляем Swiper внутри активной карточки
+      const swiperInstance = swipers[index];
+      if (!swiperInstance) return;
 
-    cards.forEach((card, index) => {
-        const activateCard = (targetCard) => {
-            if (targetCard.classList.contains('active')) return;
+      // --- Ожидание загрузки изображений (как в первом блоке) ---
+      const images = targetCard.querySelectorAll(".swiper-slide img");
+      let loaded = 0;
+      const total = images.length;
 
-            // Убираем active у всех
-            cards.forEach(c => c.classList.remove('active'));
-
-            // Добавляем active через requestAnimationFrame для плавной анимации
-            requestAnimationFrame(() => {
-                targetCard.classList.add('active');
-            });
-
-            // Обновляем Swiper внутри активной карточки
-            const swiperInstance = swipers[index];
-            if (!swiperInstance) return;
-
-            // --- Ожидание загрузки изображений (как в первом блоке) ---
-            const images = targetCard.querySelectorAll('.swiper-slide img');
-            let loaded = 0;
-            const total = images.length;
-
-            const updateSwiper = () => {
-                loaded++;
-                if (loaded === total) {
-                    swiperInstance.update();
-                }
-            };
-
-            if (total === 0) {
-                swiperInstance.update();
-                return;
-            }
-
-            images.forEach(img => {
-                if (img.complete) {
-                    updateSwiper();
-                } else {
-                    img.addEventListener('load', updateSwiper);
-                    img.addEventListener('error', updateSwiper);
-                }
-            });
-
-            // Страховочный таймаут
-            setTimeout(() => {
-                if (loaded < total) {
-                    swiperInstance.update();
-                }
-            }, 1500);
-        };
-
-        // Обработчик клика (только click, без touchstart)
-        const clickHandler = (e) => {
-            // Игнорируем клики по элементам управления Swiper
-            if (e.target.closest(".swiper-button-next, .swiper-button-prev, .swiper-pagination-bullet")) {
-                return;
-            }
-            // Игнорируем клики по ссылкам
-            if (e.target.closest('a')) {
-                return;
-            }
-            activateCard(card);
-        };
-
-        card.addEventListener('click', clickHandler);
-    });
-
-    // 3. Активация первой карточки и обновление её Swiper
-    if (cards.length) {
-        const firstCard = cards[0];
-        firstCard.classList.add('active');
-        const swiperInstance = swipers[0];
-        if (swiperInstance) {
-            const images = firstCard.querySelectorAll('.swiper-slide img');
-            let loaded = 0;
-            const total = images.length;
-            const updateFirst = () => {
-                loaded++;
-                if (loaded === total) {
-                    swiperInstance.update();
-                }
-            };
-            if (total === 0) {
-                swiperInstance.update();
-            } else {
-                images.forEach(img => {
-                    if (img.complete) updateFirst();
-                    else {
-                        img.addEventListener('load', updateFirst);
-                        img.addEventListener('error', updateFirst);
-                    }
-                });
-                setTimeout(() => {
-                    if (loaded < total) swiperInstance.update();
-                }, 1500);
-            }
+      const updateSwiper = () => {
+        loaded++;
+        if (loaded === total) {
+          swiperInstance.update();
         }
-    }
-    
-});
-    
+      };
 
+      if (total === 0) {
+        swiperInstance.update();
+        return;
+      }
+
+      images.forEach((img) => {
+        if (img.complete) {
+          updateSwiper();
+        } else {
+          img.addEventListener("load", updateSwiper);
+          img.addEventListener("error", updateSwiper);
+        }
+      });
+
+      // Страховочный таймаут
+      setTimeout(() => {
+        if (loaded < total) {
+          swiperInstance.update();
+        }
+      }, 1500);
+    };
+
+    // Обработчик клика (только click, без touchstart)
+    const clickHandler = (e) => {
+      // Игнорируем клики по элементам управления Swiper
+      if (
+        e.target.closest(
+          ".swiper-button-next, .swiper-button-prev, .swiper-pagination-bullet",
+        )
+      ) {
+        return;
+      }
+      // Игнорируем клики по ссылкам
+      if (e.target.closest("a")) {
+        return;
+      }
+      activateCard(card);
+    };
+
+    card.addEventListener("click", clickHandler);
+  });
+
+  // 3. Активация первой карточки и обновление её Swiper
+  if (cards.length) {
+    const firstCard = cards[0];
+    firstCard.classList.add("active");
+    const swiperInstance = swipers[0];
+    if (swiperInstance) {
+      const images = firstCard.querySelectorAll(".swiper-slide img");
+      let loaded = 0;
+      const total = images.length;
+      const updateFirst = () => {
+        loaded++;
+        if (loaded === total) {
+          swiperInstance.update();
+        }
+      };
+      if (total === 0) {
+        swiperInstance.update();
+      } else {
+        images.forEach((img) => {
+          if (img.complete) updateFirst();
+          else {
+            img.addEventListener("load", updateFirst);
+            img.addEventListener("error", updateFirst);
+          }
+        });
+        setTimeout(() => {
+          if (loaded < total) swiperInstance.update();
+        }, 1500);
+      }
+    }
+  }
+});
 
 //tilt parallax для блоков  intro, wk
 document.addEventListener("DOMContentLoaded", () => {
-    // ========== БЛОК intro ==========
-    function initIntro(wrapper) {
-        const rock = wrapper.querySelector(".intro__rock");
-        const sign = wrapper.querySelector(".intro__sign");
-        const glow = wrapper.querySelector(".intro__glow");
-        const container = wrapper.querySelector(".container.container--first");
+  // ========== БЛОК intro ==========
+  function initIntro(wrapper) {
+    const rock = wrapper.querySelector(".intro__rock");
+    const sign = wrapper.querySelector(".intro__sign");
+    const glow = wrapper.querySelector(".intro__glow");
+    const container = wrapper.querySelector(".intro__boot");
 
-        if (!rock || !sign || !glow || !container) return null;
+    if (!rock || !sign || !glow || !container) return null;
 
-        wrapper.style.perspective = "1000px";
+    wrapper.style.perspective = "1000px";
 
-        const CONFIG = {
-          rock: { translate: 10 }, // дальний – почти не двигается
-          sign: { translate: 35 }, // средний – умеренно
-          glow: { translate: 60 }, // ближний – сильно
-          container: { translate: 25, rotate: 12 }, // текст – заметный наклон и смещение
-        };
+    const CONFIG = {
+      rock: { translate: 10 }, // дальний – почти не двигается
+      sign: { translate: 35 }, // средний – умеренно
+      glow: { translate: 60 }, // ближний – сильно
+      container: { translate: 25, rotate: 12 }, // текст – заметный наклон и смещение
+    };
 
-        function updateLayers(x, y) {
-        gsap.to(rock, {
-            x: x * CONFIG.rock.translate,
-            y: y * CONFIG.rock.translate,
-            duration: 0.2,
-            ease: "power1.out",
-            overwrite: "auto",
-        });
-        gsap.to(sign, {
-            x: x * CONFIG.sign.translate,
-            y: y * CONFIG.sign.translate,
-            duration: 0.2,
-            ease: "power1.out",
-            overwrite: "auto",
-        });
-        gsap.to(glow, {
-            x: x * CONFIG.glow.translate,
-            y: y * CONFIG.glow.translate,
-            duration: 0.2,
-            ease: "power1.out",
-            overwrite: "auto",
-        });
-        gsap.to(container, {
-            x: x * CONFIG.container.translate,
-            y: y * CONFIG.container.translate,
-            rotationX: y * -CONFIG.container.rotate,
-            rotationY: x * CONFIG.container.rotate,
-            duration: 0.2,
-            ease: "power1.out",
-            overwrite: "auto",
-        });
-        }
-
-        function resetLayers() {
-        gsap.to(rock, {
-            x: 0,
-            y: 0,
-            duration: 0.9,
-            ease: "elastic.out(1, 0.3)",
-            overwrite: "auto",
-        });
-        gsap.to(sign, {
-            x: 0,
-            y: 0,
-            duration: 0.9,
-            ease: "elastic.out(1, 0.3)",
-            overwrite: "auto",
-        });
-        gsap.to(glow, {
-            x: 0,
-            y: 0,
-            duration: 0.9,
-            ease: "elastic.out(1, 0.3)",
-            overwrite: "auto",
-        });
-        gsap.to(container, {
-            x: 0,
-            y: 0,
-            rotationX: 0,
-            rotationY: 0,
-            duration: 0.9,
-            ease: "elastic.out(1, 0.3)",
-            overwrite: "auto",
-        });
-        }
-
-        const handleMouseMove = (e) => {
-        const rect = wrapper.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        updateLayers(x, y);
-        };
-
-        const handleMouseLeave = resetLayers;
-
-        const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-            if (!entry.isIntersecting) resetLayers();
-            });
-        },
-        { threshold: 0.1 },
-        );
-        observer.observe(wrapper);
-
-        return {
-        addEvents() {
-            wrapper.addEventListener("mousemove", handleMouseMove);
-            wrapper.addEventListener("mouseleave", handleMouseLeave);
-        },
-        removeEvents() {
-            wrapper.removeEventListener("mousemove", handleMouseMove);
-            wrapper.removeEventListener("mouseleave", handleMouseLeave);
-            observer.disconnect();
-            resetLayers();
-        },
-        };
+    function updateLayers(x, y) {
+      gsap.to(rock, {
+        x: x * CONFIG.rock.translate,
+        y: y * CONFIG.rock.translate,
+        duration: 0.2,
+        ease: "power1.out",
+        overwrite: "auto",
+      });
+      gsap.to(sign, {
+        x: x * CONFIG.sign.translate,
+        y: y * CONFIG.sign.translate,
+        duration: 0.2,
+        ease: "power1.out",
+        overwrite: "auto",
+      });
+      gsap.to(glow, {
+        x: x * CONFIG.glow.translate,
+        y: y * CONFIG.glow.translate,
+        duration: 0.2,
+        ease: "power1.out",
+        overwrite: "auto",
+      });
+      gsap.to(container, {
+        x: x * CONFIG.container.translate,
+        y: y * CONFIG.container.translate,
+        rotationX: y * -CONFIG.container.rotate,
+        rotationY: x * CONFIG.container.rotate,
+        duration: 0.2,
+        ease: "power1.out",
+        overwrite: "auto",
+      });
     }
 
-    // ========== БЛОК wk ==========
-    function initWk(wrapper) {
-        const bg = wrapper.querySelector(".wk__bg");
-        const rain = wrapper.querySelector(".wk__rain");
-        const wrap = wrapper.querySelector(".wk__wrap"); // обёртка карточек, заголовок не трогаем
-
-        if (!bg || !rain || !wrap) return null;
-
-        wrapper.style.perspective = "1000px";
-
-        const CONFIG = {
-          bg: { translate: 15 }, // фон – слабо
-          rain: { translate: 55 }, // дождь – очень активно
-          wrap: { translate: 35, rotate: 14 }, // карточки – сильный наклон и смещение
-        };
-
-        function updateLayers(x, y) {
-        gsap.to(bg, {
-            x: x * CONFIG.bg.translate,
-            y: y * CONFIG.bg.translate,
-            duration: 0.2,
-            ease: "power1.out",
-            overwrite: "auto",
-        });
-        gsap.to(rain, {
-            x: x * CONFIG.rain.translate,
-            y: y * CONFIG.rain.translate,
-            duration: 0.2,
-            ease: "power1.out",
-            overwrite: "auto",
-        });
-        gsap.to(wrap, {
-            x: x * CONFIG.wrap.translate,
-            y: y * CONFIG.wrap.translate,
-            rotationX: y * -CONFIG.wrap.rotate,
-            rotationY: x * CONFIG.wrap.rotate,
-            duration: 0.2,
-            ease: "power1.out",
-            overwrite: "auto",
-        });
-        }
-
-        function resetLayers() {
-        gsap.to(bg, {
-            x: 0,
-            y: 0,
-            duration: 0.9,
-            ease: "elastic.out(1, 0.3)",
-            overwrite: "auto",
-        });
-        gsap.to(rain, {
-            x: 0,
-            y: 0,
-            duration: 0.9,
-            ease: "elastic.out(1, 0.3)",
-            overwrite: "auto",
-        });
-        gsap.to(wrap, {
-            x: 0,
-            y: 0,
-            rotationX: 0,
-            rotationY: 0,
-            duration: 0.9,
-            ease: "elastic.out(1, 0.3)",
-            overwrite: "auto",
-        });
-        }
-
-        const handleMouseMove = (e) => {
-        const rect = wrapper.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        updateLayers(x, y);
-        };
-
-        const handleMouseLeave = resetLayers;
-
-        const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-            if (!entry.isIntersecting) resetLayers();
-            });
-        },
-        { threshold: 0.1 },
-        );
-        observer.observe(wrapper);
-
-        return {
-        addEvents() {
-            wrapper.addEventListener("mousemove", handleMouseMove);
-            wrapper.addEventListener("mouseleave", handleMouseLeave);
-        },
-        removeEvents() {
-            wrapper.removeEventListener("mousemove", handleMouseMove);
-            wrapper.removeEventListener("mouseleave", handleMouseLeave);
-            observer.disconnect();
-            resetLayers();
-        },
-        };
+    function resetLayers() {
+      gsap.to(rock, {
+        x: 0,
+        y: 0,
+        duration: 0.9,
+        ease: "elastic.out(1, 0.3)",
+        overwrite: "auto",
+      });
+      gsap.to(sign, {
+        x: 0,
+        y: 0,
+        duration: 0.9,
+        ease: "elastic.out(1, 0.3)",
+        overwrite: "auto",
+      });
+      gsap.to(glow, {
+        x: 0,
+        y: 0,
+        duration: 0.9,
+        ease: "elastic.out(1, 0.3)",
+        overwrite: "auto",
+      });
+      gsap.to(container, {
+        x: 0,
+        y: 0,
+        rotationX: 0,
+        rotationY: 0,
+        duration: 0.9,
+        ease: "elastic.out(1, 0.3)",
+        overwrite: "auto",
+      });
     }
 
-    // ========== УПРАВЛЕНИЕ ==========
-    let introController = null;
-    let wkController = null;
+    const handleMouseMove = (e) => {
+      const rect = wrapper.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      updateLayers(x, y);
+    };
 
-    function initParallax() {
-        if (introController) {
-        introController.removeEvents();
-        introController = null;
-        }
-        if (wkController) {
-        wkController.removeEvents();
-        wkController = null;
-        }
+    const handleMouseLeave = resetLayers;
 
-        const isTouchDevice =
-        "ontouchstart" in window || navigator.maxTouchPoints > 0;
-        if (window.innerWidth <= 1024 || isTouchDevice) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) resetLayers();
+        });
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(wrapper);
 
-        const introWrapper = document.querySelector(".intro");
-        if (introWrapper) {
-        introController = initIntro(introWrapper);
-        if (introController) introController.addEvents();
-        }
+    return {
+      addEvents() {
+        wrapper.addEventListener("mousemove", handleMouseMove);
+        wrapper.addEventListener("mouseleave", handleMouseLeave);
+      },
+      removeEvents() {
+        wrapper.removeEventListener("mousemove", handleMouseMove);
+        wrapper.removeEventListener("mouseleave", handleMouseLeave);
+        observer.disconnect();
+        resetLayers();
+      },
+    };
+  }
 
-        const wkWrapper = document.querySelector(".wk");
-        if (wkWrapper) {
-        wkController = initWk(wkWrapper);
-        if (wkController) wkController.addEvents();
-        }
+  // ========== БЛОК wk ==========
+  function initWk(wrapper) {
+    const bg = wrapper.querySelector(".wk__bg");
+    const rain = wrapper.querySelector(".wk__rain");
+    const wrap = wrapper.querySelector(".wk__wrap"); // обёртка карточек, заголовок не трогаем
+
+    if (!bg || !rain || !wrap) return null;
+
+    wrapper.style.perspective = "1000px";
+
+    const CONFIG = {
+      bg: { translate: 15 }, // фон – слабо
+      rain: { translate: 55 }, // дождь – очень активно
+      wrap: { translate: 35, rotate: 14 }, // карточки – сильный наклон и смещение
+    };
+
+    function updateLayers(x, y) {
+      gsap.to(bg, {
+        x: x * CONFIG.bg.translate,
+        y: y * CONFIG.bg.translate,
+        duration: 0.2,
+        ease: "power1.out",
+        overwrite: "auto",
+      });
+      gsap.to(rain, {
+        x: x * CONFIG.rain.translate,
+        y: y * CONFIG.rain.translate,
+        duration: 0.2,
+        ease: "power1.out",
+        overwrite: "auto",
+      });
+      gsap.to(wrap, {
+        x: x * CONFIG.wrap.translate,
+        y: y * CONFIG.wrap.translate,
+        rotationX: y * -CONFIG.wrap.rotate,
+        rotationY: x * CONFIG.wrap.rotate,
+        duration: 0.2,
+        ease: "power1.out",
+        overwrite: "auto",
+      });
     }
 
-    initParallax();
+    function resetLayers() {
+      gsap.to(bg, {
+        x: 0,
+        y: 0,
+        duration: 0.9,
+        ease: "elastic.out(1, 0.3)",
+        overwrite: "auto",
+      });
+      gsap.to(rain, {
+        x: 0,
+        y: 0,
+        duration: 0.9,
+        ease: "elastic.out(1, 0.3)",
+        overwrite: "auto",
+      });
+      gsap.to(wrap, {
+        x: 0,
+        y: 0,
+        rotationX: 0,
+        rotationY: 0,
+        duration: 0.9,
+        ease: "elastic.out(1, 0.3)",
+        overwrite: "auto",
+      });
+    }
 
-    let resizeTimeout;
-    window.addEventListener("resize", () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(initParallax, 200);
-    });
+    const handleMouseMove = (e) => {
+      const rect = wrapper.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      updateLayers(x, y);
+    };
+
+    const handleMouseLeave = resetLayers;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) resetLayers();
+        });
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(wrapper);
+
+    return {
+      addEvents() {
+        wrapper.addEventListener("mousemove", handleMouseMove);
+        wrapper.addEventListener("mouseleave", handleMouseLeave);
+      },
+      removeEvents() {
+        wrapper.removeEventListener("mousemove", handleMouseMove);
+        wrapper.removeEventListener("mouseleave", handleMouseLeave);
+        observer.disconnect();
+        resetLayers();
+      },
+    };
+  }
+
+  // ========== УПРАВЛЕНИЕ ==========
+  let introController = null;
+  let wkController = null;
+
+  function initParallax() {
+    if (introController) {
+      introController.removeEvents();
+      introController = null;
+    }
+    if (wkController) {
+      wkController.removeEvents();
+      wkController = null;
+    }
+
+    const isTouchDevice =
+      "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    if (window.innerWidth <= 1024 || isTouchDevice) return;
+
+    const introWrapper = document.querySelector(".intro");
+    if (introWrapper) {
+      introController = initIntro(introWrapper);
+      if (introController) introController.addEvents();
+    }
+
+    const wkWrapper = document.querySelector(".wk");
+    if (wkWrapper) {
+      wkController = initWk(wkWrapper);
+      if (wkController) wkController.addEvents();
+    }
+  }
+
+  initParallax();
+
+  let resizeTimeout;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(initParallax, 200);
+  });
 });
 
 // воспроизведение видео:
 document.addEventListener("DOMContentLoaded", () => {
-    const video = document.querySelector('.vd video');
-    if (video) {
-        const desktopSrc = './assets/images/last-video.mp4';
-        const mobileSrc = './assets/images/last-video-mobile.mp4';
-        const updateVideoSource = (isDesktop) => {
-            const newSrc = isDesktop ? desktopSrc : mobileSrc;
-            if (video.src !== newSrc) {
-                video.src = newSrc;
-                video.load();
-            }
-        };
-        const mql = window.matchMedia('(min-width: 1025px)');
-        updateVideoSource(mql.matches);
-        mql.addEventListener('change', (e) => updateVideoSource(e.matches));
-        const triggerElement = document.querySelector('.vd');
-        ScrollTrigger.create({
-            trigger: triggerElement,
-            start: 'top 70%',       
-            end: 'bottom top',    
-            onUpdate: (self) => {
-                const rect = triggerElement.getBoundingClientRect();
-                const isVisible = rect.bottom > 0;
-                if (self.progress > 0 && isVisible) {
-                    if (video.paused) {
-                        video.play().catch(e => console.warn('Автовоспроизведение заблокировано:', e));
-                    }
-                } else {
-                    if (!video.paused) {
-                        video.pause();
-                    }
-                }
-            }
-        });
-    }
-});
-//  ГОРИЗОНТАЛЬНЫЙ СЛАЙДЕР 
-(function() {
-    'use strict';
-
-    // ===== НАСТРОЙКИ СКОРОСТИ =====
-    // Меньше число → медленнее (но не меньше 1.0)
-    const desktopSpeed = 1;   // для экранов > 1024px
-    const mobileSpeed  = 1;   // для экранов <= 1024px
-    // ================================
-
-    function initSliders() {
-        const wrappers = document.querySelectorAll(".h-slider-wrap");
-        if (!wrappers.length) return;
-
-        wrappers.forEach((wrap, idx) => {
-            const slider = wrap.querySelector(".h-slider");
-            const originalSlide = wrap.querySelector(".h-slide");
-            if (!slider || !originalSlide) return;
-
-            // Убиваем старые триггеры
-            ScrollTrigger.getAll().forEach(st => {
-                if (st.trigger === wrap) st.kill();
-            });
-
-            // Очищаем клоны
-            while (slider.children.length > 1) {
-                slider.removeChild(slider.lastChild);
-            }
-
-            const isMobile = window.innerWidth <= 1024;
-            const marginRight = isMobile ? 24 : 39;
-            const speedFactor = isMobile ? mobileSpeed : desktopSpeed;
-
-            // Начинаем с 1 клона (оригинал) и добавляем, пока не достигнем нужной длины
-            let cloneCount = 1;
-            let totalWidth, wrapWidth, maxScroll;
-
-            function addClonesUntilEnough() {
-                while (true) {
-                    // Пересчитываем ширину трека
-                    const slideWidth = originalSlide.offsetWidth + marginRight;
-                    totalWidth = slideWidth * slider.children.length;
-                    slider.style.width = totalWidth + "px";
-                    wrapWidth = wrap.offsetWidth;
-                    maxScroll = totalWidth - wrapWidth;
-
-                    // Нужная длина трека: высота окна * speedFactor
-                    const targetScroll = window.innerHeight * speedFactor;
-
-                    if (maxScroll >= targetScroll && maxScroll > 0) {
-                        break;
-                    }
-
-                    // Добавляем один клон
-                    const clone = originalSlide.cloneNode(true);
-                    slider.appendChild(clone);
-                    cloneCount++;
-                }
-            }
-
-            // Добавляем базовый клон (оригинал уже есть)
-            addClonesUntilEnough();
-
-            // Если maxScroll всё ещё <= 0, пропускаем
-            if (maxScroll <= 0) {
-                console.warn(`⚠️ Слайдер ${idx} слишком короткий, пропускаем`);
-                return;
-            }
-
-            gsap.killTweensOf(slider);
-
-            // Направление: слева направо (отрицательный x к 0)
-            gsap.fromTo(slider,
-                { x: -maxScroll },
-                {
-                    x: 0,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: wrap,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: 1,
-                        invalidateOnRefresh: true,
-                        refreshPriority: -10,
-                    }
-                }
-            );            
-        });
-
-        ScrollTrigger.refresh();
-    }
-
-    if (document.readyState === 'complete') {
-        initSliders();
-    } else {
-        window.addEventListener('load', initSliders);
-    }
-
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            initSliders();
-        }, 300);
+  const video = document.querySelector(".vd video");
+  if (video) {
+    const desktopSrc = "./assets/images/last-video.mp4";
+    const mobileSrc = "./assets/images/last-video-mobile.mp4";
+    const updateVideoSource = (isDesktop) => {
+      const newSrc = isDesktop ? desktopSrc : mobileSrc;
+      if (video.src !== newSrc) {
+        video.src = newSrc;
+        video.load();
+      }
+    };
+    const mql = window.matchMedia("(min-width: 1025px)");
+    updateVideoSource(mql.matches);
+    mql.addEventListener("change", (e) => updateVideoSource(e.matches));
+    const triggerElement = document.querySelector(".vd");
+    ScrollTrigger.create({
+      trigger: triggerElement,
+      start: "top 70%",
+      end: "bottom top",
+      onUpdate: (self) => {
+        const rect = triggerElement.getBoundingClientRect();
+        const isVisible = rect.bottom > 0;
+        if (self.progress > 0 && isVisible) {
+          if (video.paused) {
+            video
+              .play()
+              .catch((e) =>
+                console.warn("Автовоспроизведение заблокировано:", e),
+              );
+          }
+        } else {
+          if (!video.paused) {
+            video.pause();
+          }
+        }
+      },
     });
+  }
+});
+//  ГОРИЗОНТАЛЬНЫЙ СЛАЙДЕР
+(function () {
+  "use strict";
+
+  // ===== НАСТРОЙКИ СКОРОСТИ =====
+  // Меньше число → медленнее (но не меньше 1.0)
+  const desktopSpeed = 1; // для экранов > 1024px
+  const mobileSpeed = 1; // для экранов <= 1024px
+  // ================================
+
+  function initSliders() {
+    const wrappers = document.querySelectorAll(".h-slider-wrap");
+    if (!wrappers.length) return;
+
+    wrappers.forEach((wrap, idx) => {
+      const slider = wrap.querySelector(".h-slider");
+      const originalSlide = wrap.querySelector(".h-slide");
+      if (!slider || !originalSlide) return;
+
+      // Убиваем старые триггеры
+      ScrollTrigger.getAll().forEach((st) => {
+        if (st.trigger === wrap) st.kill();
+      });
+
+      // Очищаем клоны
+      while (slider.children.length > 1) {
+        slider.removeChild(slider.lastChild);
+      }
+
+      const isMobile = window.innerWidth <= 1024;
+      const marginRight = isMobile ? 24 : 39;
+      const speedFactor = isMobile ? mobileSpeed : desktopSpeed;
+
+      // Начинаем с 1 клона (оригинал) и добавляем, пока не достигнем нужной длины
+      let cloneCount = 1;
+      let totalWidth, wrapWidth, maxScroll;
+
+      function addClonesUntilEnough() {
+        while (true) {
+          // Пересчитываем ширину трека
+          const slideWidth = originalSlide.offsetWidth + marginRight;
+          totalWidth = slideWidth * slider.children.length;
+          slider.style.width = totalWidth + "px";
+          wrapWidth = wrap.offsetWidth;
+          maxScroll = totalWidth - wrapWidth;
+
+          // Нужная длина трека: высота окна * speedFactor
+          const targetScroll = window.innerHeight * speedFactor;
+
+          if (maxScroll >= targetScroll && maxScroll > 0) {
+            break;
+          }
+
+          // Добавляем один клон
+          const clone = originalSlide.cloneNode(true);
+          slider.appendChild(clone);
+          cloneCount++;
+        }
+      }
+
+      // Добавляем базовый клон (оригинал уже есть)
+      addClonesUntilEnough();
+
+      // Если maxScroll всё ещё <= 0, пропускаем
+      if (maxScroll <= 0) {
+        console.warn(`⚠️ Слайдер ${idx} слишком короткий, пропускаем`);
+        return;
+      }
+
+      gsap.killTweensOf(slider);
+
+      // Направление: слева направо (отрицательный x к 0)
+      gsap.fromTo(
+        slider,
+        { x: -maxScroll },
+        {
+          x: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: wrap,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+            invalidateOnRefresh: true,
+            refreshPriority: -10,
+          },
+        },
+      );
+    });
+
+    ScrollTrigger.refresh();
+  }
+
+  if (document.readyState === "complete") {
+    initSliders();
+  } else {
+    window.addEventListener("load", initSliders);
+  }
+
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      initSliders();
+    }, 300);
+  });
 })();
-
-
 
 // Прелоадер – скрываем после полной загрузки всех ресурсов
 /* window.addEventListener('load', function() {
@@ -885,49 +882,49 @@ document.addEventListener("DOMContentLoaded", () => {
 });
  */
 // ===== ПРЕЛОАДЕР С ПРОГРЕССОМ =====
-(function() {
-    const textEl = document.querySelector('.progress-text');
-    const fillEl = document.querySelector('.progress-fill');
+(function () {
+  const textEl = document.querySelector(".progress-text");
+  const fillEl = document.querySelector(".progress-fill");
 
-    function updateProgress(value) {
-        const percent = Math.round(value);
-        if (textEl) textEl.textContent = percent + '%';
-        if (fillEl) fillEl.style.width = value + '%';
+  function updateProgress(value) {
+    const percent = Math.round(value);
+    if (textEl) textEl.textContent = percent;
+    if (fillEl) fillEl.style.width = CSSImageValue;
+  }
+
+  let progress = 0;
+  let animationId = null;
+
+  function step() {
+    if (progress < 95) {
+      const increment = (95 - progress) * 0.05 + 0.3;
+      progress = Math.min(progress + increment, 95);
+      updateProgress(progress);
+      animationId = requestAnimationFrame(step);
+    } else {
+      animationId = setTimeout(() => {
+        step(); // поддерживаем цикл
+      }, 100);
     }
+  }
 
-    let progress = 0;
-    let animationId = null;
+  step();
 
-    function step() {
-        if (progress < 95) {
-        const increment = (95 - progress) * 0.05 + 0.3;
-        progress = Math.min(progress + increment, 95);
-        updateProgress(progress);
-        animationId = requestAnimationFrame(step);
-        } else {
-        animationId = setTimeout(() => {
-            step(); // поддерживаем цикл
-        }, 100);
-        }
+  window.addEventListener("load", function () {
+    if (animationId) {
+      cancelAnimationFrame(animationId);
+      clearTimeout(animationId);
     }
+    progress = 100;
+    updateProgress(100);
 
-    step();
+    document.body.classList.add("loaded");
 
-    window.addEventListener('load', function() {
-        if (animationId) {
-        cancelAnimationFrame(animationId);
-        clearTimeout(animationId);
-        }
-        progress = 100;
-        updateProgress(100);
-
-        document.body.classList.add('loaded');
-
-        // Обновляем ScrollTrigger, если есть
-        setTimeout(() => {
-        if (typeof ScrollTrigger !== 'undefined') {
-            ScrollTrigger.refresh();
-        }
-        }, 200);
-    });
+    // Обновляем ScrollTrigger, если есть
+    setTimeout(() => {
+      if (typeof ScrollTrigger !== "undefined") {
+        ScrollTrigger.refresh();
+      }
+    }, 200);
+  });
 })();
