@@ -159,3 +159,36 @@ document.querySelectorAll('.sls__item').forEach((gallery) => {
         keyboard: { enabled: true },
     });
 });
+
+const section = document.querySelector('.video');
+const video   = section.querySelector('video');
+const playBtn = section.querySelector('.video-plays');
+
+const VIDEO_DESKTOP = './assets/images/horizontal.mp4';
+const VIDEO_MOBILE  = './assets/images/vertical.mp4';
+
+const mq = window.matchMedia('(min-width: 1025px)');
+
+function setVideoSrc() {
+    const src = mq.matches ? VIDEO_DESKTOP : VIDEO_MOBILE;
+    if (video.getAttribute('src') === src) return;
+
+    const wasPlaying = !video.paused;
+
+    video.src = src;
+    video.load();
+
+    if (wasPlaying) {
+        video.play().catch(() => {});
+    }
+}
+
+setVideoSrc();
+mq.addEventListener('change', setVideoSrc);
+
+// --- Play: включаем нативные controls и прячем кнопку ---
+playBtn.addEventListener('click', () => {
+    video.controls = true;          // появляются нативные контролы
+    video.play().catch(() => {});
+    section.classList.add('is-controls'); // для CSS: opacity: 0; z-index: -1
+});
