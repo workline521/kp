@@ -250,22 +250,41 @@ body .page-sections h1.intro__title{
 }
 .limit__left img{
     display: block;
+    position: absolute;
+    inset: 0;
     width: 100%;
-    max-width: 100%;
-    max-height: 100%;
     height: 100%;
     object-fit: cover;
+}
+.limit__left{
+    aspect-ratio: 453 / 683;
+}
+.limit__left-pic{
+    aspect-ratio: 453 / 683;
+    position: relative;
+}
+.limit__right{
+    position: relative;
+    aspect-ratio: 453 / 683;
 }
 .limit__right img, .limit__right picture{
     display: block;
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
+.limit__desktop{
+    position: relative;
+    aspect-ratio: 453 / 683;
+}
 .limit__desktop img{
     display: block;
-    max-width: 100%;
-    max-height: 100%;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
@@ -298,6 +317,7 @@ body .page-sections h1.intro__title{
 .com__area{
     position: relative;
     display: block;
+    aspect-ratio: 339 / 512;
 }
 .com__area picture, .com__area img{
     display: block;
@@ -437,12 +457,15 @@ body .page-sections h1.intro__title{
 }
 .bal__col:nth-child(1){
     width: 32.61%;
+    position: relative;
+    aspect-ratio: 450 / 682;
 }
 .bal__col:nth-child(1) img, .bal__col:nth-child(1) picture, .bal__col:nth-child(2) img, .bal__col:nth-child(2) picture{
     display: block;
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    max-height: 100%;
     object-fit: cover;
 }
 .bal__col-img{
@@ -457,6 +480,11 @@ body .page-sections h1.intro__title{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+    position: relative;
+}
+.bal__col-item{
+    position: relative;
+    aspect-ratio: 450 / 682;
 }
 .bal__col:nth-child(3){
     margin-top: 60px;
@@ -650,7 +678,7 @@ body .page-sections h1.intro__title{
 }
 .sls__render{
     grid-column: span 2;
-    position: absolute;
+    position: relative;
 }
 .sls__render picture, .sls__render img{
     display: block;
@@ -678,7 +706,7 @@ body .page-sections h1.intro__title{
 }
 .sls__slider .sls__big-slide{
     width: 100%;
-    height: 100%;
+    height: 517px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -744,8 +772,7 @@ button.sls__slider-next:hover, button.sls__slider-prev:hover {
 .sls__slider picture,
 .sls__slider img {
     display: block;
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 453px;
     object-fit: contain;
 }
 .sls__txt-wrap{
@@ -1090,6 +1117,15 @@ button.sls__slider-next:hover, button.sls__slider-prev:hover {
     .det{
         padding-top: 100px;
         padding-bottom: 100px;
+    }
+    .sls__slider .sls__big-slide{
+        height: 435px;
+    }
+    .sls__slide-title{
+        margin-bottom: 0;
+    }
+    .sls__slide-note{
+        font-size: 9px;
     }
 }
 .video .video-toggle {
