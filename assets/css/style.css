@@ -119,11 +119,10 @@ body .page-sections h1.intro__title{
     right: 33px;
     top: -68px;
     width: 30px;
-    height: 76px;
-    background-image: url("../images/scroll_down.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
+    height: 76px;    
+}
+.scroll-down svg{
+    display: block;
 }
 .ps-btn{
     display: flex;    
@@ -139,11 +138,15 @@ body .page-sections h1.intro__title{
     font-weight: 700;
     letter-spacing: 4px;
     text-decoration: none;
-    color: #fff !important;        
+    color: #fff !important; 
+    transition: 0.6s ease;       
 }
 .ps-btn svg{
     display: block;
     margin-left: 16px;
+}
+.ps-btn:hover{
+    box-shadow: 0 0 60px 0 rgba(224, 38, 45, 0.5);
 }
 .intro__btn{
     width: 282px;
@@ -1143,4 +1146,22 @@ button.sls__slider-next:hover, button.sls__slider-prev:hover {
     transform: scale(0.92);
     transition: opacity 0.01s ease, transform 0.01s ease;
     will-change: opacity, transform;
+}
+.mouse-scroll .mouse-dot {
+    animation: mouse-dot-bounce 1.6s ease-in-out infinite;
+}
+
+@keyframes mouse-dot-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(14px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mouse-scroll .mouse-dot {
+        animation: none;
+    }
 }
