@@ -816,7 +816,7 @@ button.sls__slider-next:hover, button.sls__slider-prev:hover {
     text-transform: uppercase;
     position: absolute;
     left: 13px;
-    bottom: 21px;
+    bottom: 23px;
 }
 .sls__small-slider-link {
     display: block;
@@ -834,8 +834,8 @@ button.sls__slider-next:hover, button.sls__slider-prev:hover {
 .sls__thumbs-slider .swiper-slide {
     width: 16px;
     height: 16px;
-    padding-left: 3px;
-    padding-right: 3px;
+    margin-left: 1px;
+    margin-right: 1px;
 }
 .sls__thumb {
     width: 16px;
