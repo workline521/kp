@@ -163,7 +163,6 @@ Swiper 11.2.10
     display: inline-block;
     font-size: 10px;
     line-height: 13px;
-    background: #0E0D0B;
     position: relative;
     z-index: 1;
     order: 2;
@@ -797,6 +796,7 @@ button.sls__slider-next:hover, button.sls__slider-prev:hover {
     position: absolute;
     left: 13px;
     bottom: 23px;
+    text-decoration: none;
 }
 .sls__small-slider-link {
     display: block;
