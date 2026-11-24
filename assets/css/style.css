@@ -666,9 +666,7 @@ body .page-sections h1.intro__title{
 .sls .bal__heading-wrap{
     justify-content: flex-start;
 }
-.sls .bal__heading-wrap .heading{
-    max-width: 200px;
-}
+
 .sls .bal__info{
     max-width: 310px;
 }
@@ -974,7 +972,7 @@ button.sls__slider-next:hover, button.sls__slider-prev:hover {
     background: #8C7564;    
 }
 .det{
-    padding-top: 200px;
+    padding-top: 196px;
     padding-bottom: 146px;
     position: relative;
 }
@@ -990,38 +988,22 @@ button.sls__slider-next:hover, button.sls__slider-prev:hover {
     background-position: center;
     background-size: contain;
 }
-.det__title{
-    font-family: 'Mulish-Light', sans-serif;
-    font-weight: 300;
-    font-size: 64px;
-    line-height: 63%;
-    letter-spacing: -2px;
-    text-align: center;
-    color: #f3efe7;
-}
-.det__title1, .det__title2{
-    display: inline;
-}
-.det__title2{
-    font-style: italic;
-    color: #de0439;
-}
 .det__txt{
     font-family: 'Mulish-Light', sans-serif;
     font-weight: 300;
-    font-size: 14px;
-    line-height: 170%;
-    text-align: center;
-    color: rgba(243, 239, 231, 0.74);
-    max-width: 400px;
+    font-size: 64px;
+    line-height: 1;
+    color: #F3EFE7;
+    max-width: 1230px;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 100px;
 }
-.det__txt br{
-    display: none;
+.det__txt span{
+    font-style: italic;
+    color: #de0439;
 }
+
 .det__btn{
     margin-left: auto;
     margin-right: auto;

@@ -56,14 +56,16 @@ Swiper 11.2.10
 }
 .page-sections h1.intro__title{
     position: absolute;
-    top: -140px;
+    top: -130px;
     left: 20px;
     font-family: 'Mulish-Medium', sans-serif;
     font-weight: 500;
     letter-spacing: 2px;
     text-transform: uppercase;
     font-size: 9px;
-    
+    max-width: 200px;
+    display: block;
+    line-height: 1;
 }
 .page-sections h1.intro__title span{
     color: #DE0439;
@@ -246,9 +248,9 @@ Swiper 11.2.10
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 170px;
+    width: fit-content;
     position: absolute;
-    right: 12px;
+    left: 20px;
     bottom: 20px;
     z-index: 1;
     font-weight: 400;
@@ -496,10 +498,7 @@ Swiper 11.2.10
 .video button.video-mute svg {
     display: block;
 }
-.bal__col-img .model-link {
-    right: auto;
-    left: 15px;
-}
+
 .high {
     padding-top: 28px;
 }
@@ -536,8 +535,6 @@ Swiper 11.2.10
     position: relative;
 }
 .high__col:nth-child(1) .model-link {
-    right: auto;
-    left: 16px;
     color: #fff;
 }
 .high__col:nth-child(2) {
@@ -553,46 +550,33 @@ Swiper 11.2.10
 .boot {
     padding-top: 33px;
 }
+.boot .bal__info-item br{
+    display: none;
+}
 .det {
-    padding-top: 91px;
+    padding-top: 81px;
     padding-bottom: 64px;
 }
-.det__title {
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.det__title1 {
-    font-family: 'Mulish-Light', sans-serif;
-    font-weight: 300;
-    font-size: 48px;
-    line-height: 86%;
-    letter-spacing: -2px;
-    color: #f3efe7;
-    text-align: center;
-}
-.det__title2 {
-    font-family: 'Mulish-Light', sans-serif;
-    font-weight: 300;
-    font-style: italic;
-    font-size: 48px;
-    line-height: 83%;
-    letter-spacing: -2px;
-    color: #DE0439;
-    text-align: center;
-}
+
 .det__txt {
     font-family: 'Mulish-Light', sans-serif;
     font-weight: 300;
-    font-size: 14px;
-    line-height: 170%;
+    font-size: 38px;
+    line-height: 1;
+    letter-spacing: -2px;
     text-align: center;
-    color: rgba(243, 239, 231, 0.74);
-    max-width: 300px;
+    color: #F3EFE7;
+    max-width: 330px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 29px;
+
 }
+.det__txt span{
+    font-style: italic;
+    color: #DE0439;
+    display: block;
+}
+
 .det__pic {
     margin-top: 43px;
     display: block;
@@ -610,15 +594,15 @@ Swiper 11.2.10
 .det__info {
     font-family: 'Mulish-Light', sans-serif;
     font-weight: 300;
-    font-size: 8px;
-    line-height: 10px;
+    font-size: 12px;
+    line-height: 28px;
     text-align: center;
     color: rgba(243, 239, 231, 0.74);
-    margin-top: 28px;
+    margin-top: 13px;
 }
 .sls {
     padding-top: 33px;
-    padding-bottom: 95px;
+    padding-bottom: 60px;
 }
 .sls__wrap {
     margin-top: 29px;

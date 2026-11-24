@@ -114,10 +114,10 @@ function initSwiperSliders() {
             slidesPerView: 1,
             spaceBetween: 10,
             loop: true,
-            /* autoplay: {
+            autoplay: {
                 delay: 3000,
                 disableOnInteraction: true,
-            }, */
+            },
             pagination: {
                 el: ".sls__slider-pagination",
                 clickable: true,
@@ -149,6 +149,7 @@ function initSwiperSliders() {
         new Swiper(mainEl, {
             slidesPerView: 1,
             spaceBetween: 0,
+            loop: true,
             thumbs: { swiper: thumbsSwiper },
             grabCursor: true,
             keyboard: { enabled: true },
