@@ -42,7 +42,7 @@ Swiper 11.2.10
 }
 .intro__bg{
     width: 100%;
-    height: 85vh;
+    height: calc(100vh - 142px);
     position: absolute;
     top: 0;
     left: 0;
@@ -1037,6 +1037,9 @@ button.sls__slider-next:hover, button.sls__slider-prev:hover {
     }
     .intro__heading-wrap .heading{
         font-size: 56px;
+    }
+    .intro__bg{
+        height: calc(100vh - 122px);
     }
     .limit{
         margin-top: 140px;
