@@ -138,39 +138,35 @@ Swiper 11.2.10
     line-height: 13px;
     letter-spacing: 2px;
     color: #de0439;
-    background: #0E0D0B;
 }
-.block-info{
+.block-info{       
     width: calc(100% - 34px);
-    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;                       
     font-family: 'Mulish-Regular', sans-serif;
     font-weight: 400;
     font-size: 10px;
     line-height: 13px;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: rgba(243, 239, 231, 0.46);
-    text-align: right;   
-    
+    color: rgba(243, 239, 231, 0.46);  
 }
 .block-info::after{
-    position: absolute;
     content: "";
-    top: 6px;
-    left: 0;
-    width: 100%;
+    flex: 1 1 auto;                
     height: 1px;
     background: rgba(243, 239, 231, 0.2);
-    z-index: 0;
 }
 .block-info span{
+    white-space: nowrap;  
     display: inline-block;
-    padding-left: 10px;
     font-size: 10px;
     line-height: 13px;
     background: #0E0D0B;
     position: relative;
     z-index: 1;
+    order: 2;
 }
 .limit__left-pic, .limit__desktop{
     display: none;
