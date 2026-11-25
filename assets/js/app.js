@@ -228,7 +228,6 @@ function initVideo() {
 function initRevealAnimations() {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Если пользователь просит уменьшить движение — показываем всё сразу
     if (reduceMotion) {
         document.querySelectorAll(".msk").forEach((el) => {
             el.style.opacity = 1;
@@ -243,21 +242,16 @@ function initRevealAnimations() {
     }
 
     const OBS_OPTIONS = { threshold: 0.1, rootMargin: "0px 0px -30% 0px" };
+    const MOBILE_MQ = window.matchMedia("(max-width: 1024px)");
 
     // --- Тексты ---
     const textObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
-
             gsap.to(entry.target, {
-                y: 0,
-                opacity: 1,
-                duration: 0.6,
-                ease: "power2.out",
-                overwrite: "auto",
-                force3D: true,
+                y: 0, opacity: 1, duration: 0.6,
+                ease: "power2.out", overwrite: "auto", force3D: true,
             });
-
             textObserver.unobserve(entry.target);
         });
     }, OBS_OPTIONS);
@@ -268,26 +262,37 @@ function initRevealAnimations() {
     });
 
     // --- Картинки ---
+    function getImageDelay(el) {
+        const mobile  = parseFloat(el.dataset.mobileDelay);
+        const desktop = parseFloat(el.dataset.desktopDelay);
+        const common  = parseFloat(el.dataset.delay);
+
+        if (MOBILE_MQ.matches && Number.isFinite(mobile))   return mobile;
+        if (!MOBILE_MQ.matches && Number.isFinite(desktop)) return desktop;
+        if (Number.isFinite(common)) return common;
+        return 0;
+    }
+
     const imageObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
 
-            gsap.to(entry.target, {
-                opacity: 1,
-                scale: 1,
+            const target = entry.target;
+            gsap.to(target, {
+                opacity: 1, scale: 1,
                 duration: 0.8,
+                delay: getImageDelay(target),
                 ease: "power2.out",
                 overwrite: "auto",
                 force3D: true,
-                onComplete: () => entry.target.classList.remove("img-animated"),
+                onComplete: () => target.classList.remove("img-animated"),
             });
-
-            imageObserver.unobserve(entry.target);
+            imageObserver.unobserve(target);
         });
     }, OBS_OPTIONS);
 
     document.querySelectorAll(".img-animated").forEach((img) => {
-        // Начальное состояние задано в CSS (opacity: 0; transform: scale(.92))
+        gsap.set(img, { opacity: 0, scale: 0.92, transformOrigin: "center center" });
         imageObserver.observe(img);
     });
 }
