@@ -1059,7 +1059,7 @@ button.sls__slider-next:hover, button.sls__slider-prev:hover {
         letter-spacing: 1px;
     }
     .com__item{
-        padding: 0 20px 10px;
+        padding: 0 20px 10px 20px;
         height: 110px;
     }
     .com__right-wrap{
@@ -1067,6 +1067,9 @@ button.sls__slider-next:hover, button.sls__slider-prev:hover {
     }
     .com__item img, .com__item picture {
         max-width: 280px;
+    }
+    .com__right{
+        margin-top: 30px;
     }
     .com__char{
         margin-top: 133px;
