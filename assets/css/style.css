@@ -1059,7 +1059,8 @@ button.sls__slider-next:hover, button.sls__slider-prev:hover {
         letter-spacing: 1px;
     }
     .com__item{
-        padding: 20px;
+        padding: 0 20px 10px;
+        height: 110px;
     }
     .com__right-wrap{
         left: 30px;
